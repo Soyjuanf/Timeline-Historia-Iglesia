@@ -226,10 +226,22 @@
       </div>
     </section>
 
-    <!-- ESMIRNA -->
-    <section class="era" data-start="300" data-end="500">
+    <!-- ESMIRNA (300–400) -->
+    <section class="era" data-start="300" data-end="400">
       <h2>ESMIRNA</h2>
       <div class="era-subtitle">Apocalipsis 2:8–11 · Iglesia perseguida e imperial</div>
+
+      <div class="layers">
+        <div class="layer" data-layer="linea">
+          <span>Línea de tiempo</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- PÉRGAMO (400–500) -->
+    <section class="era" data-start="400" data-end="500">
+      <h2>PÉRGAMO</h2>
+      <div class="era-subtitle">Apocalipsis 2:12–17 · Iglesia unida al Estado</div>
 
       <div class="layers">
         <div class="layer" data-layer="linea">
@@ -420,13 +432,15 @@
       eraIndex: 1,
       type: "movement",
       startYear: 311,
-      endYear: 500,
+      endYear: 400,
       title: "Donatistas",
       description: "Movimiento en el norte de África que afirmaba que los sacramentos solo eran válidos si el ministro era moralmente puro.",
       tags: ["Movimiento", "África"]
     },
+
+    // === PÉRGAMO · MOVIMIENTO (NESTORIANOS) ===
     {
-      eraIndex: 1,
+      eraIndex: 2,
       type: "movement",
       startYear: 428,
       endYear: 600,
@@ -435,7 +449,7 @@
       tags: ["Movimiento", "Cristología"]
     },
 
-    // === ESMIRNA · EVENTOS PUNTUALES ===
+    // === ESMIRNA · EVENTOS PUNTUALES (≤ 395) ===
     {
       eraIndex: 1,
       type: "point",
@@ -516,8 +530,10 @@
       description: "A la muerte de Teodosio I, el Imperio se divide en Oriente y Occidente.",
       tags: ["Imperio romano"]
     },
+
+    // === PÉRGAMO · EVENTOS PUNTUALES (≥ 396) ===
     {
-      eraIndex: 1,
+      eraIndex: 2,
       type: "point",
       year: 396,
       title: "Agustín, obispo de Hipona",
@@ -525,7 +541,7 @@
       tags: ["Teología"]
     },
     {
-      eraIndex: 1,
+      eraIndex: 2,
       type: "point",
       year: 405,
       title: "Jerónimo termina la Vulgata",
@@ -533,7 +549,7 @@
       tags: ["Biblia"]
     },
     {
-      eraIndex: 1,
+      eraIndex: 2,
       type: "point",
       year: 431,
       title: "Se establece el culto a María",
@@ -541,7 +557,7 @@
       tags: ["Mariología"]
     },
     {
-      eraIndex: 1,
+      eraIndex: 2,
       type: "point",
       year: 436,
       title: "Tropas romanas abandonan Britania",
@@ -549,7 +565,7 @@
       tags: ["Fin del Imperio"]
     },
     {
-      eraIndex: 1,
+      eraIndex: 2,
       type: "point",
       year: 443,
       title: "Tribus germánicas en Alsacia",
@@ -557,7 +573,7 @@
       tags: ["Invasiones bárbaras"]
     },
     {
-      eraIndex: 1,
+      eraIndex: 2,
       type: "point",
       year: 450,
       title: "León I: Iglesia y Estado se unen",
@@ -565,7 +581,7 @@
       tags: ["Papado", "Iglesia y Estado"]
     },
     {
-      eraIndex: 1,
+      eraIndex: 2,
       type: "point",
       year: 452,
       title: "Atila el Huno invade Italia",
@@ -573,7 +589,7 @@
       tags: ["Invasiones bárbaras"]
     },
     {
-      eraIndex: 1,
+      eraIndex: 2,
       type: "point",
       year: 455,
       title: "Los vándalos saquean Roma",
@@ -581,7 +597,7 @@
       tags: ["Invasiones bárbaras"]
     },
     {
-      eraIndex: 1,
+      eraIndex: 2,
       type: "point",
       year: 470,
       title: "Florece la civilización maya",
@@ -589,7 +605,7 @@
       tags: ["Culturas antiguas"]
     },
     {
-      eraIndex: 1,
+      eraIndex: 2,
       type: "point",
       year: 476,
       title: "Último emperador romano de Occidente",
@@ -597,7 +613,7 @@
       tags: ["Caída de Roma"]
     },
     {
-      eraIndex: 1,
+      eraIndex: 2,
       type: "point",
       year: 478,
       title: "Primer templo sintoísta en Japón",
@@ -630,12 +646,11 @@
       const effectiveEnd = Math.min(event.endYear, end);
       const range = end - start;
       leftPercent = ((effectiveStart - start) / range) * 100;
-      const duration = Math.max(effectiveEnd - effectiveStart, 5); // mínimo visual
+      const duration = Math.max(effectiveEnd - effectiveStart, 5);
       widthPercent = (duration / range) * 100;
     } else {
       const range = end - start;
       const basePercent = ((event.year - start) / range) * 100;
-      // micro-separación horizontal
       leftPercent = basePercent + (index * 1.2);
     }
 
