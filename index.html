@@ -270,7 +270,6 @@
 </main>
 
 <script>
-  // Mismo dataset que ya teníamos
   const events = [
     // === ÉFESO ===
     { eraIndex: 0, type: "point", year: 29,  title: "Ministerio público de Jesús",          description: "Jesús inicia su predicación del Reino de Dios y llama a sus discípulos.", tags: ["Evangelios"] },
@@ -329,11 +328,11 @@
   const eras = document.querySelectorAll(".era");
   const detailPanel = document.getElementById("detailPanel");
 
-  // offsets verticales para evitar que se monten
-  const pointOffsetsY = [-60, -20, 20, 60];          // eventos históricos
-  const movementOffsetsY = [-40, 0, 40, 80];        // movimientos dentro de su fila
+  // offsets verticales amplios para que no se monten
+  const pointOffsetsY = [-100, -50, 0, 50, 100];
+  const movementOffsetsY = [-60, -20, 20, 60];
 
-  // 1) Agrupamos por era y ordenamos por año
+  // Agrupamos por era y ordenamos por año
   const eventsByEra = [];
   events.forEach(ev => {
     if (!eventsByEra[ev.eraIndex]) eventsByEra[ev.eraIndex] = [];
@@ -349,7 +348,7 @@
     const end = parseInt(eraEl.dataset.end, 10);
     const range = end - start;
 
-    // ordenar por año (o año de inicio)
+    // ordenar cronológicamente
     eraEvents.sort((a, b) => {
       const aYear = a.type === "movement" ? a.startYear : a.year;
       const bYear = b.type === "movement" ? b.startYear : b.year;
@@ -377,9 +376,8 @@
         const duration = Math.max(effectiveEnd - effectiveStart, 5);
         widthPercent = (duration / range) * 100;
       } else {
-        const basePercent = ((ev.year - start) / range) * 100;
-        // pequeño jitter HORIZONTAL solo dentro de la era
-        leftPercent = basePercent + localPointIdx * 0.4;
+        // SOLO año → mantiene orden perfecto
+        leftPercent = ((ev.year - start) / range) * 100;
       }
 
       const el = document.createElement("div");
