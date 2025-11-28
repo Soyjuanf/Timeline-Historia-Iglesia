@@ -71,7 +71,7 @@
     }
 
     .era {
-      min-width: 140vw; /* aire horizontal por era */
+      min-width: 140vw; /* mucho aire horizontal por era */
       scroll-snap-align: start;
       padding: 32px;
       border-right: 1px solid rgba(0,0,0,0.1);
@@ -93,12 +93,14 @@
       opacity: 0.8;
     }
 
+    /* AHORA CADA ERA TIENE 2 FILAS: MOVIMIENTOS Y EVENTOS */
     .layers {
       display: grid;
-      grid-template-rows: 1fr;
+      grid-template-rows: repeat(2, 1fr);
       position: relative;
-      height: 320px; /* aire vertical */
+      height: 360px; /* un poco más alto para aire vertical */
       margin-top: 48px;
+      row-gap: 32px;
     }
 
     .layer {
@@ -141,7 +143,8 @@
 
     /* Movimientos de larga duración (bandas) */
     .event--movement {
-      transform: translateY(-50%);      /* solo centrado vertical, no horizontal */
+      /* para bandas usamos el left como inicio real, no centrado */
+      transform: translateY(-50%);
       border-radius: 24px;
       background: rgba(181, 101, 77, 0.14);
       border-style: dashed;
@@ -216,9 +219,13 @@
     <section class="era" data-start="20" data-end="300">
       <h2>ÉFESO</h2>
       <div class="era-subtitle">Apocalipsis 2:1–7 · Iglesia primitiva</div>
+
       <div class="layers">
-        <div class="layer" data-layer="linea">
-          <span>Línea de tiempo</span>
+        <div class="layer" data-layer="mov">
+          <span>Movimientos</span>
+        </div>
+        <div class="layer" data-layer="events">
+          <span>Eventos históricos</span>
         </div>
       </div>
     </section>
@@ -227,9 +234,13 @@
     <section class="era" data-start="300" data-end="400">
       <h2>ESMIRNA</h2>
       <div class="era-subtitle">Apocalipsis 2:8–11 · Iglesia perseguida e imperial</div>
+
       <div class="layers">
-        <div class="layer" data-layer="linea">
-          <span>Línea de tiempo</span>
+        <div class="layer" data-layer="mov">
+          <span>Movimientos</span>
+        </div>
+        <div class="layer" data-layer="events">
+          <span>Eventos históricos</span>
         </div>
       </div>
     </section>
@@ -238,9 +249,13 @@
     <section class="era" data-start="400" data-end="500">
       <h2>PÉRGAMO</h2>
       <div class="era-subtitle">Apocalipsis 2:12–17 · Iglesia unida al Estado</div>
+
       <div class="layers">
-        <div class="layer" data-layer="linea">
-          <span>Línea de tiempo</span>
+        <div class="layer" data-layer="mov">
+          <span>Movimientos</span>
+        </div>
+        <div class="layer" data-layer="events">
+          <span>Eventos históricos</span>
         </div>
       </div>
     </section>
@@ -374,7 +389,7 @@
       startYear: 156,
       endYear: 300,
       title: "Montanistas",
-      description: "Movimiento profético surgido en Frigia que enfatizaba visiones, revelaciones y vida ascética. Considerado herético por la Iglesia oficial.",
+      description: "Movimiento profético surgido en Frigia que enfatizaba visiones, revelaciones y vida ascética.",
       tags: ["Movimiento", "Profecía"]
     },
     {
@@ -383,7 +398,7 @@
       startYear: 251,
       endYear: 400,
       title: "Novacianos",
-      description: "Movimiento rigorista que rechazaba la readmisión de cristianos que habían apostatado durante las persecuciones.",
+      description: "Movimiento rigorista que rechazaba la readmisión de cristianos que habían apostatado.",
       tags: ["Movimiento", "Rigorismo"]
     },
     {
@@ -392,7 +407,7 @@
       startYear: 311,
       endYear: 400,
       title: "Donatistas",
-      description: "Movimiento en el norte de África que afirmaba que los sacramentos solo eran válidos si el ministro era moralmente puro.",
+      description: "Movimiento en el norte de África que exigía ministros moralmente puros.",
       tags: ["Movimiento", "África"]
     },
 
@@ -411,7 +426,7 @@
     {
       eraIndex: 1, type: "point", year: 303,
       title: "Gran persecución de Diocleciano",
-      description: "Última y más violenta persecución oficial contra la Iglesia, intentando destruirla por completo.",
+      description: "Última y más violenta persecución oficial contra la Iglesia.",
       tags: ["Persecución"]
     },
     {
@@ -423,19 +438,19 @@
     {
       eraIndex: 1, type: "point", year: 312,
       title: "Constantino gana la batalla del Puente Milvio",
-      description: "Constantino vence a Majencio bajo el signo cristiano e inicia su apoyo al cristianismo.",
+      description: "Constantino vence a Majencio bajo el signo cristiano.",
       tags: ["Constantino", "Imperio"]
     },
     {
       eraIndex: 1, type: "point", year: 313,
       title: "Edicto de Milán",
-      description: "Se decreta la libertad religiosa para los cristianos en el Imperio romano.",
+      description: "Se decreta la libertad religiosa para los cristianos.",
       tags: ["Iglesia y Estado"]
     },
     {
       eraIndex: 1, type: "point", year: 325,
       title: "Concilio de Nicea",
-      description: "Primer concilio ecuménico; se afirma la divinidad de Cristo y se condena el arrianismo.",
+      description: "Primer concilio ecuménico; se afirma la divinidad de Cristo.",
       tags: ["Concilios", "Cristología"]
     },
     {
@@ -447,19 +462,19 @@
     {
       eraIndex: 1, type: "point", year: 361,
       title: "Juliano el Apóstata",
-      description: "Emperador que intenta restaurar el paganismo y frenar el avance del cristianismo.",
+      description: "Emperador que intenta restaurar el paganismo.",
       tags: ["Imperio", "Paganismo"]
     },
     {
       eraIndex: 1, type: "point", year: 370,
       title: "Basilio contra el arrianismo",
-      description: "Basilio de Cesarea defiende la doctrina trinitaria frente a la herejía arriana.",
+      description: "Basilio de Cesarea defiende la doctrina trinitaria.",
       tags: ["Padres de la Iglesia"]
     },
     {
       eraIndex: 1, type: "point", year: 380,
       title: "Cristianismo religión oficial del Imperio",
-      description: "El edicto de Tesalónica declara al cristianismo niceno como religión oficial; se consolida la Iglesia católica imperial.",
+      description: "El edicto de Tesalónica declara al cristianismo niceno religión oficial.",
       tags: ["Iglesia y Estado"]
     },
     {
@@ -473,37 +488,37 @@
     {
       eraIndex: 2, type: "point", year: 396,
       title: "Agustín, obispo de Hipona",
-      description: "Agustín es ordenado obispo; su obra marcará la teología occidental por siglos.",
+      description: "Agustín es ordenado obispo; su obra marcará la teología occidental.",
       tags: ["Teología"]
     },
     {
       eraIndex: 2, type: "point", year: 405,
       title: "Jerónimo termina la Vulgata",
-      description: "Se completa la traducción latina de la Biblia, que será el texto oficial de la Iglesia occidental.",
+      description: "Se completa la traducción latina de la Biblia.",
       tags: ["Biblia"]
     },
     {
       eraIndex: 2, type: "point", year: 431,
       title: "Se establece el culto a María",
-      description: "El Concilio de Éfeso proclama a María como Theotokos, consolidando su culto en la Iglesia.",
+      description: "El Concilio de Éfeso proclama a María como Theotokos.",
       tags: ["Mariología"]
     },
     {
       eraIndex: 2, type: "point", year: 436,
       title: "Tropas romanas abandonan Britania",
-      description: "Roma retira sus tropas de Britania, poniendo fin al dominio imperial directo.",
+      description: "Roma retira sus tropas de Britania.",
       tags: ["Fin del Imperio"]
     },
     {
       eraIndex: 2, type: "point", year: 443,
       title: "Tribus germánicas en Alsacia",
-      description: "Pueblos germánicos se asientan de forma permanente dentro del territorio romano.",
+      description: "Pueblos germánicos se asientan en territorio romano.",
       tags: ["Invasiones bárbaras"]
     },
     {
       eraIndex: 2, type: "point", year: 450,
       title: "León I: Iglesia y Estado se unen",
-      description: "El papa León I asume un papel político y espiritual, articulando la autoridad papal sobre el Occidente.",
+      description: "León I articula la autoridad papal sobre Occidente.",
       tags: ["Papado", "Iglesia y Estado"]
     },
     {
@@ -515,7 +530,7 @@
     {
       eraIndex: 2, type: "point", year: 455,
       title: "Los vándalos saquean Roma",
-      description: "La ciudad de Roma es saqueada por los vándalos, mostrando la debilidad del Imperio.",
+      description: "La ciudad de Roma es saqueada por los vándalos.",
       tags: ["Invasiones bárbaras"]
     },
     {
@@ -533,7 +548,7 @@
     {
       eraIndex: 2, type: "point", year: 478,
       title: "Primer templo sintoísta en Japón",
-      description: "Se consolida el sintoísmo con templos dedicados en Japón.",
+      description: "Se consolida el sintoísmo con templos dedicados.",
       tags: ["Religiones del mundo"]
     }
   ];
@@ -541,14 +556,18 @@
   const eras = document.querySelectorAll(".era");
   const detailPanel = document.getElementById("detailPanel");
 
-  // offsets SOLO para eventos puntuales (los movimientos van en una fila fija)
-  const pointOffsetsY = [-20, 0, 20];
+  // pequeños offsets solo para eventos (para que no se monten entre sí en la misma fila)
+  const pointOffsetsY = [-18, 0, 18];
 
   events.forEach((event, index) => {
     const era = eras[event.eraIndex];
     if (!era) return;
 
-    const layer = era.querySelector('.layer[data-layer="linea"]');
+    const layerSelector = event.type === "movement"
+      ? '.layer[data-layer="mov"]'
+      : '.layer[data-layer="events"]';
+
+    const layer = era.querySelector(layerSelector);
     if (!layer) return;
 
     const start = parseInt(era.dataset.start, 10);
@@ -559,16 +578,14 @@
     let widthPercent = null;
 
     if (event.type === "movement") {
-      // Movimientos: fila superior fija (~40% de la altura)
       const effectiveStart = Math.max(event.startYear, start);
       const effectiveEnd = Math.min(event.endYear, end);
       leftPercent = ((effectiveStart - start) / range) * 100;
       const duration = Math.max(effectiveEnd - effectiveStart, 5);
       widthPercent = (duration / range) * 100;
     } else {
-      // Eventos puntuales: fila inferior (~65%) con pequeño offset
       const basePercent = ((event.year - start) / range) * 100;
-      leftPercent = basePercent + (index * 1.2);
+      leftPercent = basePercent + (index * 1.2); // pequeño corrimiento horizontal
     }
 
     const el = document.createElement("div");
@@ -576,13 +593,13 @@
     el.style.left = leftPercent + "%";
 
     if (event.type === "movement") {
-      el.style.top = "40%";                       // fila de movimientos
+      el.style.top = "50%"; // centrado en su fila de movimientos
       if (widthPercent !== null) {
         el.style.width = Math.max(widthPercent, 10) + "%";
       }
     } else {
       const verticalOffset = pointOffsetsY[index % pointOffsetsY.length];
-      el.style.top = "calc(65% + " + verticalOffset + "px)";  // fila de eventos
+      el.style.top = "calc(50% + " + verticalOffset + "px)"; // fila de eventos con ligera variación
     }
 
     const labelYear = event.type === "movement"
