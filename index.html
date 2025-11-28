@@ -71,7 +71,7 @@
     }
 
     .era {
-      min-width: 140vw; /* mucho aire horizontal por era */
+      min-width: 140vw; /* aire horizontal por era */
       scroll-snap-align: start;
       padding: 32px;
       border-right: 1px solid rgba(0,0,0,0.1);
@@ -93,14 +93,13 @@
       opacity: 0.8;
     }
 
-    /* Dos filas: movimientos y eventos */
+    /* Una sola línea por era */
     .layers {
       display: grid;
-      grid-template-rows: repeat(2, 1fr);
+      grid-template-rows: 1fr;
       position: relative;
       height: 360px;
       margin-top: 48px;
-      row-gap: 32px;
     }
 
     .layer {
@@ -143,7 +142,7 @@
 
     /* Movimientos de larga duración (bandas) */
     .event--movement {
-      transform: translateY(-50%); /* usamos left como inicio real */
+      transform: translateY(-50%);
       border-radius: 24px;
       background: rgba(181, 101, 77, 0.14);
       border-style: dashed;
@@ -220,11 +219,8 @@
       <div class="era-subtitle">Apocalipsis 2:1–7 · Iglesia primitiva</div>
 
       <div class="layers">
-        <div class="layer" data-layer="mov">
-          <span>Movimientos</span>
-        </div>
-        <div class="layer" data-layer="events">
-          <span>Eventos históricos</span>
+        <div class="layer" data-layer="linea">
+          <span>Línea de tiempo</span>
         </div>
       </div>
     </section>
@@ -235,11 +231,8 @@
       <div class="era-subtitle">Apocalipsis 2:8–11 · Iglesia perseguida e imperial</div>
 
       <div class="layers">
-        <div class="layer" data-layer="mov">
-          <span>Movimientos</span>
-        </div>
-        <div class="layer" data-layer="events">
-          <span>Eventos históricos</span>
+        <div class="layer" data-layer="linea">
+          <span>Línea de tiempo</span>
         </div>
       </div>
     </section>
@@ -250,11 +243,8 @@
       <div class="era-subtitle">Apocalipsis 2:12–17 · Iglesia unida al Estado</div>
 
       <div class="layers">
-        <div class="layer" data-layer="mov">
-          <span>Movimientos</span>
-        </div>
-        <div class="layer" data-layer="events">
-          <span>Eventos históricos</span>
+        <div class="layer" data-layer="linea">
+          <span>Línea de tiempo</span>
         </div>
       </div>
     </section>
@@ -328,9 +318,9 @@
   const eras = document.querySelectorAll(".era");
   const detailPanel = document.getElementById("detailPanel");
 
-  // offsets verticales amplios para que no se monten
-  const pointOffsetsY = [-100, -50, 0, 50, 100];
-  const movementOffsetsY = [-60, -20, 20, 60];
+  // offsets verticales: movimientos arriba, eventos abajo
+  const pointOffsetsY = [-40, 0, 40, 80];       // eventos históricos (base 70%)
+  const movementOffsetsY = [-40, 0, 40];        // movimientos (base 30%)
 
   // Agrupamos por era y ordenamos por año
   const eventsByEra = [];
@@ -359,11 +349,7 @@
     let localMovIdx = 0;
 
     eraEvents.forEach(ev => {
-      const layerSelector = ev.type === "movement"
-        ? '.layer[data-layer="mov"]'
-        : '.layer[data-layer="events"]';
-
-      const layer = eraEl.querySelector(layerSelector);
+      const layer = eraEl.querySelector('.layer[data-layer="linea"]');
       if (!layer) return;
 
       let leftPercent;
@@ -387,14 +373,16 @@
       if (ev.type === "movement") {
         const vOffset = movementOffsetsY[localMovIdx % movementOffsetsY.length];
         localMovIdx++;
-        el.style.top = "calc(50% + " + vOffset + "px)";
+        // Movimientos en la parte alta de la banda
+        el.style.top = "calc(30% + " + vOffset + "px)";
         if (widthPercent !== null) {
           el.style.width = Math.max(widthPercent, 10) + "%";
         }
       } else {
         const vOffset = pointOffsetsY[localPointIdx % pointOffsetsY.length];
         localPointIdx++;
-        el.style.top = "calc(50% + " + vOffset + "px)";
+        // Eventos históricos en la parte baja
+        el.style.top = "calc(70% + " + vOffset + "px)";
       }
 
       const labelYear = ev.type === "movement"
