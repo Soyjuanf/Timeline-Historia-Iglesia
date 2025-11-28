@@ -39,6 +39,7 @@
       letter-spacing: 0.12em; text-transform: uppercase;
     }
     header span { font-size: 12px; opacity: 0.8; }
+
     main {
       position: absolute; inset: 80px 0 0 0;
       display: grid; grid-template-columns: 3fr 1fr;
@@ -80,6 +81,7 @@
       transform: translate(-50%, -50%) scale(1.05);
       box-shadow: 0 6px 16px rgba(0,0,0,0.2);
     }
+
     aside {
       background: var(--white); padding: 24px;
       border-left: 1px solid rgba(0,0,0,0.1); overflow-y: auto;
@@ -101,6 +103,7 @@
       border: 1px solid var(--olive); padding: 2px 6px;
       border-radius: 999px; margin-right: 4px; margin-bottom: 4px;
     }
+
     @media (max-width: 900px) {
       main { grid-template-columns: 1fr; }
       aside { height: 35vh; }
@@ -112,15 +115,16 @@
 <body>
 
 <header>
-  <h1>Historia de la Iglesia</h1>
+  <h1>HISTORIA DE LA IGLESIA</h1>
   <span>Línea de tiempo interactiva</span>
 </header>
 
 <main>
   <div class="timeline-wrapper" id="timeline">
 
-    <section class="era" data-start="30" data-end="313">
-      <h2>Éfeso · Esmirna</h2>
+    <!-- ERA 1 -->
+    <section class="era" data-start="29" data-end="313">
+      <h2>ÉFESO · ESMIRNA</h2>
       <div class="layers">
         <div class="layer" data-layer="prophecy"><span>Profecía</span></div>
         <div class="layer" data-layer="remnant"><span>Remanente</span></div>
@@ -130,8 +134,9 @@
       </div>
     </section>
 
+    <!-- ERA 2 -->
     <section class="era" data-start="313" data-end="1517">
-      <h2>Pérgamo · Tiatira</h2>
+      <h2>PÉRGAMO · TIATIRA</h2>
       <div class="layers">
         <div class="layer" data-layer="prophecy"><span>Profecía</span></div>
         <div class="layer" data-layer="remnant"><span>Remanente</span></div>
@@ -141,8 +146,9 @@
       </div>
     </section>
 
+    <!-- ERA 3 -->
     <section class="era" data-start="1517" data-end="2000">
-      <h2>Sardis · Filadelfia · Laodicea</h2>
+      <h2>SARDIS · FILADELFIA · LAODICEA</h2>
       <div class="layers">
         <div class="layer" data-layer="prophecy"><span>Profecía</span></div>
         <div class="layer" data-layer="remnant"><span>Remanente</span></div>
@@ -155,7 +161,7 @@
   </div>
 
   <aside>
-    <h3>Detalle</h3>
+    <h3>DETALLE</h3>
     <div id="detailPanel">
       Haz clic en un evento para ver su información.
     </div>
@@ -163,22 +169,207 @@
 </main>
 
 <script>
-const events = [
-  { id:"jesus-ministry", year:29, title:"Ministerio público de Jesús", layer:"prophecy", eraIndex:0,
-    description:"Jesús inicia su predicación del Reino de Dios y llama a sus discípulos.", tags:["Evangelios"] },
-  { id:"crucifixion", year:30, title:"Crucifixión y Resurrección de Jesús", layer:"prophecy", eraIndex:0,
-    description:"Jesús muere bajo Poncio Pilato y resucita al tercer día.", tags:["Redención"] },
-  { id:"roman-britain", year:43, title:"Roma invade Bretaña", layer:"world", eraIndex:0,
-    description:"El Imperio romano inicia la conquista de Britania.", tags:["Imperio Romano"] },
-  { id:"christians-antioch", year:45, title:"Se les llama Cristianos en Antioquía", layer:"remnant", eraIndex:0,
-    description:"Los discípulos reciben por primera vez el nombre de cristianos.", tags:["Identidad cristiana"] },
-  { id:"paul-travels", year:50, title:"Viajes misioneros de Pablo", layer:"remnant", eraIndex:0,
-    description:"Pablo difunde el evangelio por Asia Menor y Europa.", tags:["Misión"] },
-  { id:"nero", year:64, title:"Persecución de Nerón", layer:"world", eraIndex:0,
-    description:"Primera persecución imperial contra los cristianos.", tags:["Persecución"] },
-  { id:"jewish-war", year:66, title:"Primera guerra judío-romana", layer:"world", eraIndex:0,
-    description:"Rebelión de los judíos contra Roma.", tags:["Historia"] },
-  { id:"peter-martyr", year:67, title:"Martirio del apóstol Pedro", layer:"remnant", eraIndex:0,
-    description:"Pedro muere por su fe en Roma.", tags:["Martirio"] },
-  { id:"jerusalem", year:70, title:"Destrucción de Jerusalén", layer:"world", eraIndex:0,
-    description:"Las legiones romanas destruyen Jerusalén y su templo.", tags:
+  // Eventos: Fase ÉFESO
+  const events = [
+    {
+      id:"jesus-ministry",
+      year:29,
+      title:"Ministerio público de Jesús",
+      layer:"prophecy",
+      eraIndex:0,
+      description:"Jesús inicia su predicación del Reino de Dios y llama a sus discípulos.",
+      tags:["Evangelios"]
+    },
+    {
+      id:"crucifixion",
+      year:30,
+      title:"Crucifixión y resurrección de Jesús",
+      layer:"prophecy",
+      eraIndex:0,
+      description:"Jesús muere bajo Poncio Pilato y resucita al tercer día.",
+      tags:["Redención"]
+    },
+    {
+      id:"roman-britain",
+      year:43,
+      title:"Roma invade Bretaña",
+      layer:"world",
+      eraIndex:0,
+      description:"El Imperio romano inicia la conquista de Britania.",
+      tags:["Imperio romano"]
+    },
+    {
+      id:"christians-antioch",
+      year:45,
+      title:"Se les llama cristianos en Antioquía",
+      layer:"remnant",
+      eraIndex:0,
+      description:"Los discípulos reciben por primera vez el nombre de cristianos.",
+      tags:["Identidad cristiana"]
+    },
+    {
+      id:"paul-travels",
+      year:50,
+      title:"Viajes misioneros de Pablo",
+      layer:"remnant",
+      eraIndex:0,
+      description:"Pablo difunde el evangelio por Asia Menor y Europa.",
+      tags:["Misión"]
+    },
+    {
+      id:"nero",
+      year:64,
+      title:"Persecución de Nerón",
+      layer:"world",
+      eraIndex:0,
+      description:"Primera persecución imperial contra los cristianos.",
+      tags:["Persecución"]
+    },
+    {
+      id:"jewish-war",
+      year:66,
+      title:"Primera guerra judío-romana",
+      layer:"world",
+      eraIndex:0,
+      description:"Rebelión de los judíos contra Roma.",
+      tags:["Historia"]
+    },
+    {
+      id:"peter-martyr",
+      year:67,
+      title:"Martirio del apóstol Pedro",
+      layer:"remnant",
+      eraIndex:0,
+      description:"Pedro muere por su fe en Roma.",
+      tags:["Martirio"]
+    },
+    {
+      id:"jerusalem",
+      year:70,
+      title:"Destrucción de Jerusalén",
+      layer:"world",
+      eraIndex:0,
+      description:"Las legiones romanas destruyen Jerusalén y su templo.",
+      tags:["Profecía cumplida"]
+    },
+    {
+      id:"masada",
+      year:73,
+      title:"Caída de Masada",
+      layer:"world",
+      eraIndex:0,
+      description:"Último bastión judío frente a Roma.",
+      tags:["Historia judía"]
+    },
+    {
+      id:"vesuvius",
+      year:79,
+      title:"Erupción del Vesubio",
+      layer:"world",
+      eraIndex:0,
+      description:"Pompeya y Herculano son destruidas.",
+      tags:["Catástrofe"]
+    },
+    {
+      id:"josephus",
+      year:80,
+      title:"Josefo escribe 'La guerra de los judíos'",
+      layer:"world",
+      eraIndex:0,
+      description:"Flavio Josefo relata el conflicto judeo-romano.",
+      tags:["Historia"]
+    },
+    {
+      id:"domitian",
+      year:90,
+      title:"Persecución de Domiciano",
+      layer:"world",
+      eraIndex:0,
+      description:"Cristianos perseguidos por negarse a adorar al emperador.",
+      tags:["Persecución"]
+    },
+    {
+      id:"clement",
+      year:100,
+      title:"Martirio de Clemente de Roma",
+      layer:"remnant",
+      eraIndex:0,
+      description:"Uno de los primeros obispos de Roma es ejecutado.",
+      tags:["Martirio"]
+    },
+    {
+      id:"justin",
+      year:155,
+      title:"Justino Mártir confronta a Marción",
+      layer:"remnant",
+      eraIndex:0,
+      description:"Defiende la fe apostólica frente a la herejía de Marción.",
+      tags:["Apologética"]
+    },
+    {
+      id:"marcus-aurelius",
+      year:170,
+      title:"Marco Aurelio y los cristianos",
+      layer:"world",
+      eraIndex:0,
+      description:"Durante su reinado se intensifican martirios locales.",
+      tags:["Persecución"]
+    },
+    {
+      id:"tertullian-apology",
+      year:200,
+      title:"Apología de Tertuliano",
+      layer:"remnant",
+      eraIndex:0,
+      description:"Tertuliano escribe en defensa del cristianismo.",
+      tags:["Apologética"]
+    },
+    {
+      id:"decius-persecution",
+      year:250,
+      title:"Persecución de Decio",
+      layer:"world",
+      eraIndex:0,
+      description:"Primera persecución imperial obligatoria contra todos los cristianos.",
+      tags:["Persecución"]
+    }
+  ];
+
+  const eras = document.querySelectorAll(".era");
+  const detailPanel = document.getElementById("detailPanel");
+
+  events.forEach(event => {
+    const era = eras[event.eraIndex];
+    if (!era) return;
+
+    const layer = era.querySelector('.layer[data-layer="' + event.layer + '"]');
+    if (!layer) return;
+
+    const start = parseInt(era.dataset.start, 10);
+    const end = parseInt(era.dataset.end, 10);
+    const percent = ((event.year - start) / (end - start)) * 100;
+
+    const el = document.createElement("div");
+    el.className = "event";
+    el.style.left = percent + "%";
+    el.textContent = event.year + " · " + event.title;
+
+    el.addEventListener("click", () => {
+      const tagsHtml = event.tags
+        .map(function(t) { return '<span class="tag">' + t + '</span>'; })
+        .join("");
+
+      detailPanel.innerHTML =
+        '<div class="detail-card">' +
+          '<h4>' + event.title + '</h4>' +
+          '<p>' + event.description + '</p>' +
+          '<div>' + tagsHtml + '</div>' +
+        '</div>';
+    });
+
+    layer.appendChild(el);
+  });
+</script>
+
+</body>
+</html>
