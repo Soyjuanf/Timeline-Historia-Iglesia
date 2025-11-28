@@ -319,8 +319,8 @@
   const detailPanel = document.getElementById("detailPanel");
 
   // offsets verticales: movimientos arriba, eventos abajo
-  const pointOffsetsY = [-40, 0, 40, 80];       // eventos históricos (base 70%)
-  const movementOffsetsY = [-40, 0, 40];        // movimientos (base 30%)
+  const pointOffsetsY = [-90, -30, 30, 90];    // MÁS separación entre eventos
+  const movementOffsetsY = [-40, 0, 40];       // movimientos (base 30%)
 
   // Agrupamos por era y ordenamos por año
   const eventsByEra = [];
@@ -373,7 +373,6 @@
       if (ev.type === "movement") {
         const vOffset = movementOffsetsY[localMovIdx % movementOffsetsY.length];
         localMovIdx++;
-        // Movimientos en la parte alta de la banda
         el.style.top = "calc(30% + " + vOffset + "px)";
         if (widthPercent !== null) {
           el.style.width = Math.max(widthPercent, 10) + "%";
@@ -381,7 +380,6 @@
       } else {
         const vOffset = pointOffsetsY[localPointIdx % pointOffsetsY.length];
         localPointIdx++;
-        // Eventos históricos en la parte baja
         el.style.top = "calc(70% + " + vOffset + "px)";
       }
 
