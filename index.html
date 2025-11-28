@@ -270,6 +270,7 @@
 </main>
 
 <script>
+  // Mismo dataset que ya teníamos
   const events = [
     // === ÉFESO ===
     { eraIndex: 0, type: "point", year: 29,  title: "Ministerio público de Jesús",          description: "Jesús inicia su predicación del Reino de Dios y llama a sus discípulos.", tags: ["Evangelios"] },
@@ -332,78 +333,92 @@
   const pointOffsetsY = [-60, -20, 20, 60];          // eventos históricos
   const movementOffsetsY = [-40, 0, 40, 80];        // movimientos dentro de su fila
 
-  // contadores por era para asignar filas a movimientos
-  const movementIndexByEra = {};
-  const pointIndexByEra = {};
+  // 1) Agrupamos por era y ordenamos por año
+  const eventsByEra = [];
+  events.forEach(ev => {
+    if (!eventsByEra[ev.eraIndex]) eventsByEra[ev.eraIndex] = [];
+    eventsByEra[ev.eraIndex].push(ev);
+  });
 
-  events.forEach((event, globalIndex) => {
-    const era = eras[event.eraIndex];
-    if (!era) return;
+  eventsByEra.forEach((eraEvents, eraIndex) => {
+    if (!eraEvents) return;
+    const eraEl = eras[eraIndex];
+    if (!eraEl) return;
 
-    const layerSelector = event.type === "movement"
-      ? '.layer[data-layer="mov"]'
-      : '.layer[data-layer="events"]';
-
-    const layer = era.querySelector(layerSelector);
-    if (!layer) return;
-
-    const start = parseInt(era.dataset.start, 10);
-    const end = parseInt(era.dataset.end, 10);
+    const start = parseInt(eraEl.dataset.start, 10);
+    const end = parseInt(eraEl.dataset.end, 10);
     const range = end - start;
 
-    let leftPercent;
-    let widthPercent = null;
-
-    if (event.type === "movement") {
-      const effectiveStart = Math.max(event.startYear, start);
-      const effectiveEnd = Math.min(event.endYear, end);
-      leftPercent = ((effectiveStart - start) / range) * 100;
-      const duration = Math.max(effectiveEnd - effectiveStart, 5);
-      widthPercent = (duration / range) * 100;
-    } else {
-      const basePercent = ((event.year - start) / range) * 100;
-      leftPercent = basePercent + (globalIndex * 0.8); // pequeño corrimiento
-    }
-
-    const el = document.createElement("div");
-    el.className = "event" + (event.type === "movement" ? " event--movement" : "");
-    el.style.left = leftPercent + "%";
-
-    if (event.type === "movement") {
-      const idx = (movementIndexByEra[event.eraIndex] || 0);
-      movementIndexByEra[event.eraIndex] = idx + 1;
-      const vOffset = movementOffsetsY[idx % movementOffsetsY.length];
-      el.style.top = "calc(50% + " + vOffset + "px)";
-      if (widthPercent !== null) {
-        el.style.width = Math.max(widthPercent, 10) + "%";
-      }
-    } else {
-      const idx = (pointIndexByEra[event.eraIndex] || 0);
-      pointIndexByEra[event.eraIndex] = idx + 1;
-      const vOffset = pointOffsetsY[idx % pointOffsetsY.length];
-      el.style.top = "calc(50% + " + vOffset + "px)";
-    }
-
-    const labelYear = event.type === "movement"
-      ? event.startYear + "–" + event.endYear
-      : event.year;
-
-    el.textContent = labelYear + " · " + event.title;
-
-    el.addEventListener("click", () => {
-      const tagsHtml = (event.tags || [])
-        .map(t => '<span class="tag">' + t + '</span>')
-        .join("");
-
-      detailPanel.innerHTML =
-        '<div class="detail-card">' +
-          '<h4>' + event.title + '</h4>' +
-          '<p>' + event.description + '</p>' +
-          '<div>' + tagsHtml + '</div>' +
-        '</div>';
+    // ordenar por año (o año de inicio)
+    eraEvents.sort((a, b) => {
+      const aYear = a.type === "movement" ? a.startYear : a.year;
+      const bYear = b.type === "movement" ? b.startYear : b.year;
+      return aYear - bYear;
     });
 
-    layer.appendChild(el);
+    let localPointIdx = 0;
+    let localMovIdx = 0;
+
+    eraEvents.forEach(ev => {
+      const layerSelector = ev.type === "movement"
+        ? '.layer[data-layer="mov"]'
+        : '.layer[data-layer="events"]';
+
+      const layer = eraEl.querySelector(layerSelector);
+      if (!layer) return;
+
+      let leftPercent;
+      let widthPercent = null;
+
+      if (ev.type === "movement") {
+        const effectiveStart = Math.max(ev.startYear, start);
+        const effectiveEnd = Math.min(ev.endYear, end);
+        leftPercent = ((effectiveStart - start) / range) * 100;
+        const duration = Math.max(effectiveEnd - effectiveStart, 5);
+        widthPercent = (duration / range) * 100;
+      } else {
+        const basePercent = ((ev.year - start) / range) * 100;
+        // pequeño jitter HORIZONTAL solo dentro de la era
+        leftPercent = basePercent + localPointIdx * 0.4;
+      }
+
+      const el = document.createElement("div");
+      el.className = "event" + (ev.type === "movement" ? " event--movement" : "");
+      el.style.left = leftPercent + "%";
+
+      if (ev.type === "movement") {
+        const vOffset = movementOffsetsY[localMovIdx % movementOffsetsY.length];
+        localMovIdx++;
+        el.style.top = "calc(50% + " + vOffset + "px)";
+        if (widthPercent !== null) {
+          el.style.width = Math.max(widthPercent, 10) + "%";
+        }
+      } else {
+        const vOffset = pointOffsetsY[localPointIdx % pointOffsetsY.length];
+        localPointIdx++;
+        el.style.top = "calc(50% + " + vOffset + "px)";
+      }
+
+      const labelYear = ev.type === "movement"
+        ? ev.startYear + "–" + ev.endYear
+        : ev.year;
+
+      el.textContent = labelYear + " · " + ev.title;
+
+      el.addEventListener("click", () => {
+        const tagsHtml = (ev.tags || [])
+          .map(t => '<span class="tag">' + t + '</span>')
+          .join("");
+        detailPanel.innerHTML =
+          '<div class="detail-card">' +
+            '<h4>' + ev.title + '</h4>' +
+            '<p>' + ev.description + '</p>' +
+            '<div>' + tagsHtml + '</div>' +
+          '</div>';
+      });
+
+      layer.appendChild(el);
+    });
   });
 </script>
 
