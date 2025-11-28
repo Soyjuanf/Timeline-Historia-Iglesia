@@ -1,0 +1,548 @@
+const events = [
+  // === ÉFESO (30–100) ===
+  {
+    id: "jesus-ministry",
+    year: 29,
+    age: "Éfeso",
+    title: "Ministerio público de Jesús",
+    category: "prophecy",
+    layer: "prophecy",
+    era: "primitive",
+    description:
+      "Jesús anuncia el reino de Dios, llama discípulos y establece las bases de la Iglesia.",
+    tags: ["Evangelios"],
+    verses: ["Mt 4:17"]
+  },
+  {
+    id: "crucifixion-resurrection",
+    year: 33,
+    age: "Éfeso",
+    title: "Crucifixión y resurrección de Jesús",
+    category: "prophecy",
+    layer: "prophecy",
+    era: "primitive",
+    description:
+      "La muerte y resurrección de Cristo son el fundamento de la fe cristiana.",
+    tags: ["Fundamento de la fe"],
+    verses: ["1 Co 15:3–4"]
+  },
+  {
+    id: "pentecost",
+    year: 33,
+    age: "Éfeso",
+    title: "Pentecostés – Nacimiento de la Iglesia",
+    category: "prophecy",
+    layer: "prophecy",
+    era: "primitive",
+    description:
+      "Descenso del Espíritu Santo en Jerusalén e inicio de la predicación apostólica.",
+    tags: ["Hechos", "Iglesia primitiva"],
+    verses: ["Hch 2:1–4", "Hch 2:37–41"]
+  },
+  {
+    id: "antioch-christians",
+    year: 45,
+    age: "Éfeso",
+    title: "En Antioquía se da el nombre de 'cristianos'",
+    category: "remnant",
+    layer: "remnant",
+    era: "primitive",
+    description:
+      "Los discípulos reciben por primera vez el nombre de 'cristianos' en Antioquía.",
+    tags: ["Identidad cristiana"],
+    verses: ["Hch 11:26"]
+  },
+  {
+    id: "paul-missions",
+    year: 55,
+    age: "Éfeso",
+    title: "Viajes misioneros de Pablo",
+    category: "remnant",
+    layer: "remnant",
+    era: "primitive",
+    description:
+      "Pablo recorre Asia Menor y Europa fundando iglesias y escribiendo epístolas.",
+    tags: ["Misión", "Apóstol Pablo"],
+    verses: ["Hch 13–21"]
+  },
+  {
+    id: "nero-persecution",
+    year: 64,
+    age: "Éfeso",
+    title: "Persecución de Nerón",
+    category: "world",
+    layer: "world",
+    era: "primitive",
+    description:
+      "Nerón culpa a los cristianos del incendio de Roma y desata una persecución cruel.",
+    tags: ["Imperio romano", "Martirio"],
+    verses: ["1 P 4:12–16"]
+  },
+  {
+    id: "jerusalem-destroyed",
+    year: 70,
+    age: "Éfeso",
+    title: "Destrucción de Jerusalén",
+    category: "world",
+    layer: "world",
+    era: "primitive",
+    description:
+      "Los ejércitos romanos destruyen Jerusalén y el templo, dispersando a los judíos.",
+    tags: ["Profecía cumplida"],
+    verses: ["Lc 21:20–24"]
+  },
+
+  // === ESMIRNA (100–313) ===
+  {
+    id: "ignatius-gnostics",
+    year: 110,
+    age: "Esmirna",
+    title: "Ignacio se opone a los gnósticos",
+    category: "remnant",
+    layer: "remnant",
+    era: "primitive",
+    description:
+      "Ignacio de Antioquía escribe contra las doctrinas gnósticas y anima a la fidelidad.",
+    tags: ["Patrística"],
+    verses: []
+  },
+  {
+    id: "polycarp-martyr",
+    year: 156,
+    age: "Esmirna",
+    title: "Martirio de Policarpo",
+    category: "remnant",
+    layer: "remnant",
+    era: "primitive",
+    description:
+      "Policarpo, discípulo de Juan, es martirizado en Esmirna por no negar a Cristo.",
+    tags: ["Martirio"],
+    verses: []
+  },
+  {
+    id: "justin-martyr-marcion",
+    year: 155,
+    age: "Esmirna",
+    title: "Justino Mártir se opone a la herejía de Marción",
+    category: "remnant",
+    layer: "remnant",
+    era: "primitive",
+    description:
+      "Justino Mártir refuta las enseñanzas de Marción y defiende la unidad de la Escritura.",
+    tags: ["Apologética"],
+    verses: []
+  },
+  {
+    id: "la-apologia-tertuliano",
+    year: 220,
+    age: "Esmirna",
+    title: "La Apología de Tertuliano",
+    category: "remnant",
+    layer: "remnant",
+    era: "primitive",
+    description:
+      "Tertuliano defiende la fe cristiana frente a las acusaciones del Imperio romano.",
+    tags: ["Apologética"],
+    verses: []
+  },
+  {
+    id: "decius-persecution",
+    year: 249,
+    age: "Esmirna",
+    title: "Decio persigue a la iglesia",
+    category: "world",
+    layer: "world",
+    era: "primitive",
+    description:
+      "La persecución de Decio obliga a muchos cristianos a apostatar o morir.",
+    tags: ["Persecución"],
+    verses: []
+  },
+  {
+    id: "diocletian-persecution",
+    year: 303,
+    age: "Esmirna",
+    title: "Diocleciano intenta destruir la iglesia",
+    category: "world",
+    layer: "world",
+    era: "primitive",
+    description:
+      "Una de las persecuciones más intensas contra los cristianos en el Imperio.",
+    tags: ["Persecución"],
+    verses: []
+  },
+
+  // === PÉRGAMO (313–538 aprox.) ===
+  {
+    id: "edict-milan",
+    year: 313,
+    age: "Pérgamo",
+    title: "Edicto de Milán – libertad para los cristianos",
+    category: "world",
+    layer: "world",
+    era: "dark",
+    description:
+      "Constantino concede libertad de culto a los cristianos y favorece a la Iglesia.",
+    tags: ["Imperio romano", "Transición"],
+    verses: []
+  },
+  {
+    id: "nicea-council",
+    year: 325,
+    age: "Pérgamo",
+    title: "Concilio de Nicea",
+    category: "rome",
+    layer: "rome",
+    era: "dark",
+    description:
+      "Primer concilio ecuménico; define la plena divinidad de Cristo y refuta el arrianismo.",
+    tags: ["Concilios", "Dogma"],
+    verses: []
+  },
+  {
+    id: "jerome-vulgate",
+    year: 405,
+    age: "Pérgamo",
+    title: "Jerónimo traduce la Vulgata",
+    category: "rome",
+    layer: "rome",
+    era: "dark",
+    description:
+      "Traducción latina de la Biblia que se convertirá en el texto oficial de la Iglesia latina.",
+    tags: ["Biblia"],
+    verses: []
+  },
+  {
+    id: "augustine-hippo",
+    year: 395,
+    age: "Pérgamo",
+    title: "Agustín, obispo de Hipona",
+    category: "rome",
+    layer: "rome",
+    era: "dark",
+    description:
+      "Teólogo influyente en la doctrina de la gracia, la Iglesia y la historia.",
+    tags: ["Teología"],
+    verses: []
+  },
+
+  // === TIATIRA (538–1517) ===
+  {
+    id: "islam-rise",
+    year: 622,
+    age: "Tiatira",
+    title: "Nacimiento de Mahoma y surgimiento del islam",
+    category: "world",
+    layer: "world",
+    era: "dark",
+    description:
+      "Desde Arabia el islam se expande por Medio Oriente, norte de África y Europa.",
+    tags: ["Islam", "Geopolítica"],
+    verses: []
+  },
+  {
+    id: "adoration-images",
+    year: 787,
+    age: "Tiatira",
+    title: "II Concilio de Nicea – Adoración de imágenes",
+    category: "rome",
+    layer: "rome",
+    era: "dark",
+    description:
+      "Se confirma el uso y veneración de imágenes en la Iglesia.",
+    tags: ["Dogma", "Iconos"],
+    verses: []
+  },
+  {
+    id: "purgatory-doctrine",
+    year: 1100,
+    age: "Tiatira",
+    title: "Doctrina del purgatorio",
+    category: "rome",
+    layer: "rome",
+    era: "dark",
+    description:
+      "Se consolida la creencia en un lugar de purificación después de la muerte.",
+    tags: ["Dogma"],
+    verses: []
+  },
+  {
+    id: "indulgences-practice",
+    year: 1190,
+    age: "Tiatira",
+    title: "Indulgencias",
+    category: "rome",
+    layer: "rome",
+    era: "dark",
+    description:
+      "Se desarrolla la práctica de las indulgencias vinculadas al tesoro de méritos de los santos.",
+    tags: ["Prácticas medievales"],
+    verses: []
+  },
+  {
+    id: "transubstantiation",
+    year: 1215,
+    age: "Tiatira",
+    title: "Transubstanciación",
+    category: "rome",
+    layer: "rome",
+    era: "dark",
+    description:
+      "El IV Concilio de Letrán define la doctrina de la presencia real en la eucaristía.",
+    tags: ["Dogma", "Eucaristía"],
+    verses: []
+  },
+  {
+    id: "valdenses",
+    year: 1170,
+    age: "Tiatira",
+    title: "Valdenses",
+    category: "remnant",
+    layer: "remnant",
+    era: "dark",
+    description:
+      "Movimiento que busca una fe sencilla, predicación bíblica y traducciones vernáculas.",
+    tags: ["Remanente", "Pre–Reforma"],
+    verses: ["Ap 12:6"]
+  },
+  {
+    id: "albigenses",
+    year: 1200,
+    age: "Tiatira",
+    title: "Albigenses",
+    category: "remnant",
+    layer: "remnant",
+    era: "dark",
+    description:
+      "Grupo disidente en el sur de Francia, fuertemente perseguido.",
+    tags: ["Disidencia"],
+    verses: []
+  },
+  {
+    id: "jan-hus",
+    year: 1415,
+    age: "Tiatira",
+    title: "Jan Hus",
+    category: "remnant",
+    layer: "remnant",
+    era: "dark",
+    description:
+      "Reformador bohemio que denuncia abusos y es quemado en la hoguera.",
+    tags: ["Pre–Reforma"],
+    verses: []
+  },
+
+  // === SARDIS (1517–1755) ===
+  {
+    id: "luther-95-theses",
+    year: 1517,
+    age: "Sardis",
+    title: "Lutero y las 95 tesis",
+    category: "modern",
+    layer: "modern",
+    era: "reform",
+    description:
+      "Martín Lutero protesta contra las indulgencias, iniciando la Reforma Protestante.",
+    tags: ["Reforma", "Alemania"],
+    verses: ["Ro 1:16–17"]
+  },
+  {
+    id: "zwingle-zurich",
+    year: 1520,
+    age: "Sardis",
+    title: "Zwinglio en Zúrich",
+    category: "modern",
+    layer: "modern",
+    era: "reform",
+    description:
+      "Ulrico Zwinglio impulsa la Reforma en Suiza con énfasis en la Escritura.",
+    tags: ["Reforma", "Suiza"],
+    verses: []
+  },
+  {
+    id: "anglican-church",
+    year: 1534,
+    age: "Sardis",
+    title: "Nacimiento de la Iglesia Anglicana",
+    category: "modern",
+    layer: "modern",
+    era: "reform",
+    description:
+      "Separación de Inglaterra de Roma y creación de una iglesia nacional.",
+    tags: ["Denominaciones"],
+    verses: []
+  },
+  {
+    id: "trent-council",
+    year: 1545,
+    age: "Sardis",
+    title: "Concilio de Trento",
+    category: "rome",
+    layer: "rome",
+    era: "reform",
+    description:
+      "Respuesta católica a la Reforma, reafirma sacramentos y autoridad papal.",
+    tags: ["Contrarreforma"],
+    verses: []
+  },
+
+  // === FILADELFIA (1755–1844) ===
+  {
+    id: "wesley-methodism",
+    year: 1738,
+    age: "Filadelfia",
+    title: "John Wesley y el metodismo",
+    category: "remnant",
+    layer: "remnant",
+    era: "reform",
+    description:
+      "Movimiento de avivamiento centrado en la santidad y la predicación al pueblo.",
+    tags: ["Avivamiento", "Filadelfia"],
+    verses: ["Ap 3:7–8"]
+  },
+  {
+    id: "whitefield-revival",
+    year: 1740,
+    age: "Filadelfia",
+    title: "George Whitefield",
+    category: "remnant",
+    layer: "remnant",
+    era: "reform",
+    description:
+      "Predicador clave en el Gran Avivamiento en Inglaterra y Norteamérica.",
+    tags: ["Avivamiento"],
+    verses: []
+  },
+  {
+    id: "mission-societies",
+    year: 1800,
+    age: "Filadelfia",
+    title: "Sociedades misioneras modernas",
+    category: "remnant",
+    layer: "remnant",
+    era: "reform",
+    description:
+      "Organizaciones que envían misioneros a Asia, África y América Latina.",
+    tags: ["Misiones"],
+    verses: []
+  },
+
+  // === LAODICEA (1844–2000) ===
+  {
+    id: "darwin-origin",
+    year: 1859,
+    age: "Laodicea",
+    title: "Darwin publica 'El origen de las especies'",
+    category: "world",
+    layer: "world",
+    era: "reform",
+    description:
+      "La teoría de la evolución provoca intensos debates entre ciencia y fe.",
+    tags: ["Ciencia", "Debate fe–ciencia"],
+    verses: []
+  },
+  {
+    id: "spurgeon",
+    year: 1860,
+    age: "Laodicea",
+    title: "Charles Spurgeon",
+    category: "remnant",
+    layer: "remnant",
+    era: "reform",
+    description:
+      "Predicador bautista en Londres, conocido como 'el príncipe de los predicadores'.",
+    tags: ["Predicación"],
+    verses: []
+  },
+  {
+    id: "hudson-taylor",
+    year: 1865,
+    age: "Laodicea",
+    title: "Hudson Taylor – Misión al interior de China",
+    category: "remnant",
+    layer: "remnant",
+    era: "reform",
+    description:
+      "Modelo de fe y sacrificio en la obra misionera en China.",
+    tags: ["Misiones", "China"],
+    verses: []
+  },
+  {
+    id: "moody",
+    year: 1870,
+    age: "Laodicea",
+    title: "D. L. Moody",
+    category: "remnant",
+    layer: "remnant",
+    era: "reform",
+    description:
+      "Evangelista norteamericano con campañas masivas y enfoque práctico.",
+    tags: ["Evangelismo"],
+    verses: []
+  },
+  {
+    id: "ww1",
+    year: 1914,
+    age: "Laodicea",
+    title: "Primera Guerra Mundial",
+    category: "world",
+    layer: "world",
+    era: "reform",
+    description:
+      "Conflicto global que reconfigura el mapa político y genera crisis espiritual.",
+    tags: ["Guerras mundiales"],
+    verses: []
+  },
+  {
+    id: "ww2",
+    year: 1939,
+    age: "Laodicea",
+    title: "Segunda Guerra Mundial",
+    category: "world",
+    layer: "world",
+    era: "reform",
+    description:
+      "Nueva guerra global, holocausto y uso de armas atómicas.",
+    tags: ["Guerras mundiales"],
+    verses: []
+  },
+  {
+    id: "israel-state",
+    year: 1948,
+    age: "Laodicea",
+    title: "Fundación del Estado de Israel",
+    category: "world",
+    layer: "world",
+    era: "reform",
+    description:
+      "Reestablecimiento de un Estado judío con gran relevancia profética para muchos.",
+    tags: ["Israel"],
+    verses: []
+  },
+  {
+    id: "vatican-ii",
+    year: 1962,
+    age: "Laodicea",
+    title: "Concilio Vaticano II",
+    category: "rome",
+    layer: "rome",
+    era: "reform",
+    description:
+      "Actualiza la liturgia católica y abre nuevos espacios de diálogo.",
+    tags: ["Catolicismo moderno"],
+    verses: []
+  },
+  {
+    id: "billy-graham",
+    year: 1950,
+    age: "Laodicea",
+    title: "Billy Graham",
+    category: "remnant",
+    layer: "remnant",
+    era: "reform",
+    description:
+      "Evangelista mundial que lleva el mensaje a millones por medios masivos.",
+    tags: ["Evangelismo moderno"],
+    verses: []
+  }
+];
