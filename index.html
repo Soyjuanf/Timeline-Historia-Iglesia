@@ -71,7 +71,7 @@
     }
 
     .era {
-      min-width: 100vw;
+      min-width: 140vw; /* MÁS ANCHO PARA AIRE HORIZONTAL */
       scroll-snap-align: start;
       padding: 32px;
       border-right: 1px solid rgba(0,0,0,0.1);
@@ -93,32 +93,32 @@
       opacity: 0.8;
     }
 
-    /* UNA SOLA FILA DE TIEMPO */
     .layers {
       display: grid;
       grid-template-rows: 1fr;
-      gap: 18px;
       position: relative;
-      height: calc(100% - 64px);
-      margin-top: 28px;
+      height: 320px; /* MÁS ALTO PARA AIRE VERTICAL */
+      margin-top: 48px;
     }
 
     .layer {
       position: relative;
       border-top: 1px dashed rgba(0,0,0,0.2);
-      padding-left: 140px;   /* aire a la izquierda */
-      padding-right: 160px;  /* aire a la derecha */
+
+      /* ✅ AIRE REAL A LA IZQUIERDA Y DERECHA */
+      padding-left: 260px;
+      padding-right: 260px;
     }
 
     .layer span {
       position: absolute;
       top: -10px;
-      left: 140px; /* alineado con el inicio visual de la línea */
+      left: 260px;
       background: var(--bg);
-      padding: 2px 8px;
+      padding: 2px 10px;
       font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.14em;
       color: var(--olive-dark);
     }
 
@@ -128,16 +128,16 @@
       background: var(--white);
       border: 2px solid var(--terracotta);
       border-radius: 999px;
-      padding: 6px 12px;
+      padding: 8px 16px;  /* MÁS RESPIRACIÓN */
       font-size: 11px;
       cursor: pointer;
       white-space: nowrap;
-      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
     }
 
     .event:hover {
-      transform: translate(-50%, -50%) scale(1.05);
-      box-shadow: 0 6px 16px rgba(0,0,0,0.2);
+      transform: translate(-50%, -50%) scale(1.08);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.25);
       border-color: var(--olive-dark);
     }
 
@@ -174,10 +174,10 @@
       display: inline-block;
       font-size: 10px;
       border: 1px solid var(--olive);
-      padding: 2px 6px;
+      padding: 4px 8px;
       border-radius: 999px;
-      margin-right: 4px;
-      margin-bottom: 4px;
+      margin-right: 6px;
+      margin-bottom: 6px;
     }
 
     @media (max-width: 900px) {
@@ -204,12 +204,11 @@
 </header>
 
 <main>
-  <div class="timeline-wrapper" id="timeline">
+  <div class="timeline-wrapper">
 
-    <!-- SOLO ÉFESO -->
     <section class="era" data-start="20" data-end="300">
       <h2>ÉFESO</h2>
-      <div class="era-subtitle">Apocalipsis 2:1–7 · Iglesia primitiva</div>
+      <div class="era-subtitle">Apocalipsis 2:1–7 · Iglesia Primitiva</div>
 
       <div class="layers">
         <div class="layer" data-layer="linea">
@@ -229,173 +228,54 @@
 </main>
 
 <script>
-  // Eventos de la era Éfeso (29–250 d.C.)
   const events = [
-    {
-      id:"jesus-ministry",
-      year:29,
-      title:"Ministerio público de Jesús",
-      description:"Jesús inicia su predicación del Reino de Dios y llama a sus discípulos.",
-      tags:["Evangelios"]
-    },
-    {
-      id:"crucifixion",
-      year:30,
-      title:"Crucifixión y resurrección de Jesús",
-      description:"Jesús muere bajo Poncio Pilato y resucita al tercer día.",
-      tags:["Redención"]
-    },
-    {
-      id:"roman-britain",
-      year:43,
-      title:"Roma invade Bretaña",
-      description:"El Imperio romano inicia la conquista de Britania.",
-      tags:["Imperio romano"]
-    },
-    {
-      id:"christians-antioch",
-      year:45,
-      title:"Se les llama cristianos en Antioquía",
-      description:"Los discípulos reciben por primera vez el nombre de cristianos.",
-      tags:["Identidad cristiana"]
-    },
-    {
-      id:"paul-travels",
-      year:50,
-      title:"Viajes misioneros de Pablo",
-      description:"Pablo difunde el evangelio por Asia Menor y Europa.",
-      tags:["Misión"]
-    },
-    {
-      id:"nero",
-      year:64,
-      title:"Persecución de Nerón",
-      description:"Primera persecución imperial contra los cristianos.",
-      tags:["Persecución"]
-    },
-    {
-      id:"jewish-war",
-      year:66,
-      title:"Primera guerra judío-romana",
-      description:"Rebelión de los judíos contra Roma.",
-      tags:["Historia"]
-    },
-    {
-      id:"peter-martyr",
-      year:67,
-      title:"Martirio del apóstol Pedro",
-      description:"Pedro muere por su fe en Roma.",
-      tags:["Martirio"]
-    },
-    {
-      id:"jerusalem",
-      year:70,
-      title:"Destrucción de Jerusalén",
-      description:"Las legiones romanas destruyen Jerusalén y su templo.",
-      tags:["Profecía cumplida"]
-    },
-    {
-      id:"masada",
-      year:73,
-      title:"Caída de Masada",
-      description:"Último bastión judío frente a Roma.",
-      tags:["Historia judía"]
-    },
-    {
-      id:"vesuvius",
-      year:79,
-      title:"Erupción del Vesubio",
-      description:"Pompeya y Herculano son destruidas.",
-      tags:["Catástrofe"]
-    },
-    {
-      id:"josephus",
-      year:80,
-      title:"Josefo escribe 'La guerra de los judíos'",
-      description:"Flavio Josefo relata el conflicto judeo-romano.",
-      tags:["Historia"]
-    },
-    {
-      id:"domitian",
-      year:90,
-      title:"Persecución de Domiciano",
-      description:"Cristianos perseguidos por negarse a adorar al emperador.",
-      tags:["Persecución"]
-    },
-    {
-      id:"clement",
-      year:100,
-      title:"Martirio de Clemente de Roma",
-      description:"Uno de los primeros obispos de Roma es ejecutado.",
-      tags:["Martirio"]
-    },
-    {
-      id:"justin",
-      year:155,
-      title:"Justino Mártir confronta a Marción",
-      description:"Defiende la fe apostólica frente a la herejía de Marción.",
-      tags:["Apologética"]
-    },
-    {
-      id:"marcus-aurelius",
-      year:170,
-      title:"Marco Aurelio y los cristianos",
-      description:"Durante su reinado se intensifican martirios locales.",
-      tags:["Persecución"]
-    },
-    {
-      id:"tertullian-apology",
-      year:200,
-      title:"Apología de Tertuliano",
-      description:"Tertuliano escribe en defensa del cristianismo.",
-      tags:["Apologética"]
-    },
-    {
-      id:"decius-persecution",
-      year:250,
-      title:"Persecución de Decio",
-      description:"Primera persecución imperial obligatoria contra todos los cristianos.",
-      tags:["Persecución"]
-    }
+    { year:29, title:"Ministerio público de Jesús", description:"Jesús inicia su predicación del Reino de Dios y llama a sus discípulos.", tags:["Evangelios"] },
+    { year:30, title:"Crucifixión y resurrección", description:"Jesús muere bajo Poncio Pilato y resucita.", tags:["Redención"] },
+    { year:43, title:"Roma invade Bretaña", description:"Expansión romana en Britania.", tags:["Imperio"] },
+    { year:45, title:"Se les llama cristianos en Antioquía", description:"Nace el nombre 'cristianos'.", tags:["Identidad"] },
+    { year:50, title:"Viajes misioneros de Pablo", description:"Expansión del Evangelio hacia Europa.", tags:["Misión"] },
+    { year:64, title:"Persecución de Nerón", description:"Primera persecución imperial.", tags:["Persecución"] },
+    { year:66, title:"Primera guerra judío-romana", description:"Rebelión contra Roma.", tags:["Historia"] },
+    { year:67, title:"Martirio del apóstol Pedro", description:"Pedro muere en Roma.", tags:["Martirio"] },
+    { year:70, title:"Destrucción de Jerusalén", description:"Roma destruye Jerusalén y el Templo.", tags:["Profecía"] },
+    { year:73, title:"Caída de Masada", description:"Última resistencia judía.", tags:["Historia"] },
+    { year:79, title:"Erupción del Vesubio", description:"Destrucción de Pompeya.", tags:["Catástrofe"] },
+    { year:80, title:"Josefo escribe La Guerra de los Judíos", description:"Relato histórico del conflicto.", tags:["Historia"] },
+    { year:90, title:"Persecución de Domiciano", description:"Cristianos perseguidos por el culto imperial.", tags:["Persecución"] },
+    { year:100, title:"Martirio de Clemente de Roma", description:"Obispo ejecutado.", tags:["Martirio"] },
+    { year:155, title:"Justino Mártir confronta a Marción", description:"Defensa doctrinal.", tags:["Apologética"] },
+    { year:170, title:"Marco Aurelio y los cristianos", description:"Martirios locales.", tags:["Persecución"] },
+    { year:200, title:"Apología de Tertuliano", description:"Defensa intelectual del cristianismo.", tags:["Apologética"] },
+    { year:250, title:"Persecución de Decio", description:"Persecución obligatoria a todos.", tags:["Persecución"] }
   ];
 
   const era = document.querySelector(".era");
-  const layer = era.querySelector('.layer[data-layer="linea"]');
-  const start = parseInt(era.dataset.start, 10);
-  const end = parseInt(era.dataset.end, 10);
+  const layer = document.querySelector(".layer");
+  const start = parseInt(era.dataset.start);
+  const end = parseInt(era.dataset.end);
   const detailPanel = document.getElementById("detailPanel");
 
-  // offsets verticales para que no se monten unos sobre otros
-  const offsetsY = [-40, -14, 14, 40];
+  const offsetsY = [-80, -40, 0, 40, 80]; // MÁS SEPARACIÓN VERTICAL
 
-  events.forEach(function(event, index) {
-    // base porcentual según año
+  events.forEach((event, index) => {
     const basePercent = ((event.year - start) / (end - start)) * 100;
-    // micro-offset horizontal para no encimar eventos muy cercanos
-    const extraOffsetX = index * 0.8; // 0.8% por evento
-    const percent = basePercent + extraOffsetX;
+    const percent = basePercent + (index * 1.6); // MÁS SEPARACIÓN HORIZONTAL
 
     const el = document.createElement("div");
     el.className = "event";
     el.style.left = percent + "%";
-
-    const offsetY = offsetsY[index % offsetsY.length];
-    el.style.top = "calc(50% + " + offsetY + "px)";
-
+    el.style.top = "calc(50% + " + offsetsY[index % offsetsY.length] + "px)";
     el.textContent = event.year + " · " + event.title;
 
-    el.addEventListener("click", function() {
-      const tagsHtml = event.tags
-        .map(function(t) { return '<span class="tag">' + t + '</span>'; })
-        .join("");
-
-      detailPanel.innerHTML =
-        '<div class="detail-card">' +
-          '<h4>' + event.title + '</h4>' +
-          '<p>' + event.description + '</p>' +
-          '<div>' + tagsHtml + '</div>' +
-        '</div>';
-    });
+    el.onclick = () => {
+      detailPanel.innerHTML = `
+        <div class="detail-card">
+          <h4>${event.title}</h4>
+          <p>${event.description}</p>
+          <div>${event.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
+        </div>
+      `;
+    };
 
     layer.appendChild(el);
   });
