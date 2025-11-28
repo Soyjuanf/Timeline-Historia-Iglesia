@@ -319,8 +319,8 @@
   const detailPanel = document.getElementById("detailPanel");
 
   // offsets verticales: movimientos arriba, eventos abajo
-  const pointOffsetsY = [-90, -30, 30, 90];    // MÁS separación entre eventos
-  const movementOffsetsY = [-40, 0, 40];       // movimientos (base 30%)
+  const pointOffsetsY = [-40, 0, 40, 80];
+  const movementOffsetsY = [-40, 0, 40];
 
   // Agrupamos por era y ordenamos por año
   const eventsByEra = [];
@@ -362,8 +362,11 @@
         const duration = Math.max(effectiveEnd - effectiveStart, 5);
         widthPercent = (duration / range) * 100;
       } else {
-        // SOLO año → mantiene orden perfecto
-        leftPercent = ((ev.year - start) / range) * 100;
+        // base cronológico
+        const base = ((ev.year - start) / range) * 100;
+        // jitter horizontal dentro de la era (3% por evento, mantiene el orden)
+        const jitter = localPointIdx * 3;
+        leftPercent = base + jitter;
       }
 
       const el = document.createElement("div");
