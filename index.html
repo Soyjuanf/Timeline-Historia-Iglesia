@@ -5,6 +5,7 @@
   <title>Historia de la Iglesia</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
+  <!-- Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;800&display=swap" rel="stylesheet">
@@ -14,6 +15,7 @@
       --olive: #6b705c;
       --olive-dark: #4a4f3c;
       --terracotta: #b5654d;
+      --terracotta-light: #d4a59a;
       --bg: #f8f4f1;
       --text: #2b2b2b;
       --white: #ffffff;
@@ -31,8 +33,7 @@
 
     header {
       position: fixed;
-      top: 0; left: 0; right: 0;
-      height: 80px;
+      top: 0; left: 0; right: 0; height: 80px;
       background: var(--olive);
       color: var(--white);
       display: flex;
@@ -70,18 +71,18 @@
     }
 
     .era {
-      min-width: 140vw;
+      min-width: 140vw; /* mucho aire horizontal por era */
       scroll-snap-align: start;
       padding: 32px;
-      border-right: 1px solid rgba(0,0,0,0.08);
+      border-right: 1px solid rgba(0,0,0,0.1);
     }
 
     .era h2 {
-      margin: 0 0 4px 0;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.1em;
       color: var(--terracotta);
+      margin-bottom: 4px;
     }
 
     .era-subtitle {
@@ -93,14 +94,18 @@
     }
 
     .layers {
+      display: grid;
+      grid-template-rows: 1fr;
       position: relative;
-      height: 340px;
-      margin-top: 120px;
+      height: 320px; /* más alto para aire vertical */
+      margin-top: 48px;
     }
 
     .layer {
       position: relative;
       border-top: 1px dashed rgba(0,0,0,0.2);
+
+      /* aire a los lados de la línea de tiempo */
       padding-left: 260px;
       padding-right: 260px;
     }
@@ -127,25 +132,27 @@
       font-size: 11px;
       cursor: pointer;
       white-space: nowrap;
-      transition: all 0.25s ease;
+      transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
     }
 
     .event:hover {
       transform: translate(-50%, -50%) scale(1.08);
       box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+      border-color: var(--olive-dark);
     }
 
+    /* Movimientos de larga duración (bandas) */
     .event--movement {
-      transform: translateY(-50%);
-      border-radius: 20px;
-      background: rgba(181,101,77,0.16);
+      transform: translateY(-50%);      /* anclar por la izquierda */
+      border-radius: 24px;
+      background: rgba(181, 101, 77, 0.14);
       border-style: dashed;
     }
 
     aside {
       background: var(--white);
       padding: 24px;
-      border-left: 1px solid rgba(0,0,0,0.08);
+      border-left: 1px solid rgba(0,0,0,0.1);
       overflow-y: auto;
     }
 
@@ -159,7 +166,8 @@
     }
 
     .detail-card h4 {
-      margin: 0 0 8px 0;
+      margin-top: 12px;
+      margin-bottom: 8px;
       font-weight: 800;
       color: var(--terracotta);
     }
@@ -170,7 +178,7 @@
       margin-bottom: 12px;
     }
 
-    .tag {
+    .detail-card .tag {
       display: inline-block;
       font-size: 10px;
       border: 1px solid var(--olive);
@@ -178,6 +186,20 @@
       border-radius: 999px;
       margin-right: 6px;
       margin-bottom: 6px;
+    }
+
+    @media (max-width: 900px) {
+      main {
+        grid-template-columns: 1fr;
+      }
+
+      aside {
+        height: 35vh;
+      }
+
+      .timeline-wrapper {
+        height: calc(100vh - 80px - 35vh);
+      }
     }
   </style>
 </head>
@@ -192,114 +214,458 @@
 <main>
   <div class="timeline-wrapper">
 
+    <!-- ÉFESO -->
     <section class="era" data-start="20" data-end="300">
       <h2>ÉFESO</h2>
-      <div class="era-subtitle">Apocalipsis 2:1–7</div>
-      <div class="layers"><div class="layer"><span>Línea de tiempo</span></div></div>
+      <div class="era-subtitle">Apocalipsis 2:1–7 · Iglesia primitiva</div>
+
+      <div class="layers">
+        <div class="layer" data-layer="linea">
+          <span>Línea de tiempo</span>
+        </div>
+      </div>
     </section>
 
-    <section class="era" data-start="300" data-end="400">
+    <!-- ESMIRNA -->
+    <section class="era" data-start="300" data-end="500">
       <h2>ESMIRNA</h2>
-      <div class="era-subtitle">Apocalipsis 2:8–11</div>
-      <div class="layers"><div class="layer"><span>Línea de tiempo</span></div></div>
-    </section>
+      <div class="era-subtitle">Apocalipsis 2:8–11 · Iglesia perseguida e imperial</div>
 
-    <section class="era" data-start="400" data-end="500">
-      <h2>PÉRGAMO</h2>
-      <div class="era-subtitle">Apocalipsis 2:12–17</div>
-      <div class="layers"><div class="layer"><span>Línea de tiempo</span></div></div>
+      <div class="layers">
+        <div class="layer" data-layer="linea">
+          <span>Línea de tiempo</span>
+        </div>
+      </div>
     </section>
 
   </div>
 
   <aside>
     <h3>DETALLE</h3>
-    <div id="detailPanel">Haz clic en un evento.</div>
+    <div id="detailPanel">
+      Haz clic en un evento para ver su información.
+    </div>
   </aside>
 </main>
 
 <script>
-const events = [
-  { eraIndex:0, type:"point", year:29, title:"Ministerio de Jesús", description:"Inicio del ministerio.", tags:["Evangelios"] },
-  { eraIndex:0, type:"point", year:30, title:"Crucifixión y Resurrección", description:"Fundamento cristiano.", tags:["Redención"] },
-  { eraIndex:0, type:"point", year:45, title:"Cristianos en Antioquía", description:"Primer uso del nombre.", tags:["Identidad"] },
-  { eraIndex:0, type:"point", year:64, title:"Persecución de Nerón", description:"Primera persecución imperial.", tags:["Persecución"] },
-  { eraIndex:0, type:"point", year:70, title:"Destrucción de Jerusalén", description:"Caída del Templo.", tags:["Profecía"] },
+  // ÉFESO (eraIndex 0) · eventos puntuales
+  const events = [
+    // === ÉFESO ===
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 29,
+      title: "Ministerio público de Jesús",
+      description: "Jesús inicia su predicación del Reino de Dios y llama a sus discípulos.",
+      tags: ["Evangelios"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 30,
+      title: "Crucifixión y resurrección de Jesús",
+      description: "Jesús muere bajo Poncio Pilato y resucita al tercer día.",
+      tags: ["Redención"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 43,
+      title: "Roma invade Bretaña",
+      description: "El Imperio romano inicia la conquista de Bretaña.",
+      tags: ["Imperio romano"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 45,
+      title: "Se les llama cristianos en Antioquía",
+      description: "Los discípulos reciben por primera vez el nombre de cristianos.",
+      tags: ["Identidad cristiana"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 50,
+      title: "Viajes misioneros de Pablo",
+      description: "Pablo difunde el evangelio por Asia Menor y Europa.",
+      tags: ["Misión"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 64,
+      title: "Persecución de Nerón",
+      description: "Primera persecución imperial contra los cristianos.",
+      tags: ["Persecución"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 66,
+      title: "Primera guerra judío-romana",
+      description: "Rebelión de los judíos contra Roma.",
+      tags: ["Historia"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 67,
+      title: "Martirio del apóstol Pedro",
+      description: "Pedro muere por su fe en Roma.",
+      tags: ["Martirio"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 70,
+      title: "Destrucción de Jerusalén",
+      description: "Las legiones romanas destruyen Jerusalén y el Templo.",
+      tags: ["Profecía cumplida"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 73,
+      title: "Caída de Masada",
+      description: "Último bastión judío frente a Roma.",
+      tags: ["Historia judía"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 79,
+      title: "Erupción del Vesubio",
+      description: "Pompeya y Herculano son destruidas por la erupción del Vesubio.",
+      tags: ["Catástrofe"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 80,
+      title: "Josefo escribe 'La guerra de los judíos'",
+      description: "Flavio Josefo relata el conflicto judeo-romano.",
+      tags: ["Historia"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 90,
+      title: "Persecución de Domiciano",
+      description: "Cristianos perseguidos por negarse a adorar al emperador.",
+      tags: ["Persecución"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 100,
+      title: "Martirio de Clemente de Roma",
+      description: "Uno de los primeros obispos de Roma es ejecutado.",
+      tags: ["Martirio"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 155,
+      title: "Justino Mártir confronta a Marción",
+      description: "Justino defiende la fe apostólica frente a la herejía de Marción.",
+      tags: ["Apologética"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 170,
+      title: "Marco Aurelio y los cristianos",
+      description: "Durante su reinado se intensifican martirios locales.",
+      tags: ["Persecución"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 200,
+      title: "Apología de Tertuliano",
+      description: "Tertuliano escribe en defensa del cristianismo.",
+      tags: ["Apologética"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 250,
+      title: "Persecución de Decio",
+      description: "Primera persecución imperial obligatoria contra todos los cristianos.",
+      tags: ["Persecución"]
+    },
 
-  { eraIndex:1, type:"movement", startYear:156, endYear:300, title:"Montanistas", description:"Movimiento profético.", tags:["Movimiento"] },
-  { eraIndex:1, type:"movement", startYear:251, endYear:350, title:"Novacianos", description:"Movimiento rigorista.", tags:["Movimiento"] },
-  { eraIndex:1, type:"movement", startYear:311, endYear:450, title:"Donatistas", description:"Movimiento africano.", tags:["Movimiento"] },
+    // === ESMIRNA · MOVIMIENTOS (LARGA DURACIÓN) ===
+    {
+      eraIndex: 1,
+      type: "movement",
+      startYear: 156,
+      endYear: 300,
+      title: "Montanistas",
+      description: "Movimiento profético surgido en Frigia que enfatizaba visiones, revelaciones y vida ascética. Considerado herético por la Iglesia oficial.",
+      tags: ["Movimiento", "Profecía"]
+    },
+    {
+      eraIndex: 1,
+      type: "movement",
+      startYear: 251,
+      endYear: 400,
+      title: "Novacianos",
+      description: "Movimiento rigorista que rechazaba la readmisión de cristianos que habían apostatado durante las persecuciones.",
+      tags: ["Movimiento", "Rigorismo"]
+    },
+    {
+      eraIndex: 1,
+      type: "movement",
+      startYear: 311,
+      endYear: 500,
+      title: "Donatistas",
+      description: "Movimiento en el norte de África que afirmaba que los sacramentos solo eran válidos si el ministro era moralmente puro.",
+      tags: ["Movimiento", "África"]
+    },
+    {
+      eraIndex: 1,
+      type: "movement",
+      startYear: 428,
+      endYear: 600,
+      title: "Nestorianos",
+      description: "Movimiento cristológico asociado a Nestorio; rechazaba el título de Theotokos para María. Condenado en Éfeso (431), se extendió hacia Persia y Asia.",
+      tags: ["Movimiento", "Cristología"]
+    },
 
-  { eraIndex:1, type:"point", year:303, title:"Persecución de Diocleciano", description:"Gran persecución final.", tags:["Persecución"] },
-  { eraIndex:1, type:"point", year:312, title:"Puente Milvio", description:"Constantino vence.", tags:["Imperio"] },
-  { eraIndex:1, type:"point", year:313, title:"Edicto de Milán", description:"Libertad cristiana.", tags:["Iglesia-Estado"] },
-  { eraIndex:1, type:"point", year:325, title:"Concilio de Nicea", description:"Divinidad de Cristo.", tags:["Concilio"] },
-  { eraIndex:1, type:"point", year:380, title:"Cristianismo oficial", description:"Religión del Imperio.", tags:["Imperio"] },
+    // === ESMIRNA · EVENTOS PUNTUALES ===
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 303,
+      title: "Gran persecución de Diocleciano",
+      description: "Última y más violenta persecución oficial contra la Iglesia, intentando destruirla por completo.",
+      tags: ["Persecución"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 311,
+      title: "Historia Eclesiástica de Eusebio",
+      description: "Eusebio de Cesarea escribe la primera gran historia oficial de la Iglesia.",
+      tags: ["Historia de la Iglesia"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 312,
+      title: "Constantino gana la batalla del Puente Milvio",
+      description: "Constantino vence a Majencio bajo el signo cristiano e inicia su apoyo al cristianismo.",
+      tags: ["Constantino", "Imperio"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 313,
+      title: "Edicto de Milán",
+      description: "Se decreta la libertad religiosa para los cristianos en el Imperio romano.",
+      tags: ["Iglesia y Estado"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 325,
+      title: "Concilio de Nicea",
+      description: "Primer concilio ecuménico; se afirma la divinidad de Cristo y se condena el arrianismo.",
+      tags: ["Concilios", "Cristología"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 340,
+      title: "Cristianismo llega a Abisinia",
+      description: "El cristianismo se establece en el reino de Abisinia (Etiopía).",
+      tags: ["Misión", "África"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 361,
+      title: "Juliano el Apóstata",
+      description: "Emperador que intenta restaurar el paganismo y frenar el avance del cristianismo.",
+      tags: ["Imperio", "Paganismo"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 370,
+      title: "Basilio contra el arrianismo",
+      description: "Basilio de Cesarea defiende la doctrina trinitaria frente a la herejía arriana.",
+      tags: ["Padres de la Iglesia"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 380,
+      title: "Cristianismo religión oficial del Imperio",
+      description: "El edicto de Tesalónica declara al cristianismo niceno como religión oficial; se consolida la Iglesia católica imperial.",
+      tags: ["Iglesia y Estado"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 395,
+      title: "División definitiva del Imperio romano",
+      description: "A la muerte de Teodosio I, el Imperio se divide en Oriente y Occidente.",
+      tags: ["Imperio romano"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 396,
+      title: "Agustín, obispo de Hipona",
+      description: "Agustín es ordenado obispo; su obra marcará la teología occidental por siglos.",
+      tags: ["Teología"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 405,
+      title: "Jerónimo termina la Vulgata",
+      description: "Se completa la traducción latina de la Biblia, que será el texto oficial de la Iglesia occidental.",
+      tags: ["Biblia"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 431,
+      title: "Se establece el culto a María",
+      description: "El Concilio de Éfeso proclama a María como Theotokos, consolidando su culto en la Iglesia.",
+      tags: ["Mariología"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 436,
+      title: "Tropas romanas abandonan Britania",
+      description: "Roma retira sus tropas de Britania, poniendo fin al dominio imperial directo.",
+      tags: ["Fin del Imperio"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 443,
+      title: "Tribus germánicas en Alsacia",
+      description: "Pueblos germánicos se asientan de forma permanente dentro del territorio romano.",
+      tags: ["Invasiones bárbaras"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 450,
+      title: "León I: Iglesia y Estado se unen",
+      description: "El papa León I asume un papel político y espiritual, articulando la autoridad papal sobre el Occidente.",
+      tags: ["Papado", "Iglesia y Estado"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 452,
+      title: "Atila el Huno invade Italia",
+      description: "Atila amenaza Roma; León I negocia y detiene su avance.",
+      tags: ["Invasiones bárbaras"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 455,
+      title: "Los vándalos saquean Roma",
+      description: "La ciudad de Roma es saqueada por los vándalos, mostrando la debilidad del Imperio.",
+      tags: ["Invasiones bárbaras"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 470,
+      title: "Florece la civilización maya",
+      description: "Apogeo de la civilización maya clásica en Mesoamérica.",
+      tags: ["Culturas antiguas"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 476,
+      title: "Último emperador romano de Occidente",
+      description: "Rómulo Augústulo es depuesto; cae el Imperio romano de Occidente.",
+      tags: ["Caída de Roma"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 478,
+      title: "Primer templo sintoísta en Japón",
+      description: "Se consolida el sintoísmo con templos dedicados en Japón.",
+      tags: ["Religiones del mundo"]
+    }
+  ];
 
-  // ✅ NESTORIANOS CORREGIDOS A “300 y algo”
-  {
-    eraIndex: 2,
-    type: "movement",
-    startYear: 380,
-    endYear: 600,
-    title: "Nestorianos",
-    description: "Movimiento cristológico con raíces a finales del siglo IV, condenado en 431.",
-    tags: ["Movimiento", "Cristología"]
-  },
+  const eras = document.querySelectorAll(".era");
+  const detailPanel = document.getElementById("detailPanel");
 
-  { eraIndex:2, type:"point", year:405, title:"Vulgata", description:"Biblia en latín.", tags:["Biblia"] },
-  { eraIndex:2, type:"point", year:431, title:"Concilio de Éfeso", description:"María Theotokos.", tags:["Concilio"] },
-  { eraIndex:2, type:"point", year:452, title:"Atila invade Italia", description:"Amenaza bárbara.", tags:["Invasiones"] },
-  { eraIndex:2, type:"point", year:455, title:"Saqueo de Roma", description:"Vándalos saquean Roma.", tags:["Caída"] },
-  { eraIndex:2, type:"point", year:476, title:"Caída del Imperio Romano", description:"Inicio Edad Media.", tags:["Edad Media"] }
-];
+  const offsetsY = [-80, -40, 0, 40, 80]; // separación vertical
 
-const eras = document.querySelectorAll(".era");
-const detailPanel = document.getElementById("detailPanel");
-const offsetsY = [-30, 0, 30];
+  events.forEach((event, index) => {
+    const era = eras[event.eraIndex];
+    if (!era) return;
 
-events.forEach((event, index) => {
-  const era = eras[event.eraIndex];
-  const layer = era.querySelector(".layer");
-  const start = parseInt(era.dataset.start, 10);
-  const end = parseInt(era.dataset.end, 10);
-  const range = end - start;
+    const layer = era.querySelector('.layer[data-layer="linea"]');
+    if (!layer) return;
 
-  let leftPercent, widthPercent = null;
+    const start = parseInt(era.dataset.start, 10);
+    const end = parseInt(era.dataset.end, 10);
 
-  if (event.type === "movement") {
-    const effectiveStart = Math.max(event.startYear, start);
-    const effectiveEnd = Math.min(event.endYear, end);
-    const duration = Math.max(effectiveEnd - effectiveStart, 5);
-    leftPercent = ((effectiveStart - start) / range) * 100;
-    widthPercent = (duration / range) * 100;
-  } else {
-    leftPercent = ((event.year - start) / range) * 100 + index * 1.2;
-  }
+    let leftPercent;
+    let widthPercent = null;
+    let verticalOffset = offsetsY[index % offsetsY.length];
 
-  const el = document.createElement("div");
-  el.className = "event" + (event.type === "movement" ? " event--movement" : "");
-  el.style.left = leftPercent + "%";
-  el.style.top = "calc(50% + " + offsetsY[index % offsetsY.length] + "px)";
-  if (widthPercent) el.style.width = Math.max(widthPercent, 8) + "%";
+    if (event.type === "movement") {
+      const effectiveStart = Math.max(event.startYear, start);
+      const effectiveEnd = Math.min(event.endYear, end);
+      const range = end - start;
+      leftPercent = ((effectiveStart - start) / range) * 100;
+      const duration = Math.max(effectiveEnd - effectiveStart, 5); // mínimo visual
+      widthPercent = (duration / range) * 100;
+    } else {
+      const range = end - start;
+      const basePercent = ((event.year - start) / range) * 100;
+      // micro-separación horizontal
+      leftPercent = basePercent + (index * 1.2);
+    }
 
-  el.textContent = event.type === "movement"
-    ? `${event.startYear}–${event.endYear} · ${event.title}`
-    : `${event.year} · ${event.title}`;
+    const el = document.createElement("div");
+    el.className = "event" + (event.type === "movement" ? " event--movement" : "");
+    el.style.left = leftPercent + "%";
+    el.style.top = "calc(50% + " + verticalOffset + "px)";
 
-  el.onclick = () => {
-    const tagsHtml = (event.tags || []).map(t => `<span class="tag">${t}</span>`).join("");
-    detailPanel.innerHTML = `
-      <div class="detail-card">
-        <h4>${event.title}</h4>
-        <p>${event.description}</p>
-        <div>${tagsHtml}</div>
-      </div>
-    `;
-  };
+    if (event.type === "movement" && widthPercent !== null) {
+      el.style.width = Math.max(widthPercent, 10) + "%";
+    }
 
-  layer.appendChild(el);
-});
+    const labelYear = event.type === "movement" ? event.startYear + "–" + event.endYear : event.year;
+    el.textContent = labelYear + " · " + event.title;
+
+    el.addEventListener("click", () => {
+      const tagsHtml = (event.tags || [])
+        .map(t => '<span class="tag">' + t + '</span>')
+        .join("");
+
+      detailPanel.innerHTML =
+        '<div class="detail-card">' +
+          '<h4>' + event.title + '</h4>' +
+          '<p>' + event.description + '</p>' +
+          '<div>' + tagsHtml + '</div>' +
+        '</div>';
+    });
+
+    layer.appendChild(el);
+  });
 </script>
 
 </body>
