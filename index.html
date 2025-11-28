@@ -71,7 +71,7 @@
     }
 
     .era {
-      min-width: 140vw; /* MÁS ANCHO PARA AIRE HORIZONTAL */
+      min-width: 140vw; /* mucho aire horizontal por era */
       scroll-snap-align: start;
       padding: 32px;
       border-right: 1px solid rgba(0,0,0,0.1);
@@ -97,7 +97,7 @@
       display: grid;
       grid-template-rows: 1fr;
       position: relative;
-      height: 320px; /* MÁS ALTO PARA AIRE VERTICAL */
+      height: 320px; /* más alto para aire vertical */
       margin-top: 48px;
     }
 
@@ -105,7 +105,7 @@
       position: relative;
       border-top: 1px dashed rgba(0,0,0,0.2);
 
-      /* ✅ AIRE REAL A LA IZQUIERDA Y DERECHA */
+      /* aire a los lados de la línea de tiempo */
       padding-left: 260px;
       padding-right: 260px;
     }
@@ -128,7 +128,7 @@
       background: var(--white);
       border: 2px solid var(--terracotta);
       border-radius: 999px;
-      padding: 8px 16px;  /* MÁS RESPIRACIÓN */
+      padding: 8px 16px;
       font-size: 11px;
       cursor: pointer;
       white-space: nowrap;
@@ -139,6 +139,14 @@
       transform: translate(-50%, -50%) scale(1.08);
       box-shadow: 0 10px 24px rgba(0,0,0,0.25);
       border-color: var(--olive-dark);
+    }
+
+    /* Movimientos de larga duración (bandas) */
+    .event--movement {
+      transform: translateY(-50%);      /* anclar por la izquierda */
+      border-radius: 24px;
+      background: rgba(181, 101, 77, 0.14);
+      border-style: dashed;
     }
 
     aside {
@@ -206,9 +214,22 @@
 <main>
   <div class="timeline-wrapper">
 
+    <!-- ÉFESO -->
     <section class="era" data-start="20" data-end="300">
       <h2>ÉFESO</h2>
-      <div class="era-subtitle">Apocalipsis 2:1–7 · Iglesia Primitiva</div>
+      <div class="era-subtitle">Apocalipsis 2:1–7 · Iglesia primitiva</div>
+
+      <div class="layers">
+        <div class="layer" data-layer="linea">
+          <span>Línea de tiempo</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ESMIRNA -->
+    <section class="era" data-start="300" data-end="500">
+      <h2>ESMIRNA</h2>
+      <div class="era-subtitle">Apocalipsis 2:8–11 · Iglesia perseguida e imperial</div>
 
       <div class="layers">
         <div class="layer" data-layer="linea">
@@ -228,54 +249,420 @@
 </main>
 
 <script>
+  // ÉFESO (eraIndex 0) · eventos puntuales
   const events = [
-    { year:29, title:"Ministerio público de Jesús", description:"Jesús inicia su predicación del Reino de Dios y llama a sus discípulos.", tags:["Evangelios"] },
-    { year:30, title:"Crucifixión y resurrección", description:"Jesús muere bajo Poncio Pilato y resucita.", tags:["Redención"] },
-    { year:43, title:"Roma invade Bretaña", description:"Expansión romana en Britania.", tags:["Imperio"] },
-    { year:45, title:"Se les llama cristianos en Antioquía", description:"Nace el nombre 'cristianos'.", tags:["Identidad"] },
-    { year:50, title:"Viajes misioneros de Pablo", description:"Expansión del Evangelio hacia Europa.", tags:["Misión"] },
-    { year:64, title:"Persecución de Nerón", description:"Primera persecución imperial.", tags:["Persecución"] },
-    { year:66, title:"Primera guerra judío-romana", description:"Rebelión contra Roma.", tags:["Historia"] },
-    { year:67, title:"Martirio del apóstol Pedro", description:"Pedro muere en Roma.", tags:["Martirio"] },
-    { year:70, title:"Destrucción de Jerusalén", description:"Roma destruye Jerusalén y el Templo.", tags:["Profecía"] },
-    { year:73, title:"Caída de Masada", description:"Última resistencia judía.", tags:["Historia"] },
-    { year:79, title:"Erupción del Vesubio", description:"Destrucción de Pompeya.", tags:["Catástrofe"] },
-    { year:80, title:"Josefo escribe La Guerra de los Judíos", description:"Relato histórico del conflicto.", tags:["Historia"] },
-    { year:90, title:"Persecución de Domiciano", description:"Cristianos perseguidos por el culto imperial.", tags:["Persecución"] },
-    { year:100, title:"Martirio de Clemente de Roma", description:"Obispo ejecutado.", tags:["Martirio"] },
-    { year:155, title:"Justino Mártir confronta a Marción", description:"Defensa doctrinal.", tags:["Apologética"] },
-    { year:170, title:"Marco Aurelio y los cristianos", description:"Martirios locales.", tags:["Persecución"] },
-    { year:200, title:"Apología de Tertuliano", description:"Defensa intelectual del cristianismo.", tags:["Apologética"] },
-    { year:250, title:"Persecución de Decio", description:"Persecución obligatoria a todos.", tags:["Persecución"] }
+    // === ÉFESO ===
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 29,
+      title: "Ministerio público de Jesús",
+      description: "Jesús inicia su predicación del Reino de Dios y llama a sus discípulos.",
+      tags: ["Evangelios"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 30,
+      title: "Crucifixión y resurrección de Jesús",
+      description: "Jesús muere bajo Poncio Pilato y resucita al tercer día.",
+      tags: ["Redención"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 43,
+      title: "Roma invade Bretaña",
+      description: "El Imperio romano inicia la conquista de Bretaña.",
+      tags: ["Imperio romano"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 45,
+      title: "Se les llama cristianos en Antioquía",
+      description: "Los discípulos reciben por primera vez el nombre de cristianos.",
+      tags: ["Identidad cristiana"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 50,
+      title: "Viajes misioneros de Pablo",
+      description: "Pablo difunde el evangelio por Asia Menor y Europa.",
+      tags: ["Misión"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 64,
+      title: "Persecución de Nerón",
+      description: "Primera persecución imperial contra los cristianos.",
+      tags: ["Persecución"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 66,
+      title: "Primera guerra judío-romana",
+      description: "Rebelión de los judíos contra Roma.",
+      tags: ["Historia"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 67,
+      title: "Martirio del apóstol Pedro",
+      description: "Pedro muere por su fe en Roma.",
+      tags: ["Martirio"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 70,
+      title: "Destrucción de Jerusalén",
+      description: "Las legiones romanas destruyen Jerusalén y el Templo.",
+      tags: ["Profecía cumplida"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 73,
+      title: "Caída de Masada",
+      description: "Último bastión judío frente a Roma.",
+      tags: ["Historia judía"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 79,
+      title: "Erupción del Vesubio",
+      description: "Pompeya y Herculano son destruidas por la erupción del Vesubio.",
+      tags: ["Catástrofe"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 80,
+      title: "Josefo escribe 'La guerra de los judíos'",
+      description: "Flavio Josefo relata el conflicto judeo-romano.",
+      tags: ["Historia"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 90,
+      title: "Persecución de Domiciano",
+      description: "Cristianos perseguidos por negarse a adorar al emperador.",
+      tags: ["Persecución"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 100,
+      title: "Martirio de Clemente de Roma",
+      description: "Uno de los primeros obispos de Roma es ejecutado.",
+      tags: ["Martirio"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 155,
+      title: "Justino Mártir confronta a Marción",
+      description: "Justino defiende la fe apostólica frente a la herejía de Marción.",
+      tags: ["Apologética"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 170,
+      title: "Marco Aurelio y los cristianos",
+      description: "Durante su reinado se intensifican martirios locales.",
+      tags: ["Persecución"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 200,
+      title: "Apología de Tertuliano",
+      description: "Tertuliano escribe en defensa del cristianismo.",
+      tags: ["Apologética"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
+      year: 250,
+      title: "Persecución de Decio",
+      description: "Primera persecución imperial obligatoria contra todos los cristianos.",
+      tags: ["Persecución"]
+    },
+
+    // === ESMIRNA · MOVIMIENTOS (LARGA DURACIÓN) ===
+    {
+      eraIndex: 1,
+      type: "movement",
+      startYear: 156,
+      endYear: 300,
+      title: "Montanistas",
+      description: "Movimiento profético surgido en Frigia que enfatizaba visiones, revelaciones y vida ascética. Considerado herético por la Iglesia oficial.",
+      tags: ["Movimiento", "Profecía"]
+    },
+    {
+      eraIndex: 1,
+      type: "movement",
+      startYear: 251,
+      endYear: 400,
+      title: "Novacianos",
+      description: "Movimiento rigorista que rechazaba la readmisión de cristianos que habían apostatado durante las persecuciones.",
+      tags: ["Movimiento", "Rigorismo"]
+    },
+    {
+      eraIndex: 1,
+      type: "movement",
+      startYear: 311,
+      endYear: 500,
+      title: "Donatistas",
+      description: "Movimiento en el norte de África que afirmaba que los sacramentos solo eran válidos si el ministro era moralmente puro.",
+      tags: ["Movimiento", "África"]
+    },
+    {
+      eraIndex: 1,
+      type: "movement",
+      startYear: 428,
+      endYear: 600,
+      title: "Nestorianos",
+      description: "Movimiento cristológico asociado a Nestorio; rechazaba el título de Theotokos para María. Condenado en Éfeso (431), se extendió hacia Persia y Asia.",
+      tags: ["Movimiento", "Cristología"]
+    },
+
+    // === ESMIRNA · EVENTOS PUNTUALES ===
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 303,
+      title: "Gran persecución de Diocleciano",
+      description: "Última y más violenta persecución oficial contra la Iglesia, intentando destruirla por completo.",
+      tags: ["Persecución"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 311,
+      title: "Historia Eclesiástica de Eusebio",
+      description: "Eusebio de Cesarea escribe la primera gran historia oficial de la Iglesia.",
+      tags: ["Historia de la Iglesia"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 312,
+      title: "Constantino gana la batalla del Puente Milvio",
+      description: "Constantino vence a Majencio bajo el signo cristiano e inicia su apoyo al cristianismo.",
+      tags: ["Constantino", "Imperio"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 313,
+      title: "Edicto de Milán",
+      description: "Se decreta la libertad religiosa para los cristianos en el Imperio romano.",
+      tags: ["Iglesia y Estado"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 325,
+      title: "Concilio de Nicea",
+      description: "Primer concilio ecuménico; se afirma la divinidad de Cristo y se condena el arrianismo.",
+      tags: ["Concilios", "Cristología"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 340,
+      title: "Cristianismo llega a Abisinia",
+      description: "El cristianismo se establece en el reino de Abisinia (Etiopía).",
+      tags: ["Misión", "África"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 361,
+      title: "Juliano el Apóstata",
+      description: "Emperador que intenta restaurar el paganismo y frenar el avance del cristianismo.",
+      tags: ["Imperio", "Paganismo"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 370,
+      title: "Basilio contra el arrianismo",
+      description: "Basilio de Cesarea defiende la doctrina trinitaria frente a la herejía arriana.",
+      tags: ["Padres de la Iglesia"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 380,
+      title: "Cristianismo religión oficial del Imperio",
+      description: "El edicto de Tesalónica declara al cristianismo niceno como religión oficial; se consolida la Iglesia católica imperial.",
+      tags: ["Iglesia y Estado"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 395,
+      title: "División definitiva del Imperio romano",
+      description: "A la muerte de Teodosio I, el Imperio se divide en Oriente y Occidente.",
+      tags: ["Imperio romano"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 396,
+      title: "Agustín, obispo de Hipona",
+      description: "Agustín es ordenado obispo; su obra marcará la teología occidental por siglos.",
+      tags: ["Teología"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 405,
+      title: "Jerónimo termina la Vulgata",
+      description: "Se completa la traducción latina de la Biblia, que será el texto oficial de la Iglesia occidental.",
+      tags: ["Biblia"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 431,
+      title: "Se establece el culto a María",
+      description: "El Concilio de Éfeso proclama a María como Theotokos, consolidando su culto en la Iglesia.",
+      tags: ["Mariología"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 436,
+      title: "Tropas romanas abandonan Britania",
+      description: "Roma retira sus tropas de Britania, poniendo fin al dominio imperial directo.",
+      tags: ["Fin del Imperio"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 443,
+      title: "Tribus germánicas en Alsacia",
+      description: "Pueblos germánicos se asientan de forma permanente dentro del territorio romano.",
+      tags: ["Invasiones bárbaras"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 450,
+      title: "León I: Iglesia y Estado se unen",
+      description: "El papa León I asume un papel político y espiritual, articulando la autoridad papal sobre el Occidente.",
+      tags: ["Papado", "Iglesia y Estado"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 452,
+      title: "Atila el Huno invade Italia",
+      description: "Atila amenaza Roma; León I negocia y detiene su avance.",
+      tags: ["Invasiones bárbaras"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 455,
+      title: "Los vándalos saquean Roma",
+      description: "La ciudad de Roma es saqueada por los vándalos, mostrando la debilidad del Imperio.",
+      tags: ["Invasiones bárbaras"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 470,
+      title: "Florece la civilización maya",
+      description: "Apogeo de la civilización maya clásica en Mesoamérica.",
+      tags: ["Culturas antiguas"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 476,
+      title: "Último emperador romano de Occidente",
+      description: "Rómulo Augústulo es depuesto; cae el Imperio romano de Occidente.",
+      tags: ["Caída de Roma"]
+    },
+    {
+      eraIndex: 1,
+      type: "point",
+      year: 478,
+      title: "Primer templo sintoísta en Japón",
+      description: "Se consolida el sintoísmo con templos dedicados en Japón.",
+      tags: ["Religiones del mundo"]
+    }
   ];
 
-  const era = document.querySelector(".era");
-  const layer = document.querySelector(".layer");
-  const start = parseInt(era.dataset.start);
-  const end = parseInt(era.dataset.end);
+  const eras = document.querySelectorAll(".era");
   const detailPanel = document.getElementById("detailPanel");
 
-  const offsetsY = [-80, -40, 0, 40, 80]; // MÁS SEPARACIÓN VERTICAL
+  const offsetsY = [-80, -40, 0, 40, 80]; // separación vertical
 
   events.forEach((event, index) => {
-    const basePercent = ((event.year - start) / (end - start)) * 100;
-    const percent = basePercent + (index * 1.6); // MÁS SEPARACIÓN HORIZONTAL
+    const era = eras[event.eraIndex];
+    if (!era) return;
+
+    const layer = era.querySelector('.layer[data-layer="linea"]');
+    if (!layer) return;
+
+    const start = parseInt(era.dataset.start, 10);
+    const end = parseInt(era.dataset.end, 10);
+
+    let leftPercent;
+    let widthPercent = null;
+    let verticalOffset = offsetsY[index % offsetsY.length];
+
+    if (event.type === "movement") {
+      const effectiveStart = Math.max(event.startYear, start);
+      const effectiveEnd = Math.min(event.endYear, end);
+      const range = end - start;
+      leftPercent = ((effectiveStart - start) / range) * 100;
+      const duration = Math.max(effectiveEnd - effectiveStart, 5); // mínimo visual
+      widthPercent = (duration / range) * 100;
+    } else {
+      const range = end - start;
+      const basePercent = ((event.year - start) / range) * 100;
+      // micro-separación horizontal
+      leftPercent = basePercent + (index * 1.2);
+    }
 
     const el = document.createElement("div");
-    el.className = "event";
-    el.style.left = percent + "%";
-    el.style.top = "calc(50% + " + offsetsY[index % offsetsY.length] + "px)";
-    el.textContent = event.year + " · " + event.title;
+    el.className = "event" + (event.type === "movement" ? " event--movement" : "");
+    el.style.left = leftPercent + "%";
+    el.style.top = "calc(50% + " + verticalOffset + "px)";
 
-    el.onclick = () => {
-      detailPanel.innerHTML = `
-        <div class="detail-card">
-          <h4>${event.title}</h4>
-          <p>${event.description}</p>
-          <div>${event.tags.map(t => `<span class="tag">${t}</span>`).join("")}</div>
-        </div>
-      `;
-    };
+    if (event.type === "movement" && widthPercent !== null) {
+      el.style.width = Math.max(widthPercent, 10) + "%";
+    }
+
+    const labelYear = event.type === "movement" ? event.startYear + "–" + event.endYear : event.year;
+    el.textContent = labelYear + " · " + event.title;
+
+    el.addEventListener("click", () => {
+      const tagsHtml = (event.tags || [])
+        .map(t => '<span class="tag">' + t + '</span>')
+        .join("");
+
+      detailPanel.innerHTML =
+        '<div class="detail-card">' +
+          '<h4>' + event.title + '</h4>' +
+          '<p>' + event.description + '</p>' +
+          '<div>' + tagsHtml + '</div>' +
+        '</div>';
+    });
 
     layer.appendChild(el);
   });
@@ -283,4 +670,3 @@
 
 </body>
 </html>
-
