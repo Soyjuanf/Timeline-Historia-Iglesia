@@ -93,7 +93,7 @@
       opacity: 0.8;
     }
 
-    /* Antes había 5 filas, ahora solo una */
+    /* UNA SOLA FILA DE TIEMPO */
     .layers {
       display: grid;
       grid-template-rows: 1fr;
@@ -106,12 +106,14 @@
     .layer {
       position: relative;
       border-top: 1px dashed rgba(0,0,0,0.2);
+      padding-left: 140px;   /* aire a la izquierda */
+      padding-right: 160px;  /* aire a la derecha */
     }
 
     .layer span {
       position: absolute;
       top: -10px;
-      left: 0;
+      left: 140px; /* alineado con el inicio visual de la línea */
       background: var(--bg);
       padding: 2px 8px;
       font-size: 10px;
@@ -122,7 +124,6 @@
 
     .event {
       position: absolute;
-      top: 50%;
       transform: translate(-50%, -50%);
       background: var(--white);
       border: 2px solid var(--terracotta);
@@ -206,7 +207,7 @@
   <div class="timeline-wrapper" id="timeline">
 
     <!-- SOLO ÉFESO -->
-    <section class="era" data-start="29" data-end="260">
+    <section class="era" data-start="20" data-end="300">
       <h2>ÉFESO</h2>
       <div class="era-subtitle">Apocalipsis 2:1–7 · Iglesia primitiva</div>
 
@@ -364,18 +365,22 @@
   const end = parseInt(era.dataset.end, 10);
   const detailPanel = document.getElementById("detailPanel");
 
-  // Para que no se monten todos en la misma altura, variamos un poco Y
-  const offsetsY = [-18, 0, 18];
+  // offsets verticales para que no se monten unos sobre otros
+  const offsetsY = [-40, -14, 14, 40];
 
   events.forEach(function(event, index) {
-    const percent = ((event.year - start) / (end - start)) * 100;
+    // base porcentual según año
+    const basePercent = ((event.year - start) / (end - start)) * 100;
+    // micro-offset horizontal para no encimar eventos muy cercanos
+    const extraOffsetX = index * 0.8; // 0.8% por evento
+    const percent = basePercent + extraOffsetX;
+
     const el = document.createElement("div");
     el.className = "event";
     el.style.left = percent + "%";
 
-    // 50% es la línea base; añadimos un pequeño offset arriba/abajo
-    const offset = offsetsY[index % offsetsY.length];
-    el.style.top = "calc(50% + " + offset + "px)";
+    const offsetY = offsetsY[index % offsetsY.length];
+    el.style.top = "calc(50% + " + offsetY + "px)";
 
     el.textContent = event.year + " · " + event.title;
 
@@ -398,3 +403,4 @@
 
 </body>
 </html>
+
