@@ -123,7 +123,8 @@
 
     .event {
       position: absolute;
-      transform: translate(-50%, -50%);
+      /* ANCLA A LA IZQUIERDA: solo ajustamos en Y */
+      transform: translateY(-50%);
       background: var(--white);
       border: 2px solid var(--terracotta);
       border-radius: 999px;
@@ -135,14 +136,14 @@
     }
 
     .event:hover {
-      transform: translate(-50%, -50%) scale(1.08);
+      transform: translateY(-50%) scale(1.08);
       box-shadow: 0 10px 24px rgba(0,0,0,0.25);
       border-color: var(--olive-dark);
     }
 
     /* Movimientos de larga duración (bandas) */
     .event--movement {
-      transform: translateY(-50%); /* anclar por la izquierda visualmente */
+      transform: translateY(-50%);
       border-radius: 24px;
       background: rgba(181, 101, 77, 0.14);
       border-style: dashed;
@@ -443,8 +444,6 @@
     { eraIndex: 3, type: "point", year: 470, title: "Florece la civilización maya",     description: "Apogeo de la civilización maya clásica en Mesoamérica.",                     tags: ["Culturas antiguas"] },
     { eraIndex: 3, type: "point", year: 476, title: "Último emperador romano de Occidente", description: "Rómulo Augústulo es depuesto; cae el Imperio romano de Occidente.",   tags: ["Caída de Roma"] },
     { eraIndex: 3, type: "point", year: 478, title: "Primer templo sintoísta en Japón", description: "Se consolida el sintoísmo con templos dedicados.",                          tags: ["Religiones del mundo"] }
-
-    // SARDIS, FILADELFIA, LAODICEA listos para rellenar después
   ];
 
   const eras = document.querySelectorAll(".era");
@@ -453,7 +452,6 @@
   const pointOffsetsY = [-40, 0, 40, 80];
   const movementOffsetsY = [-40, 0, 40];
 
-  // RANGOS FIJOS PARA LA ESCALA (EN EL ORDEN DE LAS SECCIONES)
   const scaleRanges = [
     { start: 0,    end: 200 },   // Éfeso
     { start: 200,  end: 300 },   // Esmirna
@@ -464,7 +462,7 @@
     { start: 1900, end: 2025 }   // Laodicea
   ];
 
-  /* 1) Escala de años: usa SIEMPRE scaleRanges por índice de era */
+  // Escala de años
   eras.forEach((eraEl, idx) => {
     const layer = eraEl.querySelector('.layer[data-layer="linea"]');
     if (!layer) return;
@@ -490,7 +488,7 @@
     }
   });
 
-  /* 2) Colocar eventos y movimientos: usan el MISMO rango que la escala */
+  // Colocar eventos y movimientos
   const eventsByEra = [];
   events.forEach(ev => {
     if (!eventsByEra[ev.eraIndex]) eventsByEra[ev.eraIndex] = [];
@@ -530,7 +528,7 @@
         const duration = Math.max(effectiveEnd - effectiveStart, 5);
         widthPercent = (duration / range) * 100;
       } else {
-        // SIN JITTER: alineado exactamente con la regla
+        // alineado EXACTO a la regla
         leftPercent = ((ev.year - start) / range) * 100;
       }
 
