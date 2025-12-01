@@ -253,8 +253,7 @@
 
     <!-- ÉFESO: 0–200 -->
     <section class="era"
-             data-start="0" data-end="200"
-             data-scale-start="0" data-scale-end="200">
+             data-start="0" data-end="200">
       <h2>ÉFESO</h2>
       <div class="era-subtitle">Apocalipsis 2:1–7 · Iglesia primitiva</div>
 
@@ -267,8 +266,7 @@
 
     <!-- ESMIRNA: 200–300 -->
     <section class="era"
-             data-start="200" data-end="300"
-             data-scale-start="200" data-scale-end="300">
+             data-start="200" data-end="300">
       <h2>ESMIRNA</h2>
       <div class="era-subtitle">Apocalipsis 2:8–11 · Iglesia perseguida</div>
 
@@ -281,8 +279,7 @@
 
     <!-- PÉRGAMO: 300–400 -->
     <section class="era"
-             data-start="300" data-end="400"
-             data-scale-start="300" data-scale-end="400">
+             data-start="300" data-end="400">
       <h2>PÉRGAMO</h2>
       <div class="era-subtitle">Apocalipsis 2:12–17 · Iglesia unida al Estado</div>
 
@@ -295,8 +292,7 @@
 
     <!-- TIATIRA: 400–1000 -->
     <section class="era"
-             data-start="400" data-end="1000"
-             data-scale-start="400" data-scale-end="1000">
+             data-start="400" data-end="1000">
       <h2>TIATIRA</h2>
       <div class="era-subtitle">Apocalipsis 2:18–29 · Edad media religiosa</div>
 
@@ -309,8 +305,7 @@
 
     <!-- SARDIS: 1100–1400 -->
     <section class="era"
-             data-start="1100" data-end="1400"
-             data-scale-start="1100" data-scale-end="1400">
+             data-start="1100" data-end="1400">
       <h2>SARDIS</h2>
       <div class="era-subtitle">Apocalipsis 3:1–6 · Iglesia nominal</div>
 
@@ -323,8 +318,7 @@
 
     <!-- FILADELFIA: 1500–1800 -->
     <section class="era"
-             data-start="1500" data-end="1800"
-             data-scale-start="1500" data-scale-end="1800">
+             data-start="1500" data-end="1800">
       <h2>FILADELFIA</h2>
       <div class="era-subtitle">Apocalipsis 3:7–13 · Iglesia misionera</div>
 
@@ -337,8 +331,7 @@
 
     <!-- LAODICEA: 1900–2025 -->
     <section class="era"
-             data-start="1900" data-end="2025"
-             data-scale-start="1900" data-scale-end="2025">
+             data-start="1900" data-end="2025">
       <h2>LAODICEA</h2>
       <div class="era-subtitle">Apocalipsis 3:14–22 · Iglesia de los últimos días</div>
 
@@ -438,7 +431,7 @@
     { eraIndex: 2, type: "point", year: 380, title: "Cristianismo religión oficial del Imperio", description: "El edicto de Tesalónica declara al cristianismo niceno religión oficial.", tags: ["Iglesia y Estado"] },
     { eraIndex: 2, type: "point", year: 395, title: "División definitiva del Imperio romano", description: "A la muerte de Teodosio I, el Imperio se divide en Oriente y Occidente.", tags: ["Imperio romano"] },
 
-    // === TIATIRA (400–1000) — por ahora sólo los que ya teníamos en ese rango ===
+    // === TIATIRA (400–1000) ===
     { eraIndex: 3, type: "point", year: 396, title: "Agustín, obispo de Hipona",        description: "Agustín es ordenado obispo; su obra marcará la teología occidental.",          tags: ["Teología"] },
     { eraIndex: 3, type: "point", year: 405, title: "Jerónimo termina la Vulgata",      description: "Se completa la traducción latina de la Biblia.",                              tags: ["Biblia"] },
     { eraIndex: 3, type: "point", year: 431, title: "Se establece el culto a María",    description: "El Concilio de Éfeso proclama a María como Theotokos.",                      tags: ["Mariología"] },
@@ -451,8 +444,7 @@
     { eraIndex: 3, type: "point", year: 476, title: "Último emperador romano de Occidente", description: "Rómulo Augústulo es depuesto; cae el Imperio romano de Occidente.",   tags: ["Caída de Roma"] },
     { eraIndex: 3, type: "point", year: 478, title: "Primer templo sintoísta en Japón", description: "Se consolida el sintoísmo con templos dedicados.",                          tags: ["Religiones del mundo"] }
 
-    // Por ahora SARDIS, FILADELFIA y LAODICEA quedan sin eventos,
-    // los iremos llenando cuando me pases su contenido.
+    // SARDIS, FILADELFIA, LAODICEA quedan listas para llenarlas después.
   ];
 
   const eras = document.querySelectorAll(".era");
@@ -461,8 +453,19 @@
   const pointOffsetsY = [-40, 0, 40, 80];
   const movementOffsetsY = [-40, 0, 40];
 
-  /* 1) Escala de años, usando data-scale-start / data-scale-end */
-  eras.forEach(eraEl => {
+  // RANGOS FIJOS PARA LA ESCALA (EN EL ORDEN DE LAS SECCIONES)
+  const scaleRanges = [
+    { start: 0,    end: 200 },   // Éfeso
+    { start: 200,  end: 300 },   // Esmirna
+    { start: 300,  end: 400 },   // Pérgamo
+    { start: 400,  end: 1000 },  // Tiatira
+    { start: 1100, end: 1400 },  // Sardis
+    { start: 1500, end: 1800 },  // Filadelfia
+    { start: 1900, end: 2025 }   // Laodicea
+  ];
+
+  /* 1) Escala de años: usa SIEMPRE scaleRanges por índice de era */
+  eras.forEach((eraEl, idx) => {
     const layer = eraEl.querySelector('.layer[data-layer="linea"]');
     if (!layer) return;
 
@@ -470,15 +473,15 @@
     scale.className = 'year-scale';
     layer.appendChild(scale);
 
-    const scaleStart = eraEl.dataset.scaleStart
-      ? parseInt(eraEl.dataset.scaleStart, 10)
-      : parseInt(eraEl.dataset.start, 10);
+    const rangeDef = scaleRanges[idx] || {
+      start: parseInt(eraEl.dataset.start, 10),
+      end: parseInt(eraEl.dataset.end, 10)
+    };
 
-    const scaleEnd = eraEl.dataset.scaleEnd
-      ? parseInt(eraEl.dataset.scaleEnd, 10)
-      : parseInt(eraEl.dataset.end, 10);
-
+    const scaleStart = rangeDef.start;
+    const scaleEnd = rangeDef.end;
     const scaleRange = scaleEnd - scaleStart;
+
     const firstTick = Math.ceil(scaleStart / 50) * 50;
 
     for (let year = firstTick; year <= scaleEnd; year += 50) {
@@ -491,7 +494,7 @@
     }
   });
 
-  /* 2) Colocar eventos y movimientos */
+  /* 2) Colocar eventos y movimientos (usa data-start/data-end de cada era para posición) */
   const eventsByEra = [];
   events.forEach(ev => {
     if (!eventsByEra[ev.eraIndex]) eventsByEra[ev.eraIndex] = [];
@@ -507,7 +510,6 @@
     const end = parseInt(eraEl.dataset.end, 10);
     const range = end - start;
 
-    // ordenar cronológicamente dentro de la era
     eraEvents.sort((a, b) => {
       const aYear = a.type === "movement" ? a.startYear : a.year;
       const bYear = b.type === "movement" ? b.startYear : b.year;
@@ -532,7 +534,7 @@
         widthPercent = (duration / range) * 100;
       } else {
         const base = ((ev.year - start) / range) * 100;
-        const jitter = localPointIdx * 5; // aire horizontal entre eventos
+        const jitter = localPointIdx * 5;
         leftPercent = base + jitter;
       }
 
