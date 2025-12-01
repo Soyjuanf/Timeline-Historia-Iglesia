@@ -142,7 +142,7 @@
 
     /* Movimientos de larga duración (bandas) */
     .event--movement {
-      transform: translateY(-50%);
+      transform: translateY(-50%); /* anclar por la izquierda visualmente */
       border-radius: 24px;
       background: rgba(181, 101, 77, 0.14);
       border-style: dashed;
@@ -444,7 +444,7 @@
     { eraIndex: 3, type: "point", year: 476, title: "Último emperador romano de Occidente", description: "Rómulo Augústulo es depuesto; cae el Imperio romano de Occidente.",   tags: ["Caída de Roma"] },
     { eraIndex: 3, type: "point", year: 478, title: "Primer templo sintoísta en Japón", description: "Se consolida el sintoísmo con templos dedicados.",                          tags: ["Religiones del mundo"] }
 
-    // SARDIS, FILADELFIA, LAODICEA quedan listas para llenarlas después.
+    // SARDIS, FILADELFIA, LAODICEA listos para rellenar después
   ];
 
   const eras = document.querySelectorAll(".era");
@@ -473,11 +473,7 @@
     scale.className = 'year-scale';
     layer.appendChild(scale);
 
-    const rangeDef = scaleRanges[idx] || {
-      start: parseInt(eraEl.dataset.start, 10),
-      end: parseInt(eraEl.dataset.end, 10)
-    };
-
+    const rangeDef = scaleRanges[idx];
     const scaleStart = rangeDef.start;
     const scaleEnd = rangeDef.end;
     const scaleRange = scaleEnd - scaleStart;
@@ -494,7 +490,7 @@
     }
   });
 
-  /* 2) Colocar eventos y movimientos (usa data-start/data-end de cada era para posición) */
+  /* 2) Colocar eventos y movimientos: usan el MISMO rango que la escala */
   const eventsByEra = [];
   events.forEach(ev => {
     if (!eventsByEra[ev.eraIndex]) eventsByEra[ev.eraIndex] = [];
@@ -506,8 +502,9 @@
     const eraEl = eras[eraIndex];
     if (!eraEl) return;
 
-    const start = parseInt(eraEl.dataset.start, 10);
-    const end = parseInt(eraEl.dataset.end, 10);
+    const rangeDef = scaleRanges[eraIndex];
+    const start = rangeDef.start;
+    const end = rangeDef.end;
     const range = end - start;
 
     eraEvents.sort((a, b) => {
@@ -533,9 +530,8 @@
         const duration = Math.max(effectiveEnd - effectiveStart, 5);
         widthPercent = (duration / range) * 100;
       } else {
-        const base = ((ev.year - start) / range) * 100;
-        const jitter = localPointIdx * 5;
-        leftPercent = base + jitter;
+        // SIN JITTER: alineado exactamente con la regla
+        leftPercent = ((ev.year - start) / range) * 100;
       }
 
       const el = document.createElement("div");
