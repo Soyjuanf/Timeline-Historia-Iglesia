@@ -168,10 +168,11 @@
       background: rgba(0,0,0,0.18);
     }
 
+    /* AQUÍ EL CAMBIO: la marca y el número empiezan exactamente en la X del año */
     .year-tick {
       position: absolute;
       font-size: 9px;
-      transform: translateX(-50%);
+      /* sin translateX(-50%) */
       color: var(--olive-dark);
       opacity: 0.8;
     }
@@ -179,8 +180,8 @@
     .year-tick::before {
       content: "";
       position: absolute;
-      left: 50%;
-      transform: translateX(-50%);
+      /* palito justo en el borde izquierdo del número */
+      left: 0;
       top: -6px;
       width: 1px;
       height: 6px;
