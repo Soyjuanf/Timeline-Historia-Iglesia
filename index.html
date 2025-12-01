@@ -105,8 +105,15 @@
     .layer {
       position: relative;
       border-top: 1px dashed rgba(0,0,0,0.2);
-      padding-left: 260px;
-      padding-right: 260px;
+    }
+
+    /* Carril interno donde se alinean eventos y regla */
+    .lane {
+      position: absolute;
+      left: 260px;
+      right: 260px;
+      top: 0;
+      bottom: 0;
     }
 
     .layer span {
@@ -149,11 +156,11 @@
       border-style: dashed;
     }
 
-    /* Escala de años */
+    /* Escala de años – ahora dentro de .lane */
     .year-scale {
       position: absolute;
-      left: 260px;
-      right: 260px;
+      left: 0;
+      right: 0;
       bottom: -28px;
       height: 18px;
     }
@@ -168,11 +175,10 @@
       background: rgba(0,0,0,0.18);
     }
 
-    /* AQUÍ EL CAMBIO: la marca y el número empiezan exactamente en la X del año */
     .year-tick {
       position: absolute;
       font-size: 9px;
-      /* sin translateX(-50%) */
+      /* SIN translateX: el texto empieza justo donde empieza el año */
       color: var(--olive-dark);
       opacity: 0.8;
     }
@@ -180,8 +186,7 @@
     .year-tick::before {
       content: "";
       position: absolute;
-      /* palito justo en el borde izquierdo del número */
-      left: 0;
+      left: 0;       /* palito en el mismo X que el inicio del texto */
       top: -6px;
       width: 1px;
       height: 6px;
@@ -254,92 +259,92 @@
   <div class="timeline-wrapper">
 
     <!-- ÉFESO: 0–200 -->
-    <section class="era"
-             data-start="0" data-end="200">
+    <section class="era" data-start="0" data-end="200">
       <h2>ÉFESO</h2>
       <div class="era-subtitle">Apocalipsis 2:1–7 · Iglesia primitiva</div>
 
       <div class="layers">
         <div class="layer" data-layer="linea">
           <span>Línea de tiempo</span>
+          <div class="lane"></div>
         </div>
       </div>
     </section>
 
     <!-- ESMIRNA: 200–300 -->
-    <section class="era"
-             data-start="200" data-end="300">
+    <section class="era" data-start="200" data-end="300">
       <h2>ESMIRNA</h2>
       <div class="era-subtitle">Apocalipsis 2:8–11 · Iglesia perseguida</div>
 
       <div class="layers">
         <div class="layer" data-layer="linea">
           <span>Línea de tiempo</span>
+          <div class="lane"></div>
         </div>
       </div>
     </section>
 
     <!-- PÉRGAMO: 300–400 -->
-    <section class="era"
-             data-start="300" data-end="400">
+    <section class="era" data-start="300" data-end="400">
       <h2>PÉRGAMO</h2>
       <div class="era-subtitle">Apocalipsis 2:12–17 · Iglesia unida al Estado</div>
 
       <div class="layers">
         <div class="layer" data-layer="linea">
           <span>Línea de tiempo</span>
+          <div class="lane"></div>
         </div>
       </div>
     </section>
 
     <!-- TIATIRA: 400–1000 -->
-    <section class="era"
-             data-start="400" data-end="1000">
+    <section class="era" data-start="400" data-end="1000">
       <h2>TIATIRA</h2>
       <div class="era-subtitle">Apocalipsis 2:18–29 · Edad media religiosa</div>
 
       <div class="layers">
         <div class="layer" data-layer="linea">
           <span>Línea de tiempo</span>
+          <div class="lane"></div>
         </div>
       </div>
     </section>
 
     <!-- SARDIS: 1100–1400 -->
-    <section class="era"
-             data-start="1100" data-end="1400">
+    <section class="era" data-start="1100" data-end="1400">
       <h2>SARDIS</h2>
       <div class="era-subtitle">Apocalipsis 3:1–6 · Iglesia nominal</div>
 
       <div class="layers">
         <div class="layer" data-layer="linea">
           <span>Línea de tiempo</span>
+          <div class="lane"></div>
         </div>
       </div>
     </section>
 
     <!-- FILADELFIA: 1500–1800 -->
-    <section class="era"
-             data-start="1500" data-end="1800">
+    <section class="era" data-start="1500" data-end="1800">
       <h2>FILADELFIA</h2>
       <div class="era-subtitle">Apocalipsis 3:7–13 · Iglesia misionera</div>
 
       <div class="layers">
         <div class="layer" data-layer="linea">
           <span>Línea de tiempo</span>
+          <div class="lane"></div>
         </div>
       </div>
     </section>
 
     <!-- LAODICEA: 1900–2025 -->
-    <section class="era"
-             data-start="1900" data-end="2025">
+    <section class="era" data-start="1900" data-end="2025">
       <h2>LAODICEA</h2>
       <div class="era-subtitle">Apocalipsis 3:14–22 · Iglesia de los últimos días</div>
 
       <div class="layers">
         <div class="layer" data-layer="linea">
           <span>Línea de tiempo</span>
+          <div class="lane"></div>
         </div>
       </div>
     </section>
@@ -463,14 +468,20 @@
     { start: 1900, end: 2025 }   // Laodicea
   ];
 
-  // Escala de años
+  // Construir escala de años en cada .lane
   eras.forEach((eraEl, idx) => {
     const layer = eraEl.querySelector('.layer[data-layer="linea"]');
     if (!layer) return;
+    let lane = layer.querySelector('.lane');
+    if (!lane) {
+      lane = document.createElement('div');
+      lane.className = 'lane';
+      layer.appendChild(lane);
+    }
 
     const scale = document.createElement('div');
     scale.className = 'year-scale';
-    layer.appendChild(scale);
+    lane.appendChild(scale);
 
     const rangeDef = scaleRanges[idx];
     const scaleStart = rangeDef.start;
@@ -489,7 +500,7 @@
     }
   });
 
-  // Colocar eventos y movimientos
+  // Colocar eventos y movimientos (en el mismo carril .lane)
   const eventsByEra = [];
   events.forEach(ev => {
     if (!eventsByEra[ev.eraIndex]) eventsByEra[ev.eraIndex] = [];
@@ -500,6 +511,11 @@
     if (!eraEvents) return;
     const eraEl = eras[eraIndex];
     if (!eraEl) return;
+
+    const layer = eraEl.querySelector('.layer[data-layer="linea"]');
+    if (!layer) return;
+    const lane = layer.querySelector('.lane');
+    if (!lane) return;
 
     const rangeDef = scaleRanges[eraIndex];
     const start = rangeDef.start;
@@ -516,9 +532,6 @@
     let localMovIdx = 0;
 
     eraEvents.forEach(ev => {
-      const layer = eraEl.querySelector('.layer[data-layer="linea"]');
-      if (!layer) return;
-
       let leftPercent;
       let widthPercent = null;
 
@@ -529,7 +542,6 @@
         const duration = Math.max(effectiveEnd - effectiveStart, 5);
         widthPercent = (duration / range) * 100;
       } else {
-        // alineado EXACTO a la regla
         leftPercent = ((ev.year - start) / range) * 100;
       }
 
@@ -568,7 +580,7 @@
           '</div>';
       });
 
-      layer.appendChild(el);
+      lane.appendChild(el);
     });
   });
 </script>
