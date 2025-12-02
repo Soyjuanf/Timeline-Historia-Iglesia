@@ -28,7 +28,7 @@
       font-family: 'Montserrat', sans-serif;
       background: var(--bg);
       color: var(--text);
-      overflow: hidden;
+      overflow: hidden; /* en móvil lo liberamos */
     }
 
     header {
@@ -65,14 +65,16 @@
 
     .timeline-wrapper {
       overflow-x: auto;
+      overflow-y: visible;
       display: flex;
       scroll-snap-type: x mandatory;
       background: #efe9e4;
+      -webkit-overflow-scrolling: touch;
     }
 
     .era {
       position: relative;
-      min-width: 220vw; /* Eje X más largo para dar aire horizontal */
+      min-width: 220vw; /* aire horizontal en desktop */
       scroll-snap-align: start;
       padding: 32px;
       border-right: 1px solid rgba(0,0,0,0.1);
@@ -98,7 +100,7 @@
       display: grid;
       grid-template-rows: 1fr 1fr; /* Movimientos arriba, eventos abajo */
       position: relative;
-      height: 380px; /* más alto para aire vertical */
+      height: 380px; /* alto para eje Y */
       margin-top: 48px;
     }
 
@@ -131,7 +133,7 @@
 
     .event {
       position: absolute;
-      transform: translate(-50%, -50%);
+      transform: translateX(-50%); /* centrado solo en X */
       background: var(--white);
       border: 2px solid var(--terracotta);
       border-radius: 999px;
@@ -143,20 +145,18 @@
     }
 
     .event:hover {
-      transform: translate(-50%, -50%) scale(1.08);
+      transform: translateX(-50%) scale(1.08);
       box-shadow: 0 10px 24px rgba(0,0,0,0.25);
       border-color: var(--olive-dark);
     }
 
-    /* Movimientos de larga duración (bandas) */
     .event--movement {
-      transform: translateY(-50%);      /* anclar por la izquierda, sin centrar en X */
       border-radius: 24px;
       background: rgba(181, 101, 77, 0.14);
       border-style: dashed;
     }
 
-    /* Regla de años por era */
+    /* Regla de años */
     .era-scale {
       position: relative;
       height: 40px;
@@ -225,21 +225,70 @@
       margin-bottom: 6px;
     }
 
+    /* ======== MOBILE ======== */
     @media (max-width: 900px) {
+      body {
+        overflow: auto;
+      }
+
+      header {
+        height: 72px;
+        padding: 0 16px;
+      }
+
+      header h1 {
+        font-size: 16px;
+        letter-spacing: 0.08em;
+      }
+
       main {
+        position: relative;
+        inset: 72px 0 0 0;
+        display: grid;
         grid-template-columns: 1fr;
       }
 
       aside {
-        height: 35vh;
+        height: 40vh;
+        padding: 16px;
       }
 
       .timeline-wrapper {
-        height: calc(100vh - 80px - 35vh);
+        height: calc(100vh - 72px - 40vh);
       }
 
       .era {
-        min-width: 260vw; /* aún más ancho en mobile para evitar montajes */
+        min-width: 260vw;   /* más ancho por era en móvil */
+        padding: 24px 16px;
+      }
+
+      .layers {
+        height: 320px;
+        margin-top: 32px;
+      }
+
+      .layer {
+        padding-left: 80px;
+        padding-right: 80px;
+      }
+
+      .layer span {
+        left: 80px;
+        font-size: 9px;
+      }
+
+      .era-scale {
+        margin-left: 80px;
+        margin-right: 80px;
+      }
+
+      .event {
+        font-size: 10px;
+        padding: 6px 12px;
+      }
+
+      .detail-card p {
+        font-size: 12px;
       }
     }
   </style>
@@ -298,7 +347,7 @@
     </section>
 
     <!-- TIATIRA -->
-    <section class="era" data-start="500" data-end="1000">
+    <section class="era" data-start="400" data-end="1000">
       <h2>TIATIRA</h2>
       <div class="era-subtitle">Apocalipsis 2:18–29 · Iglesia medieval</div>
       <div class="layers">
@@ -312,7 +361,7 @@
     </section>
 
     <!-- SARDIS -->
-    <section class="era" data-start="1000" data-end="1500">
+    <section class="era" data-start="1100" data-end="1400">
       <h2>SARDIS</h2>
       <div class="era-subtitle">Apocalipsis 3:1–6 · Iglesia formal</div>
       <div class="layers">
@@ -326,7 +375,7 @@
     </section>
 
     <!-- FILADELFIA -->
-    <section class="era" data-start="1500" data-end="1900">
+    <section class="era" data-start="1500" data-end="1800">
       <h2>FILADELFIA</h2>
       <div class="era-subtitle">Apocalipsis 3:7–13 · Iglesia misionera</div>
       <div class="layers">
@@ -390,6 +439,14 @@
     {
       eraIndex: 0,
       type: "point",
+      year: 43,
+      title: "Roma invade Britania",
+      description: "El Imperio romano inicia la conquista de la isla de Britania.",
+      tags: ["Imperio romano"]
+    },
+    {
+      eraIndex: 0,
+      type: "point",
       year: 45,
       title: "Cristianos en Antioquía",
       description: "En Antioquía los discípulos reciben por primera vez el nombre de cristianos.",
@@ -402,14 +459,6 @@
       title: "Viajes misioneros de Pablo",
       description: "Pablo difunde el evangelio por Asia Menor y Europa, fundando iglesias.",
       tags: ["Misión"]
-    },
-    {
-      eraIndex: 0,
-      type: "point",
-      year: 43,
-      title: "Roma invade Britania",
-      description: "El Imperio romano inicia la conquista de la isla de Britania.",
-      tags: ["Imperio romano"]
     },
     {
       eraIndex: 0,
@@ -509,7 +558,7 @@
     },
 
     // =====================
-    // ESMIRNA (200–300)
+    // ESMIRNA (200–300, con eventos que se extienden)
     // =====================
 
     // Movimientos
@@ -550,7 +599,7 @@
       tags: ["Movimiento", "Cristología"]
     },
 
-    // Eventos
+    // Eventos Esmirna
     {
       eraIndex: 1,
       type: "point",
@@ -641,16 +690,10 @@
     },
 
     // =====================
-    // PÉRGAMO (300–400)
-    // (Puedes añadir eventos específicos de esta etapa si luego quieres
-    // separar mejor la parte imperial/constantiniana)
+    // TIATIRA (400–1000)
     // =====================
 
-    // =====================
-    // TIATIRA (500–1000)
-    // =====================
-
-    // Movimientos largos
+    // Movimientos (Cátaros, Paulistas, Valdenses, Bogomilos, Lombardos) – representados de forma aproximada
     {
       eraIndex: 3,
       type: "movement",
@@ -766,7 +809,7 @@
       eraIndex: 3,
       type: "point",
       year: 643,
-      title: "Inicios de la Cúpula de la Roca",
+      title: "Construcción de la Cúpula de la Roca (inicios)",
       description: "Se proyecta el santuario que será erigido sobre el Monte del Templo en Jerusalén.",
       tags: ["Islam", "Jerusalén"]
     },
@@ -877,10 +920,10 @@
     },
 
     // =====================
-    // SARDIS (1000–1500)
+    // SARDIS (1100–1400)
     // =====================
 
-    // Movimientos
+    // Movimientos: Albigenses, Jan Hus, Husitas
     {
       eraIndex: 4,
       type: "movement",
@@ -913,18 +956,18 @@
     {
       eraIndex: 4,
       type: "point",
-      year: 1054,
-      title: "Gran Cisma de Oriente y Occidente",
-      description: "Separación formal entre la Iglesia de Oriente (Ortodoxa) y Occidente (Católica).",
-      tags: ["Cisma"]
+      year: 1150,
+      title: "Universidades de Oxford y París",
+      description: "Se consolidan los estudios teológicos y filosóficos en estas universidades.",
+      tags: ["Universidades"]
     },
     {
       eraIndex: 4,
       type: "point",
-      year: 1066,
-      title: "Guillermo el Conquistador, rey de Inglaterra",
-      description: "Guillermo de Normandía conquista Inglaterra en la batalla de Hastings.",
-      tags: ["Europa", "Normandos"]
+      year: 1170,
+      title: "Asesinato de Tomás Becket",
+      description: "El arzobispo de Canterbury es asesinado en la catedral.",
+      tags: ["Inglaterra", "Iglesia y Estado"]
     },
     {
       eraIndex: 4,
@@ -947,7 +990,7 @@
       type: "point",
       year: 1189,
       title: "Tercera Cruzada",
-      description: "Cruzada de reyes (Ricardo Corazón de León, etc.) frente a Saladino.",
+      description: "Cruzada de reyes frente a Saladino.",
       tags: ["Cruzadas"]
     },
     {
@@ -957,22 +1000,6 @@
       title: "Cuarta Cruzada",
       description: "La cruzada termina saqueando Constantinopla en 1204.",
       tags: ["Cruzadas"]
-    },
-    {
-      eraIndex: 4,
-      type: "point",
-      year: 1150,
-      title: "Universidades de Oxford y París",
-      description: "Se consolidan los estudios teológicos y filosóficos en estas universidades.",
-      tags: ["Universidades"]
-    },
-    {
-      eraIndex: 4,
-      type: "point",
-      year: 1170,
-      title: "Asesinato de Tomás Becket",
-      description: "El arzobispo de Canterbury es asesinado en la catedral.",
-      tags: ["Inglaterra", "Iglesia y Estado"]
     },
     {
       eraIndex: 4,
@@ -1072,7 +1099,7 @@
     },
 
     // =====================
-    // FILADELFIA (1500–1900)
+    // FILADELFIA (1500–1800)
     // =====================
 
     // Movimientos
@@ -1278,8 +1305,8 @@
       eraIndex: 6,
       type: "point",
       year: 1982,
-      title: "Pablo Clark a Colombia",
-      description: "Pablo Clark llega a Colombia para establecer 'La Biblia Dice...'.",
+      title: "Pablo Clark en Colombia",
+      description: "Pablo Clark llega a Colombia para establecer iglesias del movimiento 'La Biblia Dice...'.",
       tags: ["Misiones", "Colombia"]
     }
   ];
@@ -1287,71 +1314,94 @@
   const eras = document.querySelectorAll(".era");
   const detailPanel = document.getElementById("detailPanel");
 
-  // offsets verticales para separar burbujas dentro de cada capa
-  const offsetsY = [-50, -20, 0, 20, 50];
+  // 1. Agrupar eventos por era + tipo (movements / events)
+  const groups = {};
+  events.forEach(ev => {
+    const eraIndex = ev.eraIndex;
+    const layerKey = ev.type === "movement" ? "movements" : "events";
+    const key = `${eraIndex}-${layerKey}`;
+    if (!groups[key]) groups[key] = [];
+    groups[key].push(ev);
+  });
 
-  // Colocar eventos y movimientos
-  events.forEach((event, index) => {
-    const era = eras[event.eraIndex];
+  // 2. Para cada grupo, ordenamos por año y repartimos verticalmente
+  Object.keys(groups).forEach(key => {
+    const [eraIndexStr, layerKey] = key.split("-");
+    const eraIndex = parseInt(eraIndexStr, 10);
+    const era = eras[eraIndex];
     if (!era) return;
 
-    // capa según tipo
-    const targetLayerKey = event.type === "movement" ? "movements" : "events";
-    const layer = era.querySelector(`.layer[data-layer="${targetLayerKey}"]`);
+    const layer = era.querySelector(`.layer[data-layer="${layerKey}"]`);
     if (!layer) return;
 
     const start = parseInt(era.dataset.start, 10);
     const end = parseInt(era.dataset.end, 10);
     const range = end - start;
 
-    // Asegurar que la posición en X se calcule con la misma lógica que la regla
-    let leftPercent;
-    let widthPercent = null;
-    const verticalOffset = offsetsY[index % offsetsY.length];
+    const list = groups[key];
 
-    if (event.type === "movement") {
-      const effectiveStart = Math.max(event.startYear, start);
-      const effectiveEnd = Math.min(event.endYear, end);
-      const duration = Math.max(effectiveEnd - effectiveStart, 5);
-      leftPercent = ((effectiveStart - start) / range) * 100;
-      widthPercent = (duration / range) * 100;
-    } else {
-      const yearClamped = Math.min(Math.max(event.year, start), end);
-      leftPercent = ((yearClamped - start) / range) * 100;
-    }
-
-    const el = document.createElement("div");
-    el.className = "event" + (event.type === "movement" ? " event--movement" : "");
-    el.style.left = leftPercent + "%";
-    el.style.top = "calc(50% + " + verticalOffset + "px)";
-
-    if (event.type === "movement" && widthPercent !== null) {
-      el.style.width = Math.max(widthPercent, 8) + "%";
-    }
-
-    const labelYear = event.type === "movement"
-      ? `${event.startYear}–${event.endYear}`
-      : event.year;
-
-    el.textContent = `${labelYear} · ${event.title}`;
-
-    el.addEventListener("click", () => {
-      const tagsHtml = (event.tags || [])
-        .map(t => `<span class="tag">${t}</span>`)
-        .join("");
-      detailPanel.innerHTML = `
-        <div class="detail-card">
-          <h4>${event.title}</h4>
-          <p>${event.description}</p>
-          <div>${tagsHtml}</div>
-        </div>
-      `;
+    // orden cronológico
+    list.sort((a, b) => {
+      const ay = a.type === "movement" ? a.startYear : a.year;
+      const by = b.type === "movement" ? b.startYear : b.year;
+      return ay - by;
     });
 
-    layer.appendChild(el);
+    const total = list.length;
+
+    list.forEach((event, idx) => {
+      // posición vertical: repartimos entre 10% y 90% del alto de la capa
+      const rowFraction = (idx + 1) / (total + 1);
+      const topPercent = 10 + rowFraction * 80;
+
+      // posición horizontal según año
+      let leftPercent;
+      let widthPercent = null;
+
+      if (event.type === "movement") {
+        const effectiveStart = Math.max(event.startYear, start);
+        const effectiveEnd = Math.min(event.endYear, end);
+        const duration = Math.max(effectiveEnd - effectiveStart, 5);
+        leftPercent = ((effectiveStart - start) / range) * 100;
+        widthPercent = (duration / range) * 100;
+      } else {
+        const yearClamped = Math.min(Math.max(event.year, start), end);
+        leftPercent = ((yearClamped - start) / range) * 100;
+      }
+
+      const el = document.createElement("div");
+      el.className = "event" + (event.type === "movement" ? " event--movement" : "");
+      el.style.left = leftPercent + "%";
+      el.style.top = topPercent + "%";
+
+      if (event.type === "movement" && widthPercent !== null) {
+        el.style.width = Math.max(widthPercent, 8) + "%";
+      }
+
+      const labelYear = event.type === "movement"
+        ? `${event.startYear}–${event.endYear}`
+        : event.year;
+
+      el.textContent = `${labelYear} · ${event.title}`;
+
+      el.addEventListener("click", () => {
+        const tagsHtml = (event.tags || [])
+          .map(t => `<span class="tag">${t}</span>`)
+          .join("");
+        detailPanel.innerHTML = `
+          <div class="detail-card">
+            <h4>${event.title}</h4>
+            <p>${event.description}</p>
+            <div>${tagsHtml}</div>
+          </div>
+        `;
+      });
+
+      layer.appendChild(el);
+    });
   });
 
-  // Construir la regla de años de cada era (en pasos de 50)
+  // 3. Regla de años para cada era
   eras.forEach(era => {
     const start = parseInt(era.dataset.start, 10);
     const end = parseInt(era.dataset.end, 10);
