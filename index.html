@@ -72,7 +72,7 @@
 
     .era {
       position: relative;
-      min-width: 160vw; /* mucho aire horizontal por era */
+      min-width: 220vw; /* Eje X más largo para dar aire horizontal */
       scroll-snap-align: start;
       padding: 32px;
       border-right: 1px solid rgba(0,0,0,0.1);
@@ -96,9 +96,9 @@
 
     .layers {
       display: grid;
-      grid-template-rows: 1fr;
+      grid-template-rows: 1fr 1fr; /* Movimientos arriba, eventos abajo */
       position: relative;
-      height: 320px; /* alto para aire vertical */
+      height: 380px; /* más alto para aire vertical */
       margin-top: 48px;
     }
 
@@ -118,6 +118,14 @@
       font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 0.14em;
+      color: var(--olive-dark);
+    }
+
+    .layer--movements span {
+      color: var(--terracotta);
+    }
+
+    .layer--events span {
       color: var(--olive-dark);
     }
 
@@ -142,7 +150,7 @@
 
     /* Movimientos de larga duración (bandas) */
     .event--movement {
-      transform: translateY(-50%);      /* anclar por la izquierda */
+      transform: translateY(-50%);      /* anclar por la izquierda, sin centrar en X */
       border-radius: 24px;
       background: rgba(181, 101, 77, 0.14);
       border-style: dashed;
@@ -231,7 +239,7 @@
       }
 
       .era {
-        min-width: 220vw;
+        min-width: 260vw; /* aún más ancho en mobile para evitar montajes */
       }
     }
   </style>
@@ -252,8 +260,11 @@
       <h2>ÉFESO</h2>
       <div class="era-subtitle">Apocalipsis 2:1–7 · Iglesia primitiva</div>
       <div class="layers">
-        <div class="layer" data-layer="linea">
-          <span>Línea de tiempo</span>
+        <div class="layer layer--movements" data-layer="movements">
+          <span>Movimientos</span>
+        </div>
+        <div class="layer layer--events" data-layer="events">
+          <span>Eventos históricos</span>
         </div>
       </div>
     </section>
@@ -263,8 +274,11 @@
       <h2>ESMIRNA</h2>
       <div class="era-subtitle">Apocalipsis 2:8–11 · Iglesia perseguida e imperial</div>
       <div class="layers">
-        <div class="layer" data-layer="linea">
-          <span>Línea de tiempo</span>
+        <div class="layer layer--movements" data-layer="movements">
+          <span>Movimientos</span>
+        </div>
+        <div class="layer layer--events" data-layer="events">
+          <span>Eventos históricos</span>
         </div>
       </div>
     </section>
@@ -274,8 +288,11 @@
       <h2>PÉRGAMO</h2>
       <div class="era-subtitle">Apocalipsis 2:12–17 · Iglesia imperial y mundanizada</div>
       <div class="layers">
-        <div class="layer" data-layer="linea">
-          <span>Línea de tiempo</span>
+        <div class="layer layer--movements" data-layer="movements">
+          <span>Movimientos</span>
+        </div>
+        <div class="layer layer--events" data-layer="events">
+          <span>Eventos históricos</span>
         </div>
       </div>
     </section>
@@ -285,8 +302,11 @@
       <h2>TIATIRA</h2>
       <div class="era-subtitle">Apocalipsis 2:18–29 · Iglesia medieval</div>
       <div class="layers">
-        <div class="layer" data-layer="linea">
-          <span>Línea de tiempo</span>
+        <div class="layer layer--movements" data-layer="movements">
+          <span>Movimientos</span>
+        </div>
+        <div class="layer layer--events" data-layer="events">
+          <span>Eventos históricos</span>
         </div>
       </div>
     </section>
@@ -296,8 +316,11 @@
       <h2>SARDIS</h2>
       <div class="era-subtitle">Apocalipsis 3:1–6 · Iglesia formal</div>
       <div class="layers">
-        <div class="layer" data-layer="linea">
-          <span>Línea de tiempo</span>
+        <div class="layer layer--movements" data-layer="movements">
+          <span>Movimientos</span>
+        </div>
+        <div class="layer layer--events" data-layer="events">
+          <span>Eventos históricos</span>
         </div>
       </div>
     </section>
@@ -307,8 +330,11 @@
       <h2>FILADELFIA</h2>
       <div class="era-subtitle">Apocalipsis 3:7–13 · Iglesia misionera</div>
       <div class="layers">
-        <div class="layer" data-layer="linea">
-          <span>Línea de tiempo</span>
+        <div class="layer layer--movements" data-layer="movements">
+          <span>Movimientos</span>
+        </div>
+        <div class="layer layer--events" data-layer="events">
+          <span>Eventos históricos</span>
         </div>
       </div>
     </section>
@@ -318,8 +344,11 @@
       <h2>LAODICEA</h2>
       <div class="era-subtitle">Apocalipsis 3:14–22 · Iglesia de los últimos días</div>
       <div class="layers">
-        <div class="layer" data-layer="linea">
-          <span>Línea de tiempo</span>
+        <div class="layer layer--movements" data-layer="movements">
+          <span>Movimientos</span>
+        </div>
+        <div class="layer layer--events" data-layer="events">
+          <span>Eventos históricos</span>
         </div>
       </div>
     </section>
@@ -335,7 +364,9 @@
 </main>
 
 <script>
-  // Eventos y movimientos
+  // =========================
+  // DATA: eventos y movimientos
+  // =========================
   const events = [
     // =====================
     // ÉFESO (0–200)
@@ -611,8 +642,8 @@
 
     // =====================
     // PÉRGAMO (300–400)
-    // (de momento sin eventos adicionales explícitos,
-    // se puede poblar luego con lo que quieras separar)
+    // (Puedes añadir eventos específicos de esta etapa si luego quieres
+    // separar mejor la parte imperial/constantiniana)
     // =====================
 
     // =====================
@@ -620,33 +651,6 @@
     // =====================
 
     // Movimientos largos
-    {
-      eraIndex: 3,
-      type: "movement",
-      startYear: 1050,
-      endYear: 1300,
-      title: "Cátaros / Albigenses (raíces)",
-      description: "Corrientes dualistas y disidentes que anticipan movimientos como los albigenses.",
-      tags: ["Movimiento", "Europa"]
-    },
-    {
-      eraIndex: 3,
-      type: "movement",
-      startYear: 1100,
-      endYear: 1400,
-      title: "Valdenses (orígenes)",
-      description: "Grupos que buscan volver a la sencillez apostólica, precursores de los valdenses posteriores.",
-      tags: ["Movimiento", "Remanente"]
-    },
-    {
-      eraIndex: 3,
-      type: "movement",
-      startYear: 900,
-      endYear: 1100,
-      title: "Lombardos cristianos",
-      description: "Pueblos lombardos ya cristianizados que influyen en la configuración religiosa de Italia.",
-      tags: ["Movimiento", "Europa"]
-    },
     {
       eraIndex: 3,
       type: "movement",
@@ -664,6 +668,33 @@
       title: "Paulicianos tardíos",
       description: "Grupos disidentes de tradición pauliciana que se extienden por Asia Menor y los Balcanes.",
       tags: ["Movimiento"]
+    },
+    {
+      eraIndex: 3,
+      type: "movement",
+      startYear: 1050,
+      endYear: 1300,
+      title: "Cátaros (raíces)",
+      description: "Corrientes dualistas y disidentes que anticipan movimientos como los albigenses.",
+      tags: ["Movimiento", "Europa"]
+    },
+    {
+      eraIndex: 3,
+      type: "movement",
+      startYear: 900,
+      endYear: 1100,
+      title: "Lombardos cristianos",
+      description: "Pueblos lombardos ya cristianizados que influyen en la configuración religiosa de Italia.",
+      tags: ["Movimiento", "Europa"]
+    },
+    {
+      eraIndex: 3,
+      type: "movement",
+      startYear: 1100,
+      endYear: 1400,
+      title: "Valdenses (orígenes)",
+      description: "Grupos que buscan volver a la sencillez apostólica, precursores de los valdenses posteriores.",
+      tags: ["Movimiento", "Remanente"]
     },
 
     // Eventos Tiatira
@@ -703,8 +734,8 @@
       eraIndex: 3,
       type: "point",
       year: 600,
-      title: "Bautismo infantil como práctica general",
-      description: "El bautismo de infantes se consolida y es respaldado legalmente en distintos concilios.",
+      title: "Bautismo infantil generalizado",
+      description: "El bautismo de infantes se consolida como práctica normal en la Iglesia occidental.",
       tags: ["Liturgia"]
     },
     {
@@ -718,18 +749,18 @@
     {
       eraIndex: 3,
       type: "point",
-      year: 640,
-      title: "Conquista musulmana del Medio Oriente",
-      description: "Los ejércitos musulmanes conquistan Siria, Palestina y Egipto.",
-      tags: ["Islam", "Conquista"]
-    },
-    {
-      eraIndex: 3,
-      type: "point",
       year: 622,
       title: "Impresión de libros en China",
       description: "La impresión mediante bloques de madera se desarrolla y difunde en China.",
       tags: ["Tecnología", "China"]
+    },
+    {
+      eraIndex: 3,
+      type: "point",
+      year: 640,
+      title: "Conquista musulmana del Medio Oriente",
+      description: "Los ejércitos musulmanes conquistan Siria, Palestina y Egipto.",
+      tags: ["Islam", "Conquista"]
     },
     {
       eraIndex: 3,
@@ -1081,6 +1112,15 @@
       description: "Centro de la Reforma protestante: doctrina de la justificación por la fe y retorno a la Escritura.",
       tags: ["Reforma"]
     },
+    {
+      eraIndex: 5,
+      type: "movement",
+      startYear: 1700,
+      endYear: 1900,
+      title: "Gran movimiento misionero",
+      description: "Misioneros como Edwards, los Wesley, Brainerd, Whitefield, Carey, Judson, Newton, Müller, Hudson Taylor, Moody, Spurgeon, Paton y Livingstone llevan el evangelio a todo el mundo.",
+      tags: ["Misiones"]
+    },
 
     // Eventos Filadelfia
     {
@@ -1149,15 +1189,6 @@
     },
     {
       eraIndex: 5,
-      type: "movement",
-      startYear: 1700,
-      endYear: 1900,
-      title: "Gran movimiento misionero",
-      description: "Misioneros como Edwards, los Wesley, Brainerd, Whitefield, Carey, Judson, Newton, Müller, Hudson Taylor, Moody, Spurgeon, Paton y Livingstone llevan el evangelio a todo el mundo.",
-      tags: ["Misiones"]
-    },
-    {
-      eraIndex: 5,
       type: "point",
       year: 1665,
       title: "Newton y la gravedad",
@@ -1185,6 +1216,15 @@
       title: "Evangelismo y misiones modernas",
       description: "Siglo XX y XXI marcados por cruzadas evangelísticas y expansión misionera global.",
       tags: ["Misiones", "Siglo XX"]
+    },
+    {
+      eraIndex: 6,
+      type: "movement",
+      startYear: 1900,
+      endYear: 2000,
+      title: "Predicadores influyentes",
+      description: "Dios usa a predicadores y testigos como Martyn Lloyd-Jones, Billy Sunday, Billy Graham y Corrie ten Boom para impactar el siglo XX.",
+      tags: ["Predicación", "Testimonio"]
     },
     {
       eraIndex: 6,
@@ -1239,38 +1279,32 @@
       type: "point",
       year: 1982,
       title: "Pablo Clark a Colombia",
-      description: "Pablo Clark llega a Colombia para establecer iglesias del movimiento 'Colombia para Cristo' y 'La Biblia Dice...'.",
+      description: "Pablo Clark llega a Colombia para establecer iglesias del movimiento 'La Biblia Dice...'.",
       tags: ["Misiones", "Colombia"]
-    },
-    {
-      eraIndex: 6,
-      type: "movement",
-      startYear: 1900,
-      endYear: 2000,
-      title: "Lloyd-Jones, Billy Sunday, Billy Graham, Corrie ten Boom",
-      description: "Dios usa a predicadores y testigos como Martyn Lloyd-Jones, Billy Sunday, Billy Graham y Corrie ten Boom para impactar el siglo XX.",
-      tags: ["Predicación", "Testimonio"]
     }
   ];
 
   const eras = document.querySelectorAll(".era");
   const detailPanel = document.getElementById("detailPanel");
 
-  // offsets verticales para que no se monten tanto
-  const offsetsY = [-80, -40, 0, 40, 80];
+  // offsets verticales para separar burbujas dentro de cada capa
+  const offsetsY = [-50, -20, 0, 20, 50];
 
-  // Colocar eventos
+  // Colocar eventos y movimientos
   events.forEach((event, index) => {
     const era = eras[event.eraIndex];
     if (!era) return;
 
-    const layer = era.querySelector('.layer[data-layer="linea"]');
+    // capa según tipo
+    const targetLayerKey = event.type === "movement" ? "movements" : "events";
+    const layer = era.querySelector(`.layer[data-layer="${targetLayerKey}"]`);
     if (!layer) return;
 
     const start = parseInt(era.dataset.start, 10);
     const end = parseInt(era.dataset.end, 10);
     const range = end - start;
 
+    // Asegurar que la posición en X se calcule con la misma lógica que la regla
     let leftPercent;
     let widthPercent = null;
     const verticalOffset = offsetsY[index % offsetsY.length];
@@ -1282,7 +1316,8 @@
       leftPercent = ((effectiveStart - start) / range) * 100;
       widthPercent = (duration / range) * 100;
     } else {
-      leftPercent = ((event.year - start) / range) * 100;
+      const yearClamped = Math.min(Math.max(event.year, start), end);
+      leftPercent = ((yearClamped - start) / range) * 100;
     }
 
     const el = document.createElement("div");
@@ -1295,21 +1330,22 @@
     }
 
     const labelYear = event.type === "movement"
-      ? (event.startYear + "–" + event.endYear)
+      ? `${event.startYear}–${event.endYear}`
       : event.year;
 
-    el.textContent = labelYear + " · " + event.title;
+    el.textContent = `${labelYear} · ${event.title}`;
 
     el.addEventListener("click", () => {
       const tagsHtml = (event.tags || [])
-        .map(t => '<span class="tag">' + t + '</span>')
+        .map(t => `<span class="tag">${t}</span>`)
         .join("");
-      detailPanel.innerHTML =
-        '<div class="detail-card">' +
-          '<h4>' + event.title + '</h4>' +
-          '<p>' + event.description + '</p>' +
-          '<div>' + tagsHtml + '</div>' +
-        '</div>';
+      detailPanel.innerHTML = `
+        <div class="detail-card">
+          <h4>${event.title}</h4>
+          <p>${event.description}</p>
+          <div>${tagsHtml}</div>
+        </div>
+      `;
     });
 
     layer.appendChild(el);
@@ -1335,9 +1371,10 @@
       tick.className = "scale-tick";
       tick.style.left = percent + "%";
 
-      tick.innerHTML =
-        '<span class="scale-tick-line"></span>' +
-        '<span class="scale-tick-label">' + y + '</span>';
+      tick.innerHTML = `
+        <span class="scale-tick-line"></span>
+        <span class="scale-tick-label">${y}</span>
+      `;
 
       scale.appendChild(tick);
     }
