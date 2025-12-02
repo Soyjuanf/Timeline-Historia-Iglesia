@@ -73,7 +73,7 @@
       overflow-y: hidden;
       background: var(--bg-soft);
       scroll-behavior: smooth;
-      padding-bottom: 24px;
+      padding-bottom: 40px; /* CAMBIO: más espacio para que la regla no se corte */
     }
 
     .timeline-inner {
@@ -145,7 +145,7 @@
       margin-top: 16px;
       padding-top: 8px;
       padding-bottom: 16px;
-      min-height: 80px; /* se ajustará desde JS si hace falta más */
+      min-height: 80px;
     }
 
     .event {
@@ -174,7 +174,6 @@
       border-style: dashed;
     }
 
-    /* Pastilla nunca se sale del viewport horizontal en móviles muy pequeños */
     @media (max-width: 480px) {
       .event {
         max-width: 260px;
@@ -267,7 +266,7 @@
       }
 
       .era {
-        min-width: 120vw; /* un poco más ancha en móvil para dar aire */
+        min-width: 120vw;
       }
     }
   </style>
@@ -450,7 +449,6 @@
 </main>
 
 <script>
-  // Configuración de rangos por era (años)
   const ERA_RANGES = {
     efeso:      { start: 0,    end: 200 },
     esmirna:    { start: 200,  end: 300 },
@@ -461,33 +459,25 @@
     laodicea:   { start: 1900, end: 2025 }
   };
 
-  // Datos: movimientos (rangos) y eventos (puntuales)
-  // Puedes ajustar o añadir más respetando el formato.
   const MOVEMENTS = [
-    // Esmirna
     { era: 'esmirna', start: 156, end: 300,  title: 'Montanistas', description: 'Movimiento profético y rigorista surgido en Frigia, enfatizaba visiones y vida ascética.', tags:['Movimiento'] },
     { era: 'esmirna', start: 251, end: 400,  title: 'Novacianos', description: 'Grupo que negaba la readmisión de quienes habían apostatado en las persecuciones.', tags:['Movimiento'] },
     { era: 'esmirna', start: 311, end: 500,  title: 'Donatistas', description: 'Movimiento norteafricano que exigía pureza moral absoluta en los ministros.', tags:['Movimiento','África'] },
     { era: 'esmirna', start: 428, end: 600,  title: 'Nestorianos', description: 'Corriente cristológica asociada a Nestorio; se expande hacia Persia y Asia.', tags:['Movimiento'] },
 
-    // Tiatira
     { era: 'tiatira', start: 900, end: 1100, title: 'Lombardos cristianos', description: 'Grupos de creyentes vinculados a la región lombarda con prácticas disidentes.', tags:['Remanente'] },
     { era: 'tiatira', start: 950, end: 1200, title: 'Paulicianos tardíos', description: 'Restos del movimiento pauliciano, de tradición oriental, con énfasis en la Biblia.', tags:['Movimiento'] },
 
-    // Sardis
     { era: 'sardis', start: 1100, end: 1360, title: 'Albigenses / Cátaros', description: 'Movimientos disidentes en el sur de Francia que denunciaban la corrupción eclesial.', tags:['Movimiento','Francia'] },
     { era: 'sardis', start: 1415, end: 1450, title: 'Husitas', description: 'Seguidores de Jan Hus, precursor de la Reforma, activos en Bohemia.', tags:['Movimiento'] },
 
-    // Filadelfia
     { era: 'filadelfia', start: 1517, end: 1564, title: 'Reforma: Lutero, Zwinglio, Calvino', description: 'Proceso de reforma doctrinal y eclesiástica en Alemania, Suiza y otros países.', tags:['Reforma'] },
     { era: 'filadelfia', start: 1525, end: 1700, title: 'Anabautistas y menonitas', description: 'Movimientos que enfatizan el bautismo de creyentes y una vida de discipulado radical.', tags:['Movimiento'] },
 
-    // Laodicea (ejemplo: movimiento misionero moderno, puedes detallar más)
     { era: 'laodicea', start: 1900, end: 2025, title: 'Movimiento misionero moderno', description: 'Expansión de misiones mundiales, juntas misioneras y obra transcultural.', tags:['Misión'] }
   ];
 
   const EVENTS = [
-    // ÉFESO 0–200
     { era:'efeso', year:29,  title:'Ministerio público de Jesús', description:'Jesús anuncia el Reino de Dios y forma a sus discípulos.', tags:['Evangelios'] },
     { era:'efeso', year:30,  title:'Crucifixión y resurrección de Jesús', description:'Muerte y resurrección de Cristo, fundamento de la fe cristiana.', tags:['Redención'] },
     { era:'efeso', year:43,  title:'Roma invade Bretaña', description:'Comienza la conquista romana de Bretaña.', tags:['Imperio romano'] },
@@ -507,7 +497,6 @@
     { era:'efeso', year:200, title:'Apología de Tertuliano', description:'Tertuliano redacta defensas formales del cristianismo.', tags:['Apologética'] },
     { era:'efeso', year:250, title:'Persecución de Decio', description:'Persecución imperial que exige sacrificios a los dioses.', tags:['Persecución'] },
 
-    // ESMIRNA 200–300 (y algo más allá en la práctica histórica)
     { era:'esmirna', year:303, title:'Gran persecución de Diocleciano', description:'Intento sistemático de destruir la Iglesia en todo el Imperio.', tags:['Persecución'] },
     { era:'esmirna', year:311, title:'Historia Eclesiástica de Eusebio', description:'Primera gran historia formal de la Iglesia.', tags:['Historia de la Iglesia'] },
     { era:'esmirna', year:312, title:'Constantino gana la batalla del Puente Milvio', description:'Victoria de Constantino bajo el símbolo cristiano.', tags:['Constantino'] },
@@ -530,7 +519,6 @@
     { era:'esmirna', year:476, title:'Último emperador romano de Occidente', description:'Depuesto Rómulo Augústulo.', tags:['Caída de Roma'] },
     { era:'esmirna', year:478, title:'Primer templo sintoísta en Japón', description:'Consolidación del sintoísmo en Japón.', tags:['Religiones del mundo'] },
 
-    // TIATIRA 400–1000 (solo algunos representativos)
     { era:'tiatira', year:532, title:'Construcción de Santa Sofía', description:'Justinianismo: iglesia monumental en Constantinopla.', tags:['Bizancio'] },
     { era:'tiatira', year:568, title:'Lombardos invaden Italia', description:'Un nuevo pueblo germánico entra en la península.', tags:['Invasiones'] },
     { era:'tiatira', year:570, title:'Nacimiento de Mahoma', description:'Fundador del islam en La Meca.', tags:['Islam'] },
@@ -551,7 +539,6 @@
     { era:'tiatira', year:1054, title:'Gran Cisma de Oriente y Occidente', description:'Separación formal entre Iglesias de Constantinopla y Roma.', tags:['Cisma'] },
     { era:'tiatira', year:1066, title:'Guillermo el Conquistador, rey de Inglaterra', description:'Conquista normanda de Inglaterra.', tags:['Historia'] },
 
-    // SARDIS 1100–1400
     { era:'sardis', year:1096, title:'Primera Cruzada', description:'Expedición para recuperar Tierra Santa.', tags:['Cruzadas'] },
     { era:'sardis', year:1147, title:'Segunda Cruzada', description:'Nueva campaña hacia Oriente.', tags:['Cruzadas'] },
     { era:'sardis', year:1188, title:'Tercera Cruzada', description:'Cruzada de Ricardo Corazón de León y otros reyes.', tags:['Cruzadas'] },
@@ -570,7 +557,6 @@
     { era:'sardis', year:1479, title:'Inquisición española', description:'Consolidación de la Inquisición en España.', tags:['Inquisición'] },
     { era:'sardis', year:1494, title:'Savonarola y la inmoralidad papal', description:'Predicador dominico que denuncia el pecado en Florencia.', tags:['Reforma temprana'] },
 
-    // FILADELFIA 1500–1800
     { era:'filadelfia', year:1516, title:'Nuevo Testamento de Erasmo', description:'Edición crítica en griego que impulsa la Reforma y traducciones bíblicas.', tags:['Biblia'] },
     { era:'filadelfia', year:1530, title:'Iglesia luterana', description:'Consolidación de las iglesias luteranas en Alemania y Escandinavia.', tags:['Reforma'] },
     { era:'filadelfia', year:1541, title:'Iglesia congregacionalista', description:'Formación de iglesias autónomas con gobierno congregacional.', tags:['Reforma'] },
@@ -583,7 +569,6 @@
     { era:'filadelfia', year:1700, title:'Misioneros y avivamientos', description:'Obra de Edwards, Whitefield, Wesley, Brainerd, Carey, Judson, etc.', tags:['Avivamiento','Misión'] },
     { era:'filadelfia', year:1859, title:'Darwin publica “El origen de las especies”', description:'La teoría de la evolución provoca debates intensos con la fe cristiana.', tags:['Ciencia'] },
 
-    // LAODICEA 1900–2025
     { era:'laodicea', year:1914, title:'Primera Guerra Mundial', description:'Conflicto global que marca el siglo XX.', tags:['Guerras mundiales'] },
     { era:'laodicea', year:1939, title:'Segunda Guerra Mundial', description:'Guerra global con profundo impacto geopolítico y religioso.', tags:['Guerras mundiales'] },
     { era:'laodicea', year:1948, title:'Fundación del Estado de Israel', description:'Restablecimiento de un Estado judío en Palestina.', tags:['Israel'] },
@@ -611,7 +596,7 @@
       line.className = 'ruler-line';
       rulerContainer.appendChild(line);
 
-      const step = 50;
+      const step = 10; // CAMBIO: regla de 10 en 10
       const firstTick = Math.ceil(range.start / step) * step;
 
       for (let y = firstTick; y <= range.end; y += step) {
@@ -662,7 +647,6 @@
   }
 
   function renderEventsAndMovements() {
-    // Agrupamos por era y por tipo de track
     const eras = document.querySelectorAll('.era');
 
     eras.forEach(eraEl => {
@@ -672,15 +656,13 @@
         events: eraEl.querySelector('.track[data-track="events"] .track-content')
       };
 
-      // render movimientos
       MOVEMENTS.filter(m => m.era === eraId).forEach(mov => {
         const el = createEventElement(mov, 'movement');
         const percent = yearToPercent(mov.start, eraId);
-        el.style.left = percent + '%'; // borde izquierdo sobre el año
+        el.style.left = percent + '%';
         tracks.movements.appendChild(el);
       });
 
-      // render eventos puntuales
       EVENTS.filter(ev => ev.era === eraId).forEach(ev => {
         const el = createEventElement(ev, 'event');
         const percent = yearToPercent(ev.year, eraId);
@@ -690,10 +672,9 @@
     });
   }
 
-  // Algoritmo simple de distribución vertical por "lanes" sin solaparse
   function layoutTracks() {
-    const LANE_GAP = 44;   // separación vertical entre filas
-    const MIN_X_GAP = 6;   // separación mínima horizontal entre pastillas
+    const LANE_GAP = 44;
+    const MIN_X_GAP = 6;
 
     document.querySelectorAll('.era').forEach(eraEl => {
       ['movements', 'events'].forEach(trackType => {
@@ -703,14 +684,12 @@
         const items = Array.from(content.querySelectorAll('.event'));
         if (!items.length) return;
 
-        // Orden por año de inicio
         items.sort((a, b) =>
           Number(a.dataset.startYear) - Number(b.dataset.startYear)
         );
 
-        const lanes = []; // cada lane guarda último "endX" usado
+        const lanes = [];
 
-        // Primero necesitamos saber ancho real de cada pastilla
         items.forEach(el => {
           const rect = el.getBoundingClientRect();
           el._width = rect.width;
@@ -737,7 +716,6 @@
           el.style.top = top + 'px';
         });
 
-        // Ajustamos la altura del track-content para que quepan todas las filas
         const usedHeight = lanes.length * LANE_GAP;
         content.style.minHeight = (usedHeight + 32) + 'px';
       });
@@ -747,7 +725,6 @@
   function initTimeline() {
     renderRulers();
     renderEventsAndMovements();
-    // Esperamos un frame para que el browser calcule tamaños
     requestAnimationFrame(() => {
       layoutTracks();
     });
