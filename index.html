@@ -28,7 +28,7 @@
       font-family: 'Montserrat', sans-serif;
       background: var(--bg);
       color: var(--text);
-      overflow: hidden; /* en móvil lo liberamos */
+      overflow: hidden; /* en móvil lo cambiamos */
     }
 
     header {
@@ -100,7 +100,7 @@
       display: grid;
       grid-template-rows: 1fr 1fr; /* Movimientos arriba, eventos abajo */
       position: relative;
-      height: 380px; /* alto para eje Y */
+      height: 520px; /* más alto para que no se pisen */
       margin-top: 48px;
     }
 
@@ -133,7 +133,7 @@
 
     .event {
       position: absolute;
-      transform: translateX(-50%); /* centrado solo en X */
+      /* SIN translateX: el año marca el borde izquierdo */
       background: var(--white);
       border: 2px solid var(--terracotta);
       border-radius: 999px;
@@ -145,7 +145,7 @@
     }
 
     .event:hover {
-      transform: translateX(-50%) scale(1.08);
+      transform: scale(1.08);
       box-shadow: 0 10px 24px rgba(0,0,0,0.25);
       border-color: var(--olive-dark);
     }
@@ -169,10 +169,10 @@
     .scale-tick {
       position: absolute;
       top: 0;
-      transform: translateX(-50%);
       text-align: center;
       font-size: 10px;
       color: var(--olive-dark);
+      transform: translateX(-50%);
     }
 
     .scale-tick-line {
@@ -263,7 +263,7 @@
       }
 
       .layers {
-        height: 320px;
+        height: 460px;
         margin-top: 32px;
       }
 
@@ -693,7 +693,7 @@
     // TIATIRA (400–1000)
     // =====================
 
-    // Movimientos (Cátaros, Paulistas, Valdenses, Bogomilos, Lombardos) – representados de forma aproximada
+    // Movimientos (aprox.)
     {
       eraIndex: 3,
       type: "movement",
@@ -1354,7 +1354,7 @@
       const rowFraction = (idx + 1) / (total + 1);
       const topPercent = 10 + rowFraction * 80;
 
-      // posición horizontal según año
+      // posición horizontal según año → borde izquierdo coincide con la regla
       let leftPercent;
       let widthPercent = null;
 
