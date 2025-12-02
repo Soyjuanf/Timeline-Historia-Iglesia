@@ -2,96 +2,97 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Historia de la Iglesia</title>
+  <title>Historia de la Iglesia – Línea de tiempo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 
   <!-- Montserrat -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;800&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800&display=swap" rel="stylesheet">
 
   <style>
     :root {
       --olive: #6b705c;
       --olive-dark: #4a4f3c;
       --terracotta: #b5654d;
-      --terracotta-soft: rgba(181,101,77,0.12);
+      --terracotta-soft: rgba(181, 101, 77, 0.16);
       --bg: #f8f4f1;
       --text: #2b2b2b;
       --white: #ffffff;
+      --border-soft: rgba(0,0,0,0.12);
     }
 
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
 
     body {
       margin: 0;
       font-family: 'Montserrat', sans-serif;
       background: var(--bg);
       color: var(--text);
-      overflow: hidden;
+      overflow-x: hidden;
     }
 
     header {
       position: fixed;
-      inset: 0 0 auto 0;
-      height: 72px;
+      top: 0; left: 0; right: 0; height: 80px;
       background: var(--olive);
       color: var(--white);
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 0 20px;
+      padding: 0 24px;
       z-index: 20;
     }
 
     header h1 {
       margin: 0;
-      font-size: 18px;
+      font-size: 20px;
       font-weight: 800;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
     }
 
     header span {
-      font-size: 11px;
-      opacity: 0.8;
+      font-size: 12px;
+      opacity: 0.85;
     }
 
     main {
-      position: absolute;
-      inset: 72px 0 0 0;
+      position: relative;
+      padding-top: 80px;
       display: grid;
-      grid-template-columns: minmax(0, 3fr) minmax(260px, 1fr);
-      max-height: calc(100vh - 72px);
+      grid-template-columns: minmax(0, 3fr) minmax(280px, 1fr);
+      min-height: calc(100vh - 80px);
     }
+
+    /* TIMELINE LADO IZQUIERDO */
 
     .timeline-wrapper {
       overflow-x: auto;
       overflow-y: hidden;
-      display: flex;
-      scroll-snap-type: x mandatory;
       background: #efe9e4;
+      border-right: 1px solid var(--border-soft);
+    }
+
+    .timeline-inner {
+      display: flex;
+      min-height: 100%;
     }
 
     .era {
+      min-width: 1300px; /* mucho aire horizontal por era */
+      padding: 32px 40px 40px;
+      border-right: 1px solid var(--border-soft);
       scroll-snap-align: start;
-      min-width: 140vw;
-      padding: 28px 32px 40px;
-      border-right: 1px solid rgba(0,0,0,0.08);
-      position: relative;
     }
 
     .era-title {
-      font-size: 20px;
       font-weight: 800;
-      letter-spacing: 0.18em;
       text-transform: uppercase;
+      letter-spacing: 0.18em;
       color: var(--terracotta);
-      margin-bottom: 4px;
+      margin: 0 0 4px;
+      font-size: 16px;
     }
 
     .era-subtitle {
@@ -102,88 +103,107 @@
       opacity: 0.85;
     }
 
-    .layers {
+    .era-track {
+      position: relative;
       margin-top: 40px;
-      display: grid;
-      grid-template-rows: 210px 260px;
-      row-gap: 40px;
-      position: relative;
+      /* este contenedor define el “mundo” horizontal de eventos y regla */
+      width: 100%;
     }
 
-    .layer {
-      position: relative;
-      padding: 0 260px;
-    }
-
-    .layer::before {
-      content: "";
+    .band-label {
       position: absolute;
-      left: 260px;
-      right: 260px;
-      top: 50%;
-      border-top: 1px dashed rgba(0,0,0,0.22);
-    }
-
-    .layer-label {
-      position: absolute;
-      left: 50%;
-      top: -10px;
-      transform: translateX(-50%);
-      background: var(--bg);
-      padding: 2px 14px;
+      left: 0;
+      transform: translateY(-50%);
+      padding: 2px 10px;
       font-size: 10px;
       text-transform: uppercase;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.16em;
+      color: var(--olive-dark);
+      background: var(--bg);
+      z-index: 2;
+    }
+
+    .band {
+      position: relative;
+      width: 100%;
+      margin-bottom: 40px;
+      padding-top: 22px;
+    }
+
+    .band-line {
+      position: absolute;
+      top: 50%;
+      left: 0; right: 0;
+      border-top: 1px dashed var(--border-soft);
+      z-index: 0;
+    }
+
+    .band-content {
+      position: relative;
+      width: 100%;
+      height: 180px; /* eje Y amplio para varias filas */
+    }
+
+    /* Regla inferior */
+    .era-scale {
+      position: relative;
+      margin-top: 24px;
+      padding-top: 16px;
+    }
+
+    .era-scale-line {
+      position: relative;
+      height: 1px;
+      background: var(--border-soft);
+    }
+
+    .era-scale-track {
+      position: absolute;
+      left: 0; right: 0;
+      top: -4px;
+      height: 30px;
+      pointer-events: none;
+    }
+
+    .tick {
+      position: absolute;
+      top: 0;
+      width: 1px;
+      height: 8px;
+      background: var(--border-soft);
+    }
+
+    .tick-label {
+      position: absolute;
+      top: 10px;
+      font-size: 10px;
+      transform: translateX(-50%);
       color: var(--olive-dark);
     }
 
-    .ruler {
-      position: absolute;
-      left: 260px;
-      right: 260px;
-      bottom: 6px;
-      height: 22px;
-      border-top: 1px solid rgba(0,0,0,0.28);
-    }
-
-    .ruler-tick {
-      position: absolute;
-      bottom: 0;
-      width: 1px;
-      height: 7px;
-      background: rgba(0,0,0,0.35);
-      transform: translateX(-50%);
-      font-size: 9px;
-      text-align: center;
-    }
-
-    .ruler-tick span {
-      position: absolute;
-      top: 7px;
-      left: 50%;
-      transform: translateX(-50%);
-      white-space: nowrap;
-      color: rgba(0,0,0,0.6);
-    }
+    /* EVENTOS */
 
     .event {
       position: absolute;
-      left: 0;
       top: 0;
-      transform: translate(-50%, -50%);
+      /* muy importante: solo centramos en Y; en X el inicio marca el año */
+      transform: translateY(-50%);
       background: var(--white);
-      border-radius: 999px;
       border: 2px solid var(--terracotta);
-      padding: 7px 16px;
+      border-radius: 999px;
+      padding: 8px 16px;
       font-size: 11px;
       white-space: nowrap;
       cursor: pointer;
-      transition: box-shadow 0.23s ease, transform 0.23s ease, border-color 0.23s ease;
+      box-shadow: 0 0 0 rgba(0,0,0,0);
+      transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.25s ease;
+      max-width: none;
+      overflow: visible;
     }
 
     .event:hover {
-      box-shadow: 0 10px 26px rgba(0,0,0,0.22);
-      transform: translate(-50%, -50%) scale(1.06);
+      transform: translateY(-50%) scale(1.04);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.20);
       border-color: var(--olive-dark);
       z-index: 5;
     }
@@ -191,38 +211,53 @@
     .event--movement {
       background: var(--terracotta-soft);
       border-style: dashed;
-      border-width: 2px;
-      border-color: var(--terracotta);
       border-radius: 24px;
+      height: 32px;
+      line-height: 32px;
+      padding-top: 0;
+      padding-bottom: 0;
     }
 
-    .event--movement:hover {
-      background: rgba(181,101,77,0.18);
+    .event--movement .event-label {
+      position: relative;
+      top: -1px;
     }
+
+    .event-label {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    /* PANEL DERECHO */
 
     aside {
+      padding: 24px;
       background: var(--white);
-      padding: 22px 22px 12px;
-      border-left: 1px solid rgba(0,0,0,0.08);
-      overflow-y: auto;
-      max-height: calc(100vh - 72px);
     }
 
     aside h3 {
-      margin-top: 0;
-      font-size: 14px;
+      margin: 0 0 12px;
       font-weight: 800;
-      letter-spacing: 0.18em;
+      font-size: 14px;
+      letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--olive-dark);
-      margin-bottom: 12px;
+      color: var(--olive);
     }
 
     .detail-card h4 {
-      margin: 10px 0 6px;
+      margin: 12px 0 4px;
       font-size: 15px;
       font-weight: 800;
       color: var(--terracotta);
+    }
+
+    .detail-card .detail-year {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: var(--olive-dark);
+      opacity: 0.8;
+      margin-bottom: 6px;
     }
 
     .detail-card p {
@@ -234,46 +269,40 @@
     .detail-card .tag {
       display: inline-block;
       font-size: 10px;
-      border-radius: 999px;
       border: 1px solid var(--olive);
-      padding: 3px 7px;
-      margin: 0 4px 4px 0;
+      padding: 4px 8px;
+      border-radius: 999px;
+      margin-right: 6px;
+      margin-bottom: 6px;
     }
 
-    /* MOBILE */
+    .detail-empty {
+      font-size: 13px;
+      color: var(--olive-dark);
+      opacity: 0.9;
+      line-height: 1.6;
+    }
+
+    /* RESPONSIVE */
+
     @media (max-width: 900px) {
       main {
         grid-template-columns: 1fr;
-        grid-template-rows: minmax(0, 70vh) minmax(0, 30vh);
-      }
-
-      aside {
-        border-left: none;
-        border-top: 1px solid rgba(0,0,0,0.08);
-        max-height: none;
       }
 
       .timeline-wrapper {
-        height: 100%;
+        height: calc(100vh - 80px - 220px);
+      }
+
+      aside {
+        border-top: 1px solid var(--border-soft);
+        height: 220px;
+        overflow-y: auto;
       }
 
       .era {
-        min-width: 180vw;
-        padding-inline: 18px;
-      }
-
-      .layer {
-        padding-inline: 120px;
-      }
-
-      .layer::before {
-        left: 120px;
-        right: 120px;
-      }
-
-      .ruler {
-        left: 120px;
-        right: 120px;
+        min-width: 900px;
+        padding: 24px 20px 40px;
       }
     }
   </style>
@@ -286,591 +315,463 @@
 </header>
 
 <main>
-  <div class="timeline-wrapper" id="timeline">
-    <!-- Cada era tiene start / end absolutos -->
-    <section class="era" data-era="efeso" data-start="0" data-end="200">
-      <div class="era-title">ÉFESO</div>
-      <div class="era-subtitle">Apocalipsis 2:1–7 · Iglesia primitiva</div>
-      <div class="layers">
-        <div class="layer layer--movements">
-          <div class="layer-label">MOVIMIENTOS</div>
-        </div>
-        <div class="layer layer--events">
-          <div class="layer-label">EVENTOS HISTÓRICOS</div>
-        </div>
-      </div>
-      <div class="ruler"></div>
-    </section>
-
-    <section class="era" data-era="esmirna" data-start="200" data-end="300">
-      <div class="era-title">ESMIRNA</div>
-      <div class="era-subtitle">Apocalipsis 2:8–11 · Iglesia perseguida e imperial</div>
-      <div class="layers">
-        <div class="layer layer--movements">
-          <div class="layer-label">MOVIMIENTOS</div>
-        </div>
-        <div class="layer layer--events">
-          <div class="layer-label">EVENTOS HISTÓRICOS</div>
-        </div>
-      </div>
-      <div class="ruler"></div>
-    </section>
-
-    <section class="era" data-era="pergamo" data-start="300" data-end="400">
-      <div class="era-title">PÉRGAMO</div>
-      <div class="era-subtitle">Apocalipsis 2:12–17 · Iglesia imperial y mundanizada</div>
-      <div class="layers">
-        <div class="layer layer--movements">
-          <div class="layer-label">MOVIMIENTOS</div>
-        </div>
-        <div class="layer layer--events">
-          <div class="layer-label">EVENTOS HISTÓRICOS</div>
-        </div>
-      </div>
-      <div class="ruler"></div>
-    </section>
-
-    <section class="era" data-era="tiatira" data-start="400" data-end="1000">
-      <div class="era-title">TIATIRA</div>
-      <div class="era-subtitle">Apocalipsis 2:18–29 · Iglesia medieval</div>
-      <div class="layers">
-        <div class="layer layer--movements">
-          <div class="layer-label">MOVIMIENTOS</div>
-        </div>
-        <div class="layer layer--events">
-          <div class="layer-label">EVENTOS HISTÓRICOS</div>
-        </div>
-      </div>
-      <div class="ruler"></div>
-    </section>
-
-    <section class="era" data-era="sardis" data-start="1100" data-end="1400">
-      <div class="era-title">SARDIS</div>
-      <div class="era-subtitle">Apocalipsis 3:1–6 · Iglesia reformada pero muerta</div>
-      <div class="layers">
-        <div class="layer layer--movements">
-          <div class="layer-label">MOVIMIENTOS</div>
-        </div>
-        <div class="layer layer--events">
-          <div class="layer-label">EVENTOS HISTÓRICOS</div>
-        </div>
-      </div>
-      <div class="ruler"></div>
-    </section>
-
-    <section class="era" data-era="filadelfia" data-start="1500" data-end="1800">
-      <div class="era-title">FILADELFIA</div>
-      <div class="era-subtitle">Apocalipsis 3:7–13 · Iglesia misionera</div>
-      <div class="layers">
-        <div class="layer layer--movements">
-          <div class="layer-label">MOVIMIENTOS</div>
-        </div>
-        <div class="layer layer--events">
-          <div class="layer-label">EVENTOS HISTÓRICOS</div>
-        </div>
-      </div>
-      <div class="ruler"></div>
-    </section>
-
-    <section class="era" data-era="laodicea" data-start="1900" data-end="2025">
-      <div class="era-title">LAODICEA</div>
-      <div class="era-subtitle">Apocalipsis 3:14–22 · Iglesia tibia contemporánea</div>
-      <div class="layers">
-        <div class="layer layer--movements">
-          <div class="layer-label">MOVIMIENTOS</div>
-        </div>
-        <div class="layer layer--events">
-          <div class="layer-label">EVENTOS HISTÓRICOS</div>
-        </div>
-      </div>
-      <div class="ruler"></div>
-    </section>
+  <div class="timeline-wrapper">
+    <div class="timeline-inner" id="timeline"></div>
   </div>
 
   <aside>
     <h3>DETALLE</h3>
-    <div id="detailPanel">Haz clic en un evento para ver su información.</div>
+    <div id="detailPanel" class="detail-empty">
+      Haz clic en un evento o movimiento para ver su información.
+    </div>
   </aside>
 </main>
 
 <script>
-  // ---------- DATA ----------
-  // type: "point" (evento puntual) o "movement" (banda de duración)
-  // year / startYear / endYear son años ABSOLUTOS (no relativos)
+  /* ==== CONFIGURACIÓN DE ERAS ==================================== */
 
-  const events = [
-    // === ÉFESO 0–200 ===
-    { era: "efeso", type: "point", year: 29,
-      title: "Ministerio público de Jesús",
-      description: "Jesús anuncia el Reino de Dios y forma a sus discípulos.",
-      tags: ["Evangelios"] },
-    { era: "efeso", type: "point", year: 30,
-      title: "Crucifixión y resurrección",
-      description: "Muerte y resurrección de Jesús en Jerusalén.",
-      tags: ["Redención"] },
-    { era: "efeso", type: "point", year: 43,
-      title: "Roma invade Bretaña",
-      description: "Claudio inicia la conquista romana de Bretaña.",
-      tags: ["Imperio romano"] },
-    { era: "efeso", type: "point", year: 45,
-      title: "Se les llama cristianos en Antioquía",
-      description: "Por primera vez los discípulos reciben el nombre de cristianos.",
-      tags: ["Identidad cristiana"] },
-    { era: "efeso", type: "point", year: 50,
-      title: "Viajes misioneros de Pablo",
-      description: "Pablo recorre Asia Menor y Europa predicando el evangelio.",
-      tags: ["Misión"] },
-    { era: "efeso", type: "point", year: 64,
-      title: "Persecución de Nerón",
-      description: "Nerón culpa a los cristianos del incendio de Roma.",
-      tags: ["Persecución"] },
-    { era: "efeso", type: "point", year: 66,
-      title: "Primera guerra judío-romana",
-      description: "Rebelión judía contra Roma en Judea.",
-      tags: ["Historia"] },
-    { era: "efeso", type: "point", year: 67,
-      title: "Martirio del apóstol Pedro",
-      description: "Tradicionalmente se ubica en Roma durante el gobierno de Nerón.",
-      tags: ["Martirio"] },
-    { era: "efeso", type: "point", year: 70,
-      title: "Destrucción de Jerusalén",
-      description: "Tito destruye la ciudad y el templo.",
-      tags: ["Profecía cumplida"] },
-    { era: "efeso", type: "point", year: 73,
-      title: "Caída de Masada",
-      description: "Último bastión judío frente a Roma.",
-      tags: ["Historia judía"] },
-    { era: "efeso", type: "point", year: 79,
-      title: "Erupción del Vesubio",
-      description: "Pompeya y Herculano quedan sepultadas por ceniza volcánica.",
-      tags: ["Catástrofe"] },
-    { era: "efeso", type: "point", year: 80,
-      title: "Josefo escribe 'La guerra de los judíos'",
-      description: "Relato de la rebelión judía contra Roma.",
-      tags: ["Historia"] },
-    { era: "efeso", type: "point", year: 90,
-      title: "Persecución de Domiciano",
-      description: "Domiciano exige culto imperial; crecen los martirios.",
-      tags: ["Persecución"] },
-    { era: "efeso", type: "point", year: 100,
-      title: "Martirio de Clemente de Roma",
-      description: "Tradición que ubica su muerte en el exilio.",
-      tags: ["Padres apostólicos"] },
-
-    // === ESMIRNA 200–300 ===
-    { era: "esmirna", type: "movement", startYear: 170, endYear: 300,
-      title: "Montanistas",
-      description: "Movimiento profético rigorista surgido en Frigia.",
-      tags: ["Movimiento", "Profecía"] },
-    { era: "esmirna", type: "movement", startYear: 251, endYear: 400,
-      title: "Novacianos",
-      description: "Defienden disciplina extrema hacia apóstatas.",
-      tags: ["Movimiento", "Rigorismo"] },
-    { era: "esmirna", type: "movement", startYear: 311, endYear: 500,
-      title: "Donatistas",
-      description: "En el norte de África, ligan la validez de los sacramentos a la pureza del ministro.",
-      tags: ["Movimiento", "África"] },
-    { era: "esmirna", type: "movement", startYear: 428, endYear: 600,
-      title: "Nestorianos",
-      description: "Corriente cristológica asociada a Nestorio; se extiende hacia Persia y Asia.",
-      tags: ["Movimiento", "Cristología"] },
-
-    { era: "esmirna", type: "point", year: 303,
-      title: "Gran persecución de Diocleciano",
-      description: "Intento sistemático de destruir la Iglesia.",
-      tags: ["Persecución"] },
-    { era: "esmirna", type: "point", year: 311,
-      title: "Historia eclesiástica de Eusebio",
-      description: "Primera gran historia oficial de la Iglesia.",
-      tags: ["Historia de la Iglesia"] },
-    { era: "esmirna", type: "point", year: 312,
-      title: "Constantino gana el Puente Milvio",
-      description: "Victoria decisiva bajo el símbolo cristiano.",
-      tags: ["Constantino"] },
-    { era: "esmirna", type: "point", year: 313,
-      title: "Edicto de Milán",
-      description: "Se otorga libertad religiosa a los cristianos.",
-      tags: ["Iglesia y Estado"] },
-    { era: "esmirna", type: "point", year: 325,
-      title: "Concilio de Nicea",
-      description: "Se afirma la plena divinidad de Cristo, contra Arrio.",
-      tags: ["Concilios"] },
-    { era: "esmirna", type: "point", year: 340,
-      title: "Cristianismo llega a Abisinia",
-      description: "Se establece la Iglesia en Etiopía.",
-      tags: ["Misión"] },
-
-    // === PÉRGAMO 300–400 ===
-    { era: "pergamo", type: "point", year: 361,
-      title: "Juliano el Apóstata",
-      description: "Intenta restaurar el paganismo.",
-      tags: ["Imperio"] },
-    { era: "pergamo", type: "point", year: 370,
-      title: "Basilio contra el arrianismo",
-      description: "Defiende la doctrina trinitaria.",
-      tags: ["Padres capadocios"] },
-    { era: "pergamo", type: "point", year: 380,
-      title: "Cristianismo religión oficial",
-      description: "Edicto de Tesalónica de Teodosio I.",
-      tags: ["Iglesia y Estado"] },
-    { era: "pergamo", type: "point", year: 395,
-      title: "División del Imperio romano",
-      description: "Separación definitiva entre Oriente y Occidente.",
-      tags: ["Imperio romano"] },
-
-    // === TIATIRA 400–1000 ===
-    { era: "tiatira", type: "movement", startYear: 900, endYear: 1100,
-      title: "Lombardos cristianos",
-      description: "Grupos lombardos con énfasis bíblico previo a la Reforma.",
-      tags: ["Movimiento"] },
-    { era: "tiatira", type: "movement", startYear: 900, endYear: 1200,
-      title: "Paulicianos tardíos",
-      description: "Resto de los paulicianos en Asia Menor y los Balcanes.",
-      tags: ["Movimiento"] },
-    { era: "tiatira", type: "movement", startYear: 1000, endYear: 1300,
-      title: "Albigenses / Cátaros",
-      description: "Movimiento dualista muy fuerte en el sur de Francia.",
-      tags: ["Movimiento"] },
-
-    { era: "tiatira", type: "point", year: 532,
-      title: "Santa Sofía en Constantinopla",
-      description: "Construcción de la gran basílica de Justiniano.",
-      tags: ["Arquitectura"] },
-    { era: "tiatira", type: "point", year: 568,
-      title: "Lombardos invaden Italia",
-      description: "Los lombardos ocupan gran parte de la península.",
-      tags: ["Invasiones"] },
-    { era: "tiatira", type: "point", year: 570,
-      title: "Nacimiento de Mahoma",
-      description: "En La Meca; origen del islam histórico.",
-      tags: ["Islam"] },
-    { era: "tiatira", type: "point", year: 590,
-      title: "Islam domina el Medio Oriente (proceso)",
-      description: "Expansión rápida desde Arabia sobre Siria, Palestina y Persia.",
-      tags: ["Islam"] },
-    { era: "tiatira", type: "point", year: 622,
-      title: "Hégira de Mahoma",
-      description: "Huida de Mahoma a Medina; año 1 del calendario islámico.",
-      tags: ["Islam"] },
-    { era: "tiatira", type: "point", year: 622,
-      title: "Impresión de libros en China (madera)",
-      description: "Uso de bloques de madera para impresión a gran escala.",
-      tags: ["Tecnología"] },
-    { era: "tiatira", type: "point", year: 640,
-      title: "Musulmanes conquistan el Medio Oriente",
-      description: "Control de Siria, Palestina y Egipto.",
-      tags: ["Islam"] },
-    { era: "tiatira", type: "point", year: 643,
-      title: "Cúpula de la Roca (inicio)",
-      description: "Se inicia la construcción del santuario en Jerusalén.",
-      tags: ["Arquitectura", "Islam"] },
-    { era: "tiatira", type: "point", year: 715,
-      title: "Árabes entran a España y Portugal",
-      description: "Conquista musulmana de la Península Ibérica.",
-      tags: ["Islam en Europa"] },
-    { era: "tiatira", type: "point", year: 732,
-      title: "Batalla de Tours",
-      description: "Carlos Martel detiene el avance musulmán en Francia.",
-      tags: ["Europa"] },
-    { era: "tiatira", type: "point", year: 730,
-      title: "Beda escribe historia eclesiástica",
-      description: "‘Historia eclesiástica del pueblo inglés’.",
-      tags: ["Historia de la Iglesia"] },
-    { era: "tiatira", type: "point", year: 725,
-      title: "Controversia de los iconoclastas",
-      description: "Debate sobre uso de imágenes en Oriente.",
-      tags: ["Teología"] },
-    { era: "tiatira", type: "point", year: 790,
-      title: "Vikingos invaden Europa (790–870)",
-      description: "Oleadas de incursiones desde Escandinavia.",
-      tags: ["Invasiones"] },
-    { era: "tiatira", type: "point", year: 796,
-      title: "Alcuino revisa la Vulgata",
-      description: "Revisión del texto bíblico latino para Carlomagno.",
-      tags: ["Biblia"] },
-    { era: "tiatira", type: "point", year: 800,
-      title: "Carlomagno coronado emperador",
-      description: "Renovatio imperii en Occidente.",
-      tags: ["Imperio franco"] },
-    { era: "tiatira", type: "point", year: 962,
-      title: "Otón I, emperador del Sacro Imperio",
-      description: "Se consolida el Sacro Imperio Romano Germánico.",
-      tags: ["Imperio"] },
-    { era: "tiatira", type: "point", year: 979,
-      title: "China unificada bajo la dinastía Song",
-      description: "Gran florecimiento económico y cultural.",
-      tags: ["China"] },
-    { era: "tiatira", type: "point", year: 1000,
-      title: "Cumbre de la civilización maya en Yucatán",
-      description: "Apogeo de ciudades mayas tardías.",
-      tags: ["Culturas de América"] },
-    { era: "tiatira", type: "point", year: 1054,
-      title: "Gran Cisma de Oriente y Occidente",
-      description: "Ruptura formal entre las iglesias de Constantinopla y Roma.",
-      tags: ["Cisma"] },
-    { era: "tiatira", type: "point", year: 1066,
-      title: "Guillermo el Conquistador rey de Inglaterra",
-      description: "Batalla de Hastings; nueva dinastía normanda.",
-      tags: ["Inglaterra"] },
-
-    // === SARDIS 1100–1400 ===
-    { era: "sardis", type: "movement", startYear: 1100, endYear: 1300,
-      title: "Albigenses / Cátaros",
-      description: "Movimiento disidente en el sur de Francia.",
-      tags: ["Movimiento"] },
-    { era: "sardis", type: "movement", startYear: 1400, endYear: 1450,
-      title: "Husitas",
-      description: "Seguidores de Jan Hus en Bohemia.",
-      tags: ["Movimiento"] },
-
-    { era: "sardis", type: "point", year: 1096,
-      title: "Primera cruzada",
-      description: "Convocada por Urbano II para recuperar Jerusalén.",
-      tags: ["Cruzadas"] },
-    { era: "sardis", type: "point", year: 1147,
-      title: "Segunda cruzada",
-      description: "Responde a la caída de Edesa.",
-      tags: ["Cruzadas"] },
-    { era: "sardis", type: "point", year: 1188,
-      title: "Tercera cruzada",
-      description: "Cruzada de Ricardo Corazón de León y otros reyes.",
-      tags: ["Cruzadas"] },
-    { era: "sardis", type: "point", year: 1202,
-      title: "Cuarta cruzada",
-      description: "Termina saqueando Constantinopla (1204).",
-      tags: ["Cruzadas"] },
-    { era: "sardis", type: "point", year: 1150,
-      title: "Universidades de Oxford y París",
-      description: "Nacen los grandes centros universitarios medievales.",
-      tags: ["Universidades"] },
-    { era: "sardis", type: "point", year: 1170,
-      title: "Asesinato de Tomás Becket",
-      description: "Conflicto entre el arzobispo y el rey Enrique II.",
-      tags: ["Inglaterra"] },
-    { era: "sardis", type: "point", year: 1215,
-      title: "Carta Magna",
-      description: "Limitación del poder real en Inglaterra.",
-      tags: ["Derecho"] },
-    { era: "sardis", type: "point", year: 1215,
-      title: "Transubstanciación definida",
-      description: "El IV Concilio de Letrán formula la doctrina.",
-      tags: ["Teología sacramental"] },
-    { era: "sardis", type: "point", year: 1265,
-      title: "Suma Teológica de Tomás de Aquino",
-      description: "Síntesis mayor de teología escolástica.",
-      tags: ["Teología"] },
-    { era: "sardis", type: "point", year: 1266,
-      title: "Nacimiento del pintor Giotto",
-      description: "Figura clave del proto-renacimiento italiano.",
-      tags: ["Arte"] },
-    { era: "sardis", type: "point", year: 1384,
-      title: "Biblia de Wycliffe",
-      description: "Traducción inglesa de la Biblia; anticipa la Reforma.",
-      tags: ["Biblia"] },
-    { era: "sardis", type: "point", year: 1415,
-      title: "Martirio de Juan Hus",
-      description: "Reformador checo condenado en Constanza.",
-      tags: ["Pre-Reforma"] },
-    { era: "sardis", type: "point", year: 1418,
-      title: "Tomás de Kempis: Imitación de Cristo",
-      description: "Devocional clásico de la espiritualidad medieval.",
-      tags: ["Espiritualidad"] },
-    { era: "sardis", type: "point", year: 1440,
-      title: "Gutenberg y la imprenta",
-      description: "Desarrollo de la imprenta de tipos móviles.",
-      tags: ["Tecnología"] },
-    { era: "sardis", type: "point", year: 1453,
-      title: "Caída de Constantinopla",
-      description: "Los turcos otomanos conquistan la capital bizantina.",
-      tags: ["Imperio bizantino"] },
-    { era: "sardis", type: "point", year: 1479,
-      title: "Inquisición española",
-      description: "Se institucionaliza bajo los Reyes Católicos.",
-      tags: ["Inquisición"] },
-    { era: "sardis", type: "point", year: 1494,
-      title: "Savonarola contra la inmoralidad papal",
-      description: "Predicador dominico en Florencia.",
-      tags: ["Reforma moral"] },
-
-    // === FILADELFIA 1500–1800 ===
-    { era: "filadelfia", type: "movement", startYear: 1517, endYear: 1564,
-      title: "Reforma: Lutero, Zwinglio, Calvino",
-      description: "Núcleo de la Reforma protestante clásica.",
-      tags: ["Reforma"] },
-    { era: "filadelfia", type: "movement", startYear: 1525, endYear: 1700,
-      title: "Anabautistas y menonitas",
-      description: "Movimientos de bautismo de creyentes y vida comunitaria.",
-      tags: ["Movimiento"] },
-    { era: "filadelfia", type: "movement", startYear: 1600, endYear: 1800,
-      title: "Pietismo y avivamientos",
-      description: "Enfatizan santidad personal y misión.",
-      tags: ["Pietismo"] },
-
-    { era: "filadelfia", type: "point", year: 1516,
-      title: "Nuevo Testamento de Erasmo",
-      description: "Edición crítica griega que facilita traducciones bíblicas.",
-      tags: ["Biblia"] },
-    { era: "filadelfia", type: "point", year: 1530,
-      title: "Iglesia luterana",
-      description: "Confesión de Augsburgo y consolidación luterana.",
-      tags: ["Denominaciones"] },
-    { era: "filadelfia", type: "point", year: 1541,
-      title: "Iglesia congregacionalista",
-      description: "Énfasis en la autonomía de cada congregación.",
-      tags: ["Denominaciones"] },
-    { era: "filadelfia", type: "point", year: 1568,
-      title: "Derrota de la Armada española",
-      description: "Inglaterra se consolida como potencia marítima protestante.",
-      tags: ["Europa"] },
-    { era: "filadelfia", type: "point", year: 1572,
-      title: "Matanza de San Bartolomé",
-      description: "Masacre de hugonotes en Francia.",
-      tags: ["Persecución"] },
-    { era: "filadelfia", type: "point", year: 1603,
-      title: "Iglesia presbiteriana",
-      description: "Sistema de gobierno por ancianos; fuerte en Escocia.",
-      tags: ["Denominaciones"] },
-    { era: "filadelfia", type: "point", year: 1629,
-      title: "Descartes y el racionalismo",
-      description: "Inicio formal de la filosofía moderna.",
-      tags: ["Filosofía"] },
-    { era: "filadelfia", type: "point", year: 1665,
-      title: "Newton y la gravedad",
-      description: "Experimentos que desembocan en la ley de gravitación universal.",
-      tags: ["Ciencia"] },
-    { era: "filadelfia", type: "point", year: 1700,
-      title: "Grandes misioneros protestantes",
-      description: "Edwards, Wesley, Whitefield, Carey, Judson, Newton, Müller, Taylor, Moody, Spurgeon, Livingstone, entre otros.",
-      tags: ["Misión", "Avivamiento"] },
-    { era: "filadelfia", type: "point", year: 1859,
-      title: "Darwin publica 'El origen de las especies'",
-      description: "Teoría de la evolución con impacto en la teología.",
-      tags: ["Ciencia", "Debate fe–ciencia"] },
-
-    // === LAODICEA 1900–2025 ===
-    { era: "laodicea", type: "point", year: 1914,
-      title: "Primera guerra mundial",
-      description: "Conflicto global que reordena Europa y el Medio Oriente.",
-      tags: ["Guerras mundiales"] },
-    { era: "laodicea", type: "point", year: 1939,
-      title: "Segunda guerra mundial",
-      description: "Devastación global, Holocausto y uso de armas atómicas.",
-      tags: ["Guerras mundiales"] },
-    { era: "laodicea", type: "point", year: 1948,
-      title: "Fundación del Estado de Israel",
-      description: "Establecimiento moderno del estado judío.",
-      tags: ["Israel"] },
-    { era: "laodicea", type: "point", year: 1950,
-      title: "Billy Graham y cruzadas masivas",
-      description: "Evangelismo mundial con grandes campañas.",
-      tags: ["Evangelismo"] },
-    { era: "laodicea", type: "point", year: 1960,
-      title: "Movimiento misionero moderno",
-      description: "Expansión de misiones a pueblos no alcanzados.",
-      tags: ["Misión"] },
-    { era: "laodicea", type: "point", year: 1970,
-      title: "Iglesia evangélica globalizada",
-      description: "Crecimiento fuerte en el Sur Global.",
-      tags: ["Iglesia contemporánea"] }
+  const eras = [
+    {
+      id: "efeso",
+      title: "ÉFESO",
+      subtitle: "Apocalipsis 2:1–7 · Iglesia primitiva",
+      start: 0,
+      end: 200
+    },
+    {
+      id: "esmirna",
+      title: "ESMIRNA",
+      subtitle: "Apocalipsis 2:8–11 · Iglesia perseguida e imperial",
+      start: 200,
+      end: 400
+    },
+    {
+      id: "pergamo",
+      title: "PÉRGAMO",
+      subtitle: "Apocalipsis 2:12–17 · Iglesia imperial y mundanizada",
+      start: 400,
+      end: 500
+    },
+    {
+      id: "tiatira",
+      title: "TIATIRA",
+      subtitle: "Apocalipsis 2:18–29 · Iglesia medieval",
+      start: 500,
+      end: 1100
+    },
+    {
+      id: "sardis",
+      title: "SARDIS",
+      subtitle: "Apocalipsis 3:1–6 · Iglesia reformada",
+      start: 1100,
+      end: 1500
+    },
+    {
+      id: "filadelfia",
+      title: "FILADELFIA",
+      subtitle: "Apocalipsis 3:7–13 · Iglesia misionera",
+      start: 1500,
+      end: 1900
+    },
+    {
+      id: "laodicea",
+      title: "LAODICEA",
+      subtitle: "Apocalipsis 3:14–22 · Iglesia contemporánea",
+      start: 1900,
+      end: 2025
+    }
   ];
 
-  // ---------- RENDER ----------
+  /* ==== DATOS DE EVENTOS Y MOVIMIENTOS =========================== */
+  /* type: 'event' (puntual) o 'movement' (larga duración) */
 
-  const eras = Array.from(document.querySelectorAll(".era"));
-  const detailPanel = document.getElementById("detailPanel");
+  const items = [
+    /* --- ÉFESO: eventos puntuales --- */
+    { era: "efeso", type: "event", year: 29,
+      title: "Ministerio público de Jesús",
+      description: "Jesús anuncia el Reino de Dios, escoge a los doce y establece las bases de la Iglesia.",
+      tags: ["Evangelios"] },
 
-  // Agrupar eventos por era y por tipo
-  const eventsByEra = {};
-  events.forEach(ev => {
-    if (!eventsByEra[ev.era]) eventsByEra[ev.era] = { movements: [], points: [] };
-    if (ev.type === "movement") eventsByEra[ev.era].movements.push(ev);
-    else eventsByEra[ev.era].points.push(ev);
+    { era: "efeso", type: "event", year: 30,
+      title: "Crucifixión y resurrección",
+      description: "Muerte y resurrección de Jesús en Jerusalén; fundamento de la fe cristiana.",
+      tags: ["Redención"] },
+
+    { era: "efeso", type: "event", year: 43,
+      title: "Roma invade Bretaña",
+      description: "El Imperio romano inicia la conquista de la isla de Bretaña.",
+      tags: ["Imperio romano"] },
+
+    { era: "efeso", type: "event", year: 45,
+      title: "Se les llama cristianos en Antioquía",
+      description: "Por primera vez los discípulos reciben el nombre de cristianos.",
+      tags: ["Identidad cristiana", "Hechos 11"] },
+
+    { era: "efeso", type: "event", year: 50,
+      title: "Viajes misioneros de Pablo",
+      description: "Pablo recorre Asia Menor y Europa anunciando el evangelio y plantando iglesias.",
+      tags: ["Misión", "Hechos"] },
+
+    { era: "efeso", type: "event", year: 64,
+      title: "Persecución de Nerón",
+      description: "Tras el incendio de Roma, Nerón culpa a los cristianos y desata una dura persecución.",
+      tags: ["Persecución"] },
+
+    { era: "efeso", type: "event", year: 66,
+      title: "Primera guerra judío-romana",
+      description: "Levantamiento judío contra Roma que terminará con la destrucción de Jerusalén.",
+      tags: ["Historia judía"] },
+
+    { era: "efeso", type: "event", year: 67,
+      title: "Martirio del apóstol Pedro",
+      description: "Tradicionalmente se ubica el martirio de Pedro en Roma durante el reinado de Nerón.",
+      tags: ["Martirio"] },
+
+    { era: "efeso", type: "event", year: 70,
+      title: "Destrucción de Jerusalén",
+      description: "Las legiones romanas arrasan Jerusalén y destruyen el templo.",
+      tags: ["Profecía cumplida"] },
+
+    { era: "efeso", type: "event", year: 73,
+      title: "Caída de Masada",
+      description: "Último bastión de la resistencia judía frente a Roma.",
+      tags: ["Historia judía"] },
+
+    { era: "efeso", type: "event", year: 79,
+      title: "Erupción del Vesubio",
+      description: "Pompeya y Herculano quedan sepultadas por la erupción del Vesubio.",
+      tags: ["Catástrofes"] },
+
+    { era: "efeso", type: "event", year: 80,
+      title: "Josefo escribe 'La guerra de los judíos'",
+      description: "Flavio Josefo relata la guerra entre Roma y Judea, fuente clave para este período.",
+      tags: ["Fuentes históricas"] },
+
+    { era: "efeso", type: "event", year: 90,
+      title: "Persecución de Domiciano",
+      description: "Domiciano exige culto imperial y persigue a quienes se niegan, entre ellos los cristianos.",
+      tags: ["Persecución"] },
+
+    { era: "efeso", type: "event", year: 100,
+      title: "Martirio de Clemente de Roma",
+      description: "Clemente, uno de los primeros obispos de Roma, muere por su fe.",
+      tags: ["Padres apostólicos"] },
+
+    { era: "efeso", type: "event", year: 155,
+      title: "Justino Mártir enfrenta la herejía",
+      description: "Justino defiende la fe apostólica frente a los errores de Marción y otros grupos.",
+      tags: ["Apologética"] },
+
+    { era: "efeso", type: "event", year: 170,
+      title: "Marco Aurelio y los cristianos",
+      description: "Durante su reinado se registran diversos martirios y tensiones con las comunidades cristianas.",
+      tags: ["Imperio romano"] },
+
+    { era: "efeso", type: "event", year: 200,
+      title: "Apología de Tertuliano",
+      description: "Tertuliano escribe en defensa de la fe cristiana frente al paganismo y las acusaciones romanas.",
+      tags: ["Apologética"] },
+
+    /* --- ESMIRNA: movimientos de larga duración --- */
+
+    { era: "esmirna", type: "movement", startYear: 156, endYear: 300,
+      title: "Montanistas",
+      description: "Movimiento profético que enfatizaba visiones y rigor moral; considerado herético por la Iglesia.",
+      tags: ["Movimiento", "Profecía"] },
+
+    { era: "esmirna", type: "movement", startYear: 251, endYear: 400,
+      title: "Novacianos",
+      description: "Movimiento que rechazaba readmitir a quienes habían apostatado en persecuciones.",
+      tags: ["Movimiento", "Rigorismo"] },
+
+    { era: "esmirna", type: "movement", startYear: 311, endYear: 500,
+      title: "Donatistas",
+      description: "En el norte de África defendían que los sacramentos dependían de la pureza moral del ministro.",
+      tags: ["Movimiento", "África"] },
+
+    { era: "esmirna", type: "movement", startYear: 428, endYear: 600,
+      title: "Nestorianos",
+      description: "Corriente cristológica asociada a Nestorio, extendida luego hacia Persia y Asia.",
+      tags: ["Movimiento", "Cristología"] },
+
+    /* --- ESMIRNA: eventos puntuales --- */
+
+    { era: "esmirna", type: "event", year: 303,
+      title: "Gran persecución de Diocleciano",
+      description: "Última y más dura persecución oficial del Imperio contra los cristianos.",
+      tags: ["Persecución"] },
+
+    { era: "esmirna", type: "event", year: 311,
+      title: "Historia eclesiástica de Eusebio",
+      description: "Eusebio de Cesarea redacta la primera gran historia de la Iglesia.",
+      tags: ["Historia de la Iglesia"] },
+
+    { era: "esmirna", type: "event", year: 312,
+      title: "Constantino gana el Puente Milvio",
+      description: "Constantino vence a Majencio bajo el signo del cristianismo.",
+      tags: ["Constantino", "Imperio"] },
+
+    { era: "esmirna", type: "event", year: 313,
+      title: "Edicto de Milán",
+      description: "Se concede libertad religiosa y se legaliza el cristianismo en el Imperio.",
+      tags: ["Iglesia y Estado"] },
+
+    { era: "esmirna", type: "event", year: 325,
+      title: "Concilio de Nicea",
+      description: "Primer concilio ecuménico: se afirma la divinidad de Cristo y se condena el arrianismo.",
+      tags: ["Concilios"] },
+
+    { era: "esmirna", type: "event", year: 340,
+      title: "Cristianismo en Abisinia",
+      description: "El evangelio llega y se establece en el reino de Abisinia (Etiopía).",
+      tags: ["Misión", "África"] },
+
+    { era: "esmirna", type: "event", year: 361,
+      title: "Juliano el Apóstata",
+      description: "Emperador que intenta restaurar el paganismo y frenar el avance cristiano.",
+      tags: ["Imperio"] },
+
+    { era: "esmirna", type: "event", year: 370,
+      title: "Basilio contra el arrianismo",
+      description: "Basilio de Cesarea defiende la doctrina trinitaria frente a los arrianos.",
+      tags: ["Padres capadocios"] },
+
+    { era: "esmirna", type: "event", year: 380,
+      title: "Cristianismo religión oficial",
+      description: "El edicto de Tesalónica proclama el cristianismo niceno como religión oficial del Imperio.",
+      tags: ["Iglesia y Estado"] },
+
+    { era: "esmirna", type: "event", year: 395,
+      title: "División del Imperio romano",
+      description: "A la muerte de Teodosio I, el Imperio se divide en Oriente y Occidente.",
+      tags: ["Imperio romano"] },
+
+    { era: "esmirna", type: "event", year: 396,
+      title: "Agustín obispo de Hipona",
+      description: "Agustín asume el episcopado en Hipona; su obra marcará la teología occidental.",
+      tags: ["Teología"] },
+
+    { era: "esmirna", type: "event", year: 405,
+      title: "Jerónimo completa la Vulgata",
+      description: "Se concluye la traducción latina de la Biblia que será texto de referencia en Occidente.",
+      tags: ["Biblia"] },
+
+    { era: "esmirna", type: "event", year: 431,
+      title: "Se afianza el culto mariano",
+      description: "El Concilio de Éfeso proclama a María como Theotokos.",
+      tags: ["Mariología"] },
+
+    { era: "esmirna", type: "event", year: 436,
+      title: "Tropas romanas dejan Britania",
+      description: "Roma retira sus legiones de Britania, dejando la isla a su suerte.",
+      tags: ["Fin del Imperio"] },
+
+    { era: "esmirna", type: "event", year: 443,
+      title: "Pueblos germánicos en Alsacia",
+      description: "Tribus germánicas se establecen de forma permanente dentro de territorio romano.",
+      tags: ["Invasiones bárbaras"] },
+
+    { era: "esmirna", type: "event", year: 450,
+      title: "León I y la autoridad papal",
+      description: "El papa León I actúa como voz espiritual y política en Occidente.",
+      tags: ["Papado"] },
+
+    { era: "esmirna", type: "event", year: 452,
+      title: "Atila el Huno en Italia",
+      description: "Atila amenaza Roma; León I negocia para detener su avance.",
+      tags: ["Invasiones bárbaras"] },
+
+    { era: "esmirna", type: "event", year: 455,
+      title: "Saqueo de Roma por los vándalos",
+      description: "La ciudad de Roma es saqueada por segunda vez en pocas décadas.",
+      tags: ["Invasiones bárbaras"] },
+
+    { era: "esmirna", type: "event", year: 470,
+      title: "Esplendor maya clásico",
+      description: "Auge de la civilización maya en Mesoamérica.",
+      tags: ["Culturas antiguas"] },
+
+    { era: "esmirna", type: "event", year: 476,
+      title: "Caída del Imperio romano de Occidente",
+      description: "Depósito de Rómulo Augústulo; marca el fin tradicional de la antigüedad occidental.",
+      tags: ["Caída de Roma"] },
+
+    { era: "esmirna", type: "event", year: 478,
+      title: "Primer templo sintoísta en Japón",
+      description: "Se consolidan los cultos propios del sintoísmo.",
+      tags: ["Religiones del mundo"] },
+
+    /* --- resto de eras: solo algunos ejemplos para mostrar que funciona --- */
+
+    { era: "tiatira", type: "movement", startYear: 790, endYear: 870,
+      title: "Vikingos invaden Europa",
+      description: "Oleadas de invasiones y asentamientos vikingos en el norte de Europa.",
+      tags: ["Europa medieval"] },
+
+    { era: "sardis", type: "movement", startYear: 1100, endYear: 1300,
+      title: "Albigenses / Cátaros",
+      description: "Movimiento dualista en el sur de Francia fuertemente perseguido.",
+      tags: ["Herejías medievales"] },
+
+    { era: "filadelfia", type: "movement", startYear: 1517, endYear: 1564,
+      title: "Reforma: Lutero, Zwinglio, Calvino",
+      description: "Reforma protestante en Alemania, Suiza y Ginebra.",
+      tags: ["Reforma"] },
+
+    { era: "filadelfia", type: "event", year: 1516,
+      title: "Nuevo Testamento de Erasmo",
+      description: "Edición crítica en griego que influye fuertemente en los reformadores.",
+      tags: ["Textos bíblicos"] },
+
+    { era: "laodicea", type: "event", year: 1948,
+      title: "Fundación del Estado de Israel",
+      description: "Se establece el moderno Estado de Israel tras la Segunda Guerra Mundial.",
+      tags: ["Historia contemporánea"] }
+  ];
+
+  /* ==== RENDER ==================================================== */
+
+  const timelineEl = document.getElementById('timeline');
+  const detailPanel = document.getElementById('detailPanel');
+
+  function createEraSection(era) {
+    const section = document.createElement('section');
+    section.className = 'era';
+    section.dataset.start = era.start;
+    section.dataset.end = era.end;
+    section.id = `era-${era.id}`;
+
+    section.innerHTML = `
+      <h2 class="era-title">${era.title}</h2>
+      <div class="era-subtitle">${era.subtitle}</div>
+      <div class="era-track">
+        <div class="band band--movements">
+          <span class="band-label">Movimientos</span>
+          <div class="band-line"></div>
+          <div class="band-content" data-band="movements"></div>
+        </div>
+
+        <div class="band band--events">
+          <span class="band-label" style="top: 50%; transform: translateY(-50%);">Eventos históricos</span>
+          <div class="band-line"></div>
+          <div class="band-content" data-band="events"></div>
+        </div>
+
+        <div class="era-scale">
+          <div class="era-scale-line"></div>
+          <div class="era-scale-track"></div>
+        </div>
+      </div>
+    `;
+
+    return section;
+  }
+
+  // Añadimos las secciones de eras
+  eras.forEach(era => {
+    timelineEl.appendChild(createEraSection(era));
   });
 
-  eras.forEach(eraEl => {
-    const key = eraEl.dataset.era;
-    const start = Number(eraEl.dataset.start);
-    const end = Number(eraEl.dataset.end);
-    const range = end - start;
+  // Agrupar items por era y tipo
+  const itemsByEra = {};
+  items.forEach(it => {
+    if (!itemsByEra[it.era]) itemsByEra[it.era] = [];
+    itemsByEra[it.era].push(it);
+  });
 
-    const layerMov = eraEl.querySelector(".layer--movements");
-    const layerEvt = eraEl.querySelector(".layer--events");
-    const ruler = eraEl.querySelector(".ruler");
+  function placeItemsInBand(bandEl, list, eraStart, eraEnd, isMovement) {
+    const bandContent = bandEl.querySelector('.band-content');
+    if (!list || list.length === 0) return;
 
-    // Regla inferior: ticks cada 50 años dentro del rango
-    if (ruler) {
-      const firstTick = Math.ceil(start / 50) * 50;
-      for (let y = firstTick; y <= end; y += 50) {
-        const t = document.createElement("div");
-        t.className = "ruler-tick";
-        const leftPercent = ((y - start) / range) * 100;
-        t.style.left = leftPercent + "%";
-        t.innerHTML = `<span>${y}</span>`;
-        ruler.appendChild(t);
-      }
-    }
+    const range = eraEnd - eraStart;
+    const rows = isMovement ? 4 : 6;
+    const rowHeight = 30;
+    const topBase = 50; // centro de la banda
 
-    const data = eventsByEra[key];
-    if (!data) return;
+    const lastPos = new Array(rows).fill(-Infinity);
 
-    // Lógica de “filas” verticales: 5 para movimientos, 7 para eventos
-    const movementLanes = 5;
-    const eventLanes = 7;
+    // Orden cronológico por inicio
+    list.sort((a, b) => {
+      const aYear = isMovement ? a.startYear : a.year;
+      const bYear = isMovement ? b.startYear : b.year;
+      return aYear - bYear;
+    });
 
-    const placeEvents = (items, layer, lanesCount, isMovement) => {
-      if (!layer) return;
-      const sorted = items.slice().sort((a, b) => {
-        const aYear = isMovement ? a.startYear : a.year;
-        const bYear = isMovement ? b.startYear : b.year;
-        return aYear - bYear;
-      });
+    list.forEach(ev => {
+      const year = isMovement ? ev.startYear : ev.year;
+      const clampedYear = Math.min(Math.max(year, eraStart), eraEnd);
+      const xPercent = ((clampedYear - eraStart) / range) * 100;
 
-      sorted.forEach((ev, idx) => {
-        const laneIndex = idx % lanesCount;
-        const topPercent = ((laneIndex + 1) / (lanesCount + 1)) * 100;
-
-        let leftPercent;
-        let widthPercent = null;
-
-        if (isMovement) {
-          const s = Math.max(ev.startYear, start);
-          const e = Math.min(ev.endYear, end);
-          const effectiveRange = e - s;
-          leftPercent = ((s - start) / range) * 100;
-          widthPercent = (effectiveRange / range) * 100;
-        } else {
-          leftPercent = ((ev.year - start) / range) * 100;
+      // Elegir fila libre (para no pisarse horizontalmente)
+      const MIN_GAP = 8; // 8% de separación mínima en la misma fila
+      let chosenRow = 0;
+      for (let r = 0; r < rows; r++) {
+        if (xPercent - lastPos[r] > MIN_GAP) {
+          chosenRow = r;
+          break;
         }
+      }
+      lastPos[chosenRow] = xPercent;
 
-        const el = document.createElement("div");
-        el.className = "event" + (isMovement ? " event--movement" : "");
-        el.style.left = leftPercent + "%";
-        el.style.top = topPercent + "%";
-        if (widthPercent !== null) el.style.width = Math.max(widthPercent, 4) + "%";
+      const y = topBase + (chosenRow - (rows / 2)) * rowHeight;
 
-        const labelYear = isMovement
-          ? `${ev.startYear}–${ev.endYear}`
-          : ev.year;
-        el.textContent = `${labelYear} · ${ev.title}`;
+      const el = document.createElement('div');
+      el.className = 'event' + (isMovement ? ' event--movement' : '');
+      const labelYear = isMovement ? `${ev.startYear}–${ev.endYear}` : ev.year;
+      el.innerHTML = `<span class="event-label">${labelYear} · ${ev.title}</span>`;
+      el.style.left = xPercent + '%';
+      el.style.top = y + 'px';
 
-        el.addEventListener("click", () => {
-          const tagsHtml = (ev.tags || [])
-            .map(t => `<span class="tag">${t}</span>`)
-            .join("");
-          detailPanel.innerHTML = `
-            <div class="detail-card">
-              <h4>${ev.title}</h4>
-              <p>${ev.description || ""}</p>
-              <div>${tagsHtml}</div>
-            </div>`;
-        });
-
-        layer.appendChild(el);
+      el.addEventListener('click', () => {
+        const tagsHtml = (ev.tags || []).map(t => `<span class="tag">${t}</span>`).join('');
+        detailPanel.innerHTML = `
+          <div class="detail-card">
+            <h4>${ev.title}</h4>
+            <div class="detail-year">${isMovement ? `${ev.startYear}–${ev.endYear}` : ev.year}</div>
+            <p>${ev.description || ''}</p>
+            <div>${tagsHtml}</div>
+          </div>
+        `;
       });
-    };
 
-    placeEvents(data.movements, layerMov, movementLanes, true);
-    placeEvents(data.points, layerEvt, eventLanes, false);
+      bandContent.appendChild(el);
+    });
+  }
+
+  // Colocar eventos y movimientos en cada era, y dibujar la regla
+  eras.forEach(era => {
+    const section = document.getElementById(`era-${era.id}`);
+    const eraStart = era.start;
+    const eraEnd = era.end;
+
+    const all = itemsByEra[era.id] || [];
+    const movements = all.filter(i => i.type === 'movement');
+    const eventsList = all.filter(i => i.type === 'event');
+
+    const movementBand = section.querySelector('.band--movements');
+    const eventBand = section.querySelector('.band--events');
+
+    placeItemsInBand(movementBand, movements, eraStart, eraEnd, true);
+    placeItemsInBand(eventBand, eventsList, eraStart, eraEnd, false);
+
+    // Regla
+    const scaleTrack = section.querySelector('.era-scale-track');
+    const step = 50;
+    for (let y = eraStart; y <= eraEnd; y += step) {
+      const xPercent = ((y - eraStart) / (eraEnd - eraStart)) * 100;
+
+      const tick = document.createElement('div');
+      tick.className = 'tick';
+      tick.style.left = xPercent + '%';
+
+      const label = document.createElement('div');
+      label.className = 'tick-label';
+      label.style.left = xPercent + '%';
+      label.textContent = y;
+
+      scaleTrack.appendChild(tick);
+      scaleTrack.appendChild(label);
+    }
   });
 </script>
 
