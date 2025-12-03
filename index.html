@@ -551,31 +551,44 @@
     const GAP_MOV = 18;
     const GAP_EVT = 32;
 
-    // MOVIMIENTOS
-    MOVEMENTS.forEach(m => {
-      const el = document.createElement('div');
-      el.className = 'bubble bubble--movement';
-      el.textContent = `${m.start}–${m.end} · ${m.title}`;
-      canvas.appendChild(el);
+// MOVIMIENTOS
+// 1) Ordenamos por año de inicio para que los lanes tengan sentido
+const movementsSorted = [...MOVEMENTS].sort((a, b) => a.start - b.start);
 
-      const xStart = yearToX(m.start);
-      const xEnd   = yearToX(m.end);
+movementsSorted.forEach(m => {
+  const el = document.createElement('div');
+  el.className = 'bubble bubble--movement';
+  el.textContent = `${m.start}–${m.end} · ${m.title}`;
+  canvas.appendChild(el);
 
-      el.style.left = xStart + 'px';
-      el.style.width = (xEnd - xStart) + 'px';
+  // posición horizontal (inicio y fin según los años)
+  const xStart = yearToX(m.start);
+  const xEnd   = yearToX(m.end);
 
-      let lane = 0;
-      while (true) {
-        if (!lanesMovs[lane] || xStart - lanesMovs[lane] > 12) {
-          lanesMovs[lane] = xEnd;
-          break;
-        }
-        lane++;
-      }
+  el.style.left  = xStart + 'px';
+  el.style.width = (xEnd - xStart) + 'px';
 
-      el.style.top = (MOV_BASE_Y + lane * GAP_MOV) + 'px';
-      el.addEventListener('click', () => showDetail(m));
-    });
+  const startX = xStart;
+  const endX   = xEnd;
+
+  // 2) Asignación de lane evitando que se monten
+  let lane = 0;
+  while (true) {
+    // si el lane está vacío, o este movimiento empieza DESPUÉS
+    // del final del último que se dibujó en ese lane (+ margen)
+    if (
+      lanesMovs[lane] === undefined ||
+      startX >= lanesMovs[lane] + 12   // margen horizontal de 12px
+    ) {
+      lanesMovs[lane] = endX;         // guardamos el final ocupado en ese lane
+      break;
+    }
+    lane++;
+  }
+
+  el.style.top = (MOV_BASE_Y + lane * GAP_MOV) + 'px';
+  el.addEventListener('click', () => showDetail(m));
+});
 
     // EVENTOS
     EVENTS.forEach(ev => {
