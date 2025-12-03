@@ -560,10 +560,9 @@
 
       const xStart = yearToX(m.start);
       const xEnd   = yearToX(m.end);
-      const width  = Math.max(xEnd - xStart, 60);
 
       el.style.left = xStart + 'px';
-      el.style.width = width + 'px';
+      el.style.width = (xEnd - xStart) + 'px';
 
       let lane = 0;
       while (true) {
