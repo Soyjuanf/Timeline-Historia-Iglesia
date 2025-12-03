@@ -636,7 +636,10 @@
 
     let lane = 0;
     while (true) {
-      if (lanesEvents[lane] == null || startX - lanesEvents[lane] > 12) {
+      if (
+        lanesEvents[lane] == undefined || 
+        startX >= lanesEvents[lane] + 20) 
+      ) {
         lanesEvents[lane] = endX;
         break;
       }
