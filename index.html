@@ -32,12 +32,12 @@
   font-family: 'Montserrat', sans-serif;
   background: var(--bg);
   color: var(--text);
-  overflow-x: hidden;         /* no se desborda horizontal */
+  overflow-x: auto;         /* no se desborda horizontal */
   overflow-y: auto;           /* la página ahora SÍ puede scrollear hacia abajo */
 }
 
     header {
-  position: relative;        /* ya NO es fixed */
+  position: fixed;        /* ya NO es fixed */
   height: 80px;
   background: var(--olive);
   color: var(--white);
@@ -62,7 +62,7 @@
     }
 
     main {
-  position: relative;    /* ya no es absolute */
+  position: absolute;    /* ya no es absolute */
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(260px, 1fr);
   min-height: calc(100vh - 80px);  /* ocupa la pantalla pero puede crecer más */
