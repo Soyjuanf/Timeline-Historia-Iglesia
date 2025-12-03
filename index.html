@@ -571,46 +571,43 @@
 
   const GAP_EVT = 32;       // separación vertical fija entre eventos
 
-  /* ---------- MOVIMIENTOS (con largo real) ---------- */
-  const movementsSorted = [...MOVEMENTS].sort((a, b) => a.start - b.start);
+  /* ---------- MOVIMIENTOS ---------- */
+const movementsSorted = [...MOVEMENTS].sort((a, b) => a.start - b.start);
 
-  movementsSorted.forEach(m => {
-    const el = document.createElement('div');
-    el.className = 'bubble bubble--movement';
-    el.textContent = `${m.start}–${m.end} · ${m.title}`;
-    canvas.appendChild(el);
+movementsSorted.forEach(m => {
+  const el = document.createElement('div');
+  el.className = 'bubble bubble--movement';
+  el.textContent = `${m.start}–${m.end} · ${m.title}`;
+  canvas.appendChild(el);
 
-    // posición horizontal según inicio y fin
-    const xStart = yearToX(m.start);
-    const xEnd   = yearToX(m.end);
+  // Posición horizontal exacta por años
+  const xStart = yearToX(m.start);
+  const xEnd   = yearToX(m.end);
 
-    el.style.left  = xStart + 'px';
-    el.style.width = Math.max(24, xEnd - xStart) + 'px'; // ancho mínimo para que sea visible
+  el.style.left  = xStart + 'px';
+  el.style.width = Math.max(30, xEnd - xStart) + 'px'; // ancho real por duración
 
-    const startX = xStart;
-    const endX   = xEnd;
+  const startX = xStart;
+  const endX   = xEnd;
 
-    // asignar fila (lane) evitando montajes en X
-    let lane = 0;
-    while (true) {
-      if (
-        lanesMovs[lane] === undefined ||
-        startX >= lanesMovs[lane] + 16   // margen horizontal entre burbujas
-      ) {
-        lanesMovs[lane] = endX;
-        break;
-      }
-      lane++;
+  // Evitar que se monten horizontalmente
+  let lane = 0;
+  while (true) {
+    if (lanesMovs[lane] === undefined || startX >= lanesMovs[lane] + 16) {
+      lanesMovs[lane] = endX;
+      break;
     }
+    lane++;
+  }
 
-    // altura real de la burbuja para calcular el “alto de fila”
-    const bubbleHeight = el.offsetHeight || 26;
-    const laneHeight   = bubbleHeight + 18;
+  // Separación vertical correcta entre filas
+  const bubbleHeight = el.offsetHeight || 26;
+  const laneHeight   = bubbleHeight + 20;
 
-    el.style.top = (MOV_BASE_Y + lane * laneHeight) + 'px';
+  el.style.top = (MOV_BASE_Y + lane * laneHeight) + 'px';
 
-    el.addEventListener('click', () => showDetail(m));
-  });
+  el.addEventListener('click', () => showDetail(m));
+});
 
   /* ---------- EVENTOS (como los tenías, con lanes) ---------- */
   const eventsSorted = [...EVENTS].sort((a, b) => a.year - b.year);
