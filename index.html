@@ -323,7 +323,7 @@
   }
 
   header {
-    position: fixed;
+    position: hidden;
     top: 0;
     left: 0;
     right: 0;
@@ -331,7 +331,7 @@
   }
 
   main {
-    position: absolute;
+    position: sticky;
     top: 80px;                     /* altura del header */
     left: 0;
     right: 0;
@@ -345,14 +345,14 @@
   .timeline-viewport {
     height: 100%;
     overflow-x: auto;              /* horizontal dentro del timeline */
-    overflow-y: hidden;            /* no scroll vertical aquí */
+    overflow-y: fixed;            /* no scroll vertical aquí */
   }
 
   aside {
     height: 100%;
     border-left: 1px solid rgba(0,0,0,0.08);
     border-top: none;
-    overflow-y: auto;              /* el texto del detalle sí puede scrollear */
+    overflow-y: sticky;              /* el texto del detalle sí puede scrollear */
   }
 }  
 }   
