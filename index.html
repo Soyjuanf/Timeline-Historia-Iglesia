@@ -79,18 +79,16 @@
 
     .timeline-canvas {
       position: relative;
-      height: 460px;
+      height: 520px;
       min-width: 3200px;
     }
 
-    /* Bandas de eras */
+    /* Bandas de eras (solo fondo, sin líneas extra) */
 
     .era-band {
       position: absolute;
       top: 18px;
       height: 82px;
-      border-top: 1px solid rgba(0,0,0,0.06);
-      border-bottom: 1px solid rgba(0,0,0,0.06);
       background: rgba(255,255,255,0.4);
     }
 
@@ -126,13 +124,13 @@
       z-index: 1;
     }
 
-    /* mantén estas alturas fijas SIEMPRE */
+    /* alturas fijas para todo el timeline */
     .track-line--mov {
-      top: 150px;
+      top: 180px;   /* separa cabecera de movimientos */
     }
 
     .track-line--evt {
-      top: 230px;
+      top: 260px;   /* separa movimientos de eventos históricos */
     }
 
     .track-label {
@@ -149,13 +147,13 @@
     }
 
     .track-label--mov {
-      top: 150px;
+      top: 180px;
       left: 24px;
       transform: translateY(-140%);
     }
 
     .track-label--evt {
-      top: 230px;
+      top: 260px;
       left: 24px;
       transform: translateY(-140%);
     }
@@ -197,13 +195,13 @@
       }
     }
 
-    /* Regla inferior global */
+    /* Regla inferior global (10 en 10, SIEMPRE ABAJO) */
 
     .ruler {
       position: absolute;
       left: 0;
       right: 0;
-      bottom: 40px;
+      bottom: 26px;
       height: 1px;
       background: rgba(0,0,0,0.3);
       z-index: 1;
@@ -279,7 +277,7 @@
       }
 
       .timeline-canvas {
-        height: 480px;
+        height: 540px;
         min-width: 2200px;
       }
     }
@@ -319,7 +317,7 @@
     { id: 'laodicea',   start:1900, end: 2025, title: 'LAODICEA',   subtitle: 'Apocalipsis 3:14–22 · Iglesia contemporánea (1900–2025)' }
   ];
 
-  // Solo movimientos que tú indicaste
+  // SOLO movimientos que tú pediste
   const MOVEMENTS = [
     // Esmirna
     { era:'esmirna', start:156, end:300, title:'Montanistas', description:'Movimiento profético y rigorista surgido en Frigia.', tags:['Movimiento'] },
@@ -327,26 +325,26 @@
     { era:'esmirna', start:311, end:500, title:'Donatistas', description:'Movimiento norteafricano que exigía pureza absoluta en los ministros.', tags:['Movimiento'] },
     { era:'esmirna', start:428, end:600, title:'Nestorianos', description:'Corriente cristológica asociada a Nestorio, extendida hacia Persia y Asia.', tags:['Movimiento'] },
 
-    // Tiatira (Cátaros, Paulistas, Valdenses, Bogomilos y Lombardos)
+    // Tiatira
     { era:'tiatira', start:650, end:900,  title:'Paulistas', description:'Paulicianos / paulistas procedentes de Armenia y Asia Menor.', tags:['Movimiento'] },
     { era:'tiatira', start:900, end:1200, title:'Bogomilos', description:'Movimiento de los Balcanes crítico de la Iglesia oficial.', tags:['Movimiento'] },
     { era:'tiatira', start:1050, end:1200, title:'Lombardos', description:'Grupos disidentes relacionados con el norte de Italia.', tags:['Movimiento'] },
     { era:'tiatira', start:1070, end:1300, title:'Valdenses', description:'Seguidores de Pedro Valdo, defensores de la predicación bíblica.', tags:['Movimiento'] },
     { era:'tiatira', start:1140, end:1300, title:'Cátaros', description:'Movimientos disidentes también llamados albigenses.', tags:['Movimiento'] },
 
-    // Sardis (Albigenses, Jan Hus, Husitas)
+    // Sardis
     { era:'sardis', start:1140, end:1300, title:'Albigenses', description:'Rama de los cátaros en el sur de Francia.', tags:['Movimiento'] },
     { era:'sardis', start:1370, end:1415, title:'Jan Hus', description:'Reformador checo que predica contra los abusos de la Iglesia.', tags:['Movimiento'] },
     { era:'sardis', start:1415, end:1450, title:'Husitas', description:'Movimiento que continúa las ideas de Hus en Bohemia.', tags:['Movimiento'] },
 
-    // Filadelfia (Anabautistas, Menonitas, Bautistas, Pietistas)
+    // Filadelfia
     { era:'filadelfia', start:1525, end:1700, title:'Anabautistas', description:'Movimientos que enfatizan el bautismo de creyentes y la vida de discipulado.', tags:['Movimiento'] },
     { era:'filadelfia', start:1536, end:1800, title:'Menonitas', description:'Herederos de Menno Simons.', tags:['Movimiento'] },
     { era:'filadelfia', start:1609, end:1800, title:'Bautistas', description:'Iglesias que destacan el bautismo de creyentes.', tags:['Movimiento'] },
     { era:'filadelfia', start:1675, end:1800, title:'Pietistas', description:'Corriente que resalta la piedad personal.', tags:['Movimiento'] }
   ];
 
-  // Solo eventos que dictaste
+  // SOLO eventos que tú dictaste
   const EVENTS = [
     // ÉFESO
     { era:'efeso', year:29,  title:'Ministerio público de Jesús', description:'Jesús inicia su ministerio público.', tags:['Evangelios'] },
@@ -362,7 +360,7 @@
     { era:'efeso', year:79,  title:'Erupción del Vesubio', description:'Destrucción de Pompeya y Herculano.', tags:['Catástrofe'] },
     { era:'efeso', year:80,  title:'Josefo escribe “La guerra de los judíos”', description:'Crónica clave del conflicto judeo-romano.', tags:['Historia'] },
     { era:'efeso', year:90,  title:'Persecución de Domiciano', description:'Persecución por negarse a adorar al emperador.', tags:['Persecución'] },
-    { era:'efeso', year:100, title:'Martirio de Clemente de Roma', description:'Uno de los primeros obispos de Roma ejecutado.', tags:['Martirio'] },
+    { era:'efeso', year:100, title:'Martirio de Clemente de Roma', description:'Obispo de Roma ejecutado.', tags:['Martirio'] },
     { era:'efeso', year:155, title:'Justino Mártir confronta a Marción', description:'Defensa de la fe frente a Marción.', tags:['Apologética'] },
     { era:'efeso', year:170, title:'Marco Aurelio y los cristianos', description:'Se intensifican persecuciones locales.', tags:['Persecución'] },
     { era:'efeso', year:200, title:'Apología de Tertuliano', description:'Defensas formales de la fe cristiana.', tags:['Apologética'] },
@@ -395,16 +393,16 @@
     { era:'tiatira', year:532, title:'Construcción de Santa Sofía en Constantinopla', description:'Obra de Justiniano.', tags:['Bizancio'] },
     { era:'tiatira', year:568, title:'Los lombardos invaden Italia', description:'Nuevo pueblo germánico en la península.', tags:['Invasiones'] },
     { era:'tiatira', year:570, title:'Nacimiento de Mahoma', description:'Fundador del islam.', tags:['Islam'] },
-    { era:'tiatira', year:590, title:'El Islam se apodera del Medio Oriente', description:'Proceso de expansión inicial.', tags:['Islam'] },
+    { era:'tiatira', year:590, title:'El Islam se apodera del medio oriente', description:'Proceso de expansión inicial.', tags:['Islam'] },
     { era:'tiatira', year:622, title:'Mahoma huye de la Meca', description:'Hégira; inicio del calendario islámico.', tags:['Islam'] },
     { era:'tiatira', year:622, title:'Empieza la impresión de libros en China', description:'Uso de bloques de madera.', tags:['China'] },
-    { era:'tiatira', year:640, title:'Los musulmanes conquistan el Medio Oriente', description:'Expansión árabe-islámica.', tags:['Islam'] },
-    { era:'tiatira', year:643, title:'Empieza la construcción de la Cúpula de la Roca', description:'Santuario islámico en Jerusalén.', tags:['Islam','Jerusalén'] },
+    { era:'tiatira', year:640, title:'Los musulmanes conquistan el medio oriente', description:'Expansión árabe-islámica.', tags:['Islam'] },
+    { era:'tiatira', year:643, title:'Empieza la construcción de la cúpula de roca', description:'Santuario islámico en Jerusalén.', tags:['Islam','Jerusalén'] },
     { era:'tiatira', year:715, title:'Los árabes entran a España y Portugal', description:'Dominio musulmán en la península ibérica.', tags:['Islam','Europa'] },
     { era:'tiatira', year:725, title:'Controversia de los iconoclastas', description:'Debate sobre el uso de imágenes.', tags:['Teología'] },
-    { era:'tiatira', year:730, title:'Beda escribe historia eclesiástica en Inglaterra', description:'Crónica de la Iglesia inglesa.', tags:['Historia de la Iglesia'] },
+    { era:'tiatira', year:730, title:'Beda escribe historia eclesiática en Inglaterra', description:'Crónica de la Iglesia inglesa.', tags:['Historia de la Iglesia'] },
     { era:'tiatira', year:732, title:'Batalla de Tours', description:'Carlos Martel frena el avance musulmán.', tags:['Guerras'] },
-    { era:'tiatira', year:781, title:'Cristianos Nestorianos refugiados en China', description:'Presencia cristiana en el Lejano Oriente.', tags:['Misión'] },
+    { era:'tiatira', year:781, title:'Los cristianos Nestorianos refugiados en China', description:'Presencia cristiana en el Lejano Oriente.', tags:['Misión'] },
     { era:'tiatira', year:790, title:'Los Vikingos invaden Europa', description:'Comienzo de las incursiones vikingas.', tags:['Invasiones'] },
     { era:'tiatira', year:796, title:'Alcuin revisa el texto de la Vulgata', description:'Trabajo textual carolingio.', tags:['Biblia'] },
     { era:'tiatira', year:800, title:'Carlomagno coronado como emperador', description:'Renovación del título imperial.', tags:['Imperio'] },
@@ -412,57 +410,53 @@
     { era:'tiatira', year:979, title:'China unificada bajo la dinastía Sung', description:'Florecimiento cultural.', tags:['China'] },
     { era:'tiatira', year:1000, title:'Cumbre de la civilización maya, Yucatán', description:'Apogeo tardío en la península de Yucatán.', tags:['Culturas antiguas'] },
     { era:'tiatira', year:1054, title:'Gran Cisma', description:'Separación entre Oriente y Occidente.', tags:['Cisma'] },
-    { era:'tiatira', year:1066, title:'Guillermo el Conquistador rey de Inglaterra', description:'Conquista normanda de Inglaterra.', tags:['Historia'] },
+    { era:'tiatira', year:1066, title:'Guillermo el conquistador rey de Inglaterra', description:'Conquista normanda de Inglaterra.', tags:['Historia'] },
 
     // SARDIS
     { era:'sardis', year:1096, title:'Primera Cruzada', description:'Expedición para recuperar Tierra Santa.', tags:['Cruzadas'] },
     { era:'sardis', year:1147, title:'Segunda Cruzada', description:'Nueva campaña hacia Oriente.', tags:['Cruzadas'] },
-    { era:'sardis', year:1188, title:'Tercera Cruzada', description:'Cruzada de Ricardo Corazón de León y otros reyes.', tags:['Cruzadas'] },
+    { era:'sardis', year:1188, title:'Tercera Cruzada', description:'Cruzada de Ricardo Corazón de León.', tags:['Cruzadas'] },
     { era:'sardis', year:1202, title:'Cuarta Cruzada', description:'Desviada hacia Constantinopla.', tags:['Cruzadas'] },
-    { era:'sardis', year:1150, title:'Universidades de Oxford y París', description:'Centros de estudio teológico y filosófico.', tags:['Universidades'] },
-    { era:'sardis', year:1170, title:'Tomás Becket asesinado', description:'Conflicto entre Iglesia y corona.', tags:['Martirio'] },
+    { era:'sardis', year:1150, title:'Se fundan las universidades de Oxford y París', description:'Centros de estudio teológico y filosófico.', tags:['Universidades'] },
+    { era:'sardis', year:1170, title:'Tómas Becket asesinado', description:'Conflicto entre Iglesia y corona.', tags:['Martirio'] },
     { era:'sardis', year:1215, title:'Carta Magna', description:'Límite al poder real en Inglaterra.', tags:['Historia política'] },
     { era:'sardis', year:1215, title:'Transubstantación', description:'Definición de la doctrina en Letrán IV.', tags:['Dogma'] },
-    { era:'sardis', year:1265, title:'Tomás de Aquino – Suma Teológica', description:'Síntesis de la teología escolástica.', tags:['Teología'] },
+    { era:'sardis', year:1265, title:'Tomas de Aquino: Suma Teológica', description:'Síntesis de la teología escolástica.', tags:['Teología'] },
     { era:'sardis', year:1266, title:'Nacimiento del pintor Giotto', description:'Pionero del arte pre-renacentista.', tags:['Arte'] },
     { era:'sardis', year:1384, title:'Biblia de Wycliffe', description:'Traducción de la Biblia al inglés.', tags:['Biblia'] },
     { era:'sardis', year:1415, title:'Martirio de Juan Hus', description:'Reformador bohemio ejecutado.', tags:['Reforma temprana'] },
-    { era:'sardis', year:1418, title:'Tomás de Kempis – Imitación de Cristo', description:'Obra devocional influyente.', tags:['Espiritualidad'] },
+    { era:'sardis', year:1418, title:'Tomas a Kempis escribe imitación de Cristo', description:'Obra devocional influyente.', tags:['Espiritualidad'] },
     { era:'sardis', year:1440, title:'Guttenberg introduce la imprenta', description:'Revoluciona la difusión de libros.', tags:['Imprenta'] },
     { era:'sardis', year:1453, title:'Los Turcos conquistan Constantinopla', description:'Fin del Imperio bizantino.', tags:['Historia'] },
-    { era:'sardis', year:1479, title:'Inquisición Española', description:'Consolidación de la Inquisición en España.', tags:['Inquisición'] },
-    { era:'sardis', year:1494, title:'Savoranola se enfrenta a la inmoralidad papal', description:'Predicador dominico en Florencia.', tags:['Reforma temprana'] },
+    { era:'sardis', year:1479, title:'Inquicición Española', description:'Consolidación de la Inquisición en España.', tags:['Inquisición'] },
+    { era:'sardis', year:1494, title:'Savoranola se enfrenta a la inmoralidad papal', description:'Predicador que denuncia el pecado en Florencia.', tags:['Reforma temprana'] },
 
     // FILADELFIA
-    { era:'filadelfia', year:1516, title:'Nuevo Testamento en Erasmo', description:'Edición crítica en griego.', tags:['Biblia'] },
-    { era:'filadelfia', year:1517, title:'Literatura reformista: Lutero, Zwinglio, Calvino', description:'Inicio de la Reforma.', tags:['Reforma'] },
+    { era:'filadelfia', year:1516, title:'Nuevo testamento en Erasmo', description:'Edición crítica en griego.', tags:['Biblia'] },
+    { era:'filadelfia', year:1572, title:'Masacre del día de San Bartolomé', description:'Matanzas de hugonotes en Francia.', tags:['Conflictos religiosos'] },
+    { era:'filadelfia', year:1568, title:'Derrota de la armada española', description:'Fracaso de la flota española contra Inglaterra.', tags:['Historia'] },
     { era:'filadelfia', year:1530, title:'Iglesia Luterana', description:'Consolidación de las iglesias luteranas.', tags:['Reforma'] },
     { era:'filadelfia', year:1541, title:'Iglesia Congregacionalista', description:'Formación de iglesias autónomas.', tags:['Reforma'] },
-    { era:'filadelfia', year:1547, title:'Iván el Terrible en Rusia', description:'Coronación como zar.', tags:['Historia'] },
-    { era:'filadelfia', year:1568, title:'Derrota de la Armada Española', description:'Fracaso de la flota contra Inglaterra.', tags:['Historia'] },
-    { era:'filadelfia', year:1569, title:'Biblia de Oso', description:'Primera Biblia protestante completa en castellano.', tags:['Biblia'] },
-    { era:'filadelfia', year:1572, title:'Masacre del día de San Bartolomé', description:'Matanzas de hugonotes en Francia.', tags:['Conflictos religiosos'] },
     { era:'filadelfia', year:1603, title:'Iglesia Presbiteriana', description:'Impulso del presbiterianismo escocés.', tags:['Reforma'] },
     { era:'filadelfia', year:1629, title:'Descartes establece el racionalismo', description:'Inicio formal del racionalismo moderno.', tags:['Filosofía'] },
     { era:'filadelfia', year:1665, title:'Isaac Newton hace experimentos con la gravedad', description:'Base de la teoría gravitatoria.', tags:['Ciencia'] },
-    { era:'filadelfia', year:1740, title:'Misioneros importantes y avivamientos', description:'Edwards, Whitefield, Wesley, Brainerd, Carey, Judson, Newton, Müller, Taylor, Moody, Spurgeon, Paton, Livingston.', tags:['Misión','Avivamiento'] },
+    { era:'filadelfia', year:1569, title:'Biblia de Oso', description:'Primera Biblia protestante completa en castellano.', tags:['Biblia'] },
+    { era:'filadelfia', year:1700, title:'Misioneros importantes', description:'Jonathan Edwards, Whitefield, Wesley, Brainerd, Carey, Judson, Newton, Muller, Taylor, Moody, Spurgeon, Paton, Livingston.', tags:['Misión','Avivamiento'] },
     { era:'filadelfia', year:1859, title:'Origen de las especies, Charles Darwin', description:'Publicación de la obra de Darwin.', tags:['Ciencia'] },
 
     // LAODICEA
-    { era:'laodicea', year:1914, title:'Primera Guerra Mundial', description:'Conflicto global que marca el siglo XX.', tags:['Guerras mundiales'] },
-    { era:'laodicea', year:1939, title:'Segunda Guerra Mundial', description:'Nuevo conflicto mundial.', tags:['Guerras mundiales'] },
+    { era:'laodicea', year:1914, title:'primera guerra mundial', description:'Conflicto global que marca el siglo XX.', tags:['Guerras mundiales'] },
+    { era:'laodicea', year:1939, title:'segunda guerra mundial', description:'Nuevo conflicto mundial.', tags:['Guerras mundiales'] },
     { era:'laodicea', year:1948, title:'Fundación del estado de Israel', description:'Restablecimiento de un Estado judío.', tags:['Israel'] },
-    { era:'laodicea', year:1950, title:'Misioneros importantes (Lloyd-Jones, Billy Sunday, Billy Graham, Corrie ten Boom, aucas, Wurmbrand)', description:'Obra misionera y testimonio en el siglo XX.', tags:['Misión'] },
-    { era:'laodicea', year:1955, title:'Clifford Clark en Tulsa Baptist Temple', description:'Influencia sobre la obra misionera.', tags:['Misión'] },
-    { era:'laodicea', year:1960, title:'Pablo Clark va a Colombia (La Biblia Dice...)', description:'Establecimiento de ministerio en Colombia.', tags:['Misión en Colombia'] },
-    { era:'laodicea', year:2000, title:'Iglesia en el mundo digital', description:'Uso de medios y tecnología.', tags:['Tecnología','Iglesia'] }
+    { era:'laodicea', year:1950, title:'Misioneros importantes siglo XX', description:'Martyn Lloyd-Jones, Billy Sunday, Billy Graham, Corrie ten Boom, misioneros a los indios aucas, Richard Wurmbrand.', tags:['Misión'] },
+    { era:'laodicea', year:1955, title:'Clifford Clark en Tulsa Baptis Temple', description:'Ministerio clave en Tulsa.', tags:['Misión'] },
+    { era:'laodicea', year:1960, title:'Pablo Clark va a colombia', description:'Establece la iglesia La Biblia Dice...', tags:['Misión en Colombia'] }
   ];
 
   const canvas = document.getElementById('timelineCanvas');
   const detailPanel = document.getElementById('detailPanel');
 
-  // Más ancho para que Tiatira y Filadelfia respiren
-  const TIMELINE_WIDTH = 8000;
+  const TIMELINE_WIDTH = 8000; // más ancho para dar aire
 
   function yearToX(year) {
     const span = MAX_YEAR - MIN_YEAR;
@@ -493,6 +487,7 @@
   }
 
   function createLinesAndRuler() {
+    // Líneas punteadas fijas
     const movLine = document.createElement('div');
     movLine.className = 'track-line track-line--mov';
     canvas.appendChild(movLine);
@@ -511,6 +506,7 @@
     evtLabel.textContent = 'EVENTOS HISTÓRICOS';
     canvas.appendChild(evtLabel);
 
+    // Regla inferior global
     const ruler = document.createElement('div');
     ruler.className = 'ruler';
     canvas.appendChild(ruler);
@@ -547,11 +543,16 @@
   function layoutBubbles() {
     const lanesEvents = [];
     const lanesMovs = [];
-    const LANE_GAP = 42;
-    const BASE_Y_EVENTS = 245; // SIEMPRE por debajo de la línea punteada (230)
-    const BASE_Y_MOVS   = 135; // SIEMPRE por encima de la línea de movimientos (150)
 
-    // Movimientos (bandas de duración)
+    const LANE_GAP = 42;
+
+    // Movimientos: SIEMPRE debajo de la palabra MOVIMIENTOS y de su línea punteada
+    const MOV_BASE_Y = 190; // justo por debajo de la línea de movimientos (180)
+
+    // Eventos: SIEMPRE por debajo de la línea punteada de eventos
+    const EVT_BASE_Y = 270; // justo por debajo de la línea de eventos (260)
+
+    // Movimientos (rangos)
     MOVEMENTS.forEach(m => {
       const el = document.createElement('div');
       el.className = 'bubble bubble--movement';
@@ -572,7 +573,7 @@
         }
         lane++;
       }
-      el.style.top = (BASE_Y_MOVS - (lane + 1) * LANE_GAP) + 'px';
+      el.style.top = (MOV_BASE_Y + lane * LANE_GAP) + 'px';
 
       el.addEventListener('click', () => showDetail(m));
     });
@@ -587,7 +588,6 @@
       const x = yearToX(ev.year);
       el.style.left = x + 'px';
 
-      // Forzamos cálculo de ancho real
       const width = el.offsetWidth || 260;
       const startX = x;
       const endX = x + width;
@@ -600,7 +600,7 @@
         }
         lane++;
       }
-      el.style.top = (BASE_Y_EVENTS + lane * LANE_GAP) + 'px';
+      el.style.top = (EVT_BASE_Y + lane * LANE_GAP) + 'px';
 
       el.addEventListener('click', () => showDetail(ev));
     });
