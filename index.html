@@ -467,7 +467,9 @@
   const canvas = document.getElementById('timelineCanvas');
   const detailPanel = document.getElementById('detailPanel');
 
-  const TIMELINE_WIDTH = 8000;
+  function getTimelineWidth() {
+  return canvas.scrollWidth;
+}
 
   function yearToX(year) {
     const span = MAX_YEAR - MIN_YEAR;
