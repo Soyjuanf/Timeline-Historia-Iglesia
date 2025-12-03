@@ -224,6 +224,16 @@
       color: rgba(0,0,0,0.75);
     }
 
+        /* Líneas verticales en años clave (200, 300, 400, 1000, 1500, 1900) */
+    .era-divider {
+      position: absolute;
+      top: 0;          /* desde arriba */
+      bottom: 0;       /* hasta lo más abajo del canvas */
+      width: 0;
+      border-left: 1px dashed rgba(0,0,0,0.35);
+      z-index: 0;      /* por detrás de las burbujas y títulos */
+    }
+
     /* PANEL DETALLE */
 
     aside {
