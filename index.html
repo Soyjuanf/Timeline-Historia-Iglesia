@@ -296,13 +296,14 @@
   }
    @media screen and (orientation: landscape) and (max-width: 900px) {
   main {
-    grid-template-columns: 2fr;
-    grid-template-rows: minmax(0, 2.4fr) minmax(0, 1fr);
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(260px, 1fr);
+    grid-template-rows: 1fr;
   }
 
   aside {
-    border-left: none;
-    border-top: 1px solid rgba
+    border-top: none;
+    border-left: 1px solid rgba(0,0,0,0.08);
   }
 
   .timeline-viewport {
