@@ -26,6 +26,7 @@
     * { box-sizing: border-box; }
 
     body {
+  height: 100%    
   margin: 0;                  /* sin borde blanco raro */
   padding: 0;
   font-family: 'Montserrat', sans-serif;
@@ -310,6 +311,50 @@
     overflow-x: auto;
     overflow-y: auto;
   }
+   /* MODO LANDSCAPE EN MÓVIL:
+   - Vuelve a 2 columnas (como desktop)
+   - Mantiene el panel de detalle fijo a la derecha
+   - Evita las franjas blancas y el scroll raro
+*/
+@media (max-width: 900px) and (orientation: landscape) {
+
+  body {
+    overflow: hidden;              /* app de pantalla completa en landscape */
+  }
+
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 30;
+  }
+
+  main {
+    position: absolute;
+    top: 80px;                     /* altura del header */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(260px, 1fr);
+    grid-template-rows: 1fr;
+    min-height: auto;
+  }
+
+  .timeline-viewport {
+    height: 100%;
+    overflow-x: auto;              /* horizontal dentro del timeline */
+    overflow-y: hidden;            /* no scroll vertical aquí */
+  }
+
+  aside {
+    height: 100%;
+    border-left: 1px solid rgba(0,0,0,0.08);
+    border-top: none;
+    overflow-y: auto;              /* el texto del detalle sí puede scrollear */
+  }
+}  
 }   
 }
   </style>
