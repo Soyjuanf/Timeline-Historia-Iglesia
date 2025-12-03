@@ -26,13 +26,13 @@
     * { box-sizing: border-box; }
 
     body {
-  margin: 0;
+  margin: 0.1;
   font-family: 'Montserrat', sans-serif;
   background: var(--bg);
   color: var(--text);
-  /* permitir scroll vertical y bloquear solo el horizontal general */
-  overflow-x: hidden;
-  overflow-y: auto;
+  /* overflow: hidden;  ❌ quítalo o cámbialo */
+  overflow-x: hidden;   /* ✅ solo bloquea el scroll lateral */
+  overflow-y: auto;     /* ✅ permite scroll hacia abajo */
 }
 
     header {
