@@ -536,6 +536,16 @@
       canvas.appendChild(tick);
       canvas.appendChild(label);
     }
+        // Líneas verticales en años clave
+    const dividerYears = [200, 300, 400, 1000, 1500, 1900];
+
+    dividerYears.forEach(year => {
+      const x = yearToX(year);
+      const divider = document.createElement('div');
+      divider.className = 'era-divider';
+      divider.style.left = x + 'px';
+      canvas.appendChild(divider);
+    });
   }
 
   function showDetail(item) {
