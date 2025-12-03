@@ -556,11 +556,11 @@
     movementsSorted.forEach(m => {
       const el = document.createElement('div');
       el.className = 'bubble bubble--movement';
-      el.textContent = `${MOVEMENTS.start}–${MOVEMENTS.end} · ${m.title}`;
+      el.textContent = `${m.start}–${m.end} · ${m.title}`;
       canvas.appendChild(el);
 
-      const xStart = yearToX(MOVEMENTS.start);
-      const xEnd   = yearToX(MOVEMENTS.end);
+      const xStart = yearToX(m.start);
+      const xEnd   = yearToX(m.end);
 
       el.style.left  = xStart + 'px';
       el.style.width = (xEnd - xStart) + 'px';
