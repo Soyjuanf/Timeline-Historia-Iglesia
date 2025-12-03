@@ -552,7 +552,6 @@
     const GAP_EVT = 32;
 
 // MOVIMIENTOS
-// 1) Ordenamos por año de inicio para que los lanes tengan sentido
 const movementsSorted = [...MOVEMENTS].sort((a, b) => a.start - b.start);
 
 movementsSorted.forEach(m => {
@@ -561,7 +560,7 @@ movementsSorted.forEach(m => {
   el.textContent = `${m.start}–${m.end} · ${m.title}`;
   canvas.appendChild(el);
 
-  // posición horizontal (inicio y fin según los años)
+  // Posición horizontal
   const xStart = yearToX(m.start);
   const xEnd   = yearToX(m.end);
 
@@ -571,25 +570,27 @@ movementsSorted.forEach(m => {
   const startX = xStart;
   const endX   = xEnd;
 
-  // 2) Asignación de lane evitando que se monten
+  // Asignación de lane evitando que se monten en X
   let lane = 0;
   while (true) {
-    // si el lane está vacío, o este movimiento empieza DESPUÉS
-    // del final del último que se dibujó en ese lane (+ margen)
     if (
       lanesMovs[lane] === undefined ||
-      startX >= lanesMovs[lane] + 12   // margen horizontal de 12px
+      startX >= lanesMovs[lane] + 12   // margen horizontal entre burbujas
     ) {
-      lanesMovs[lane] = endX;         // guardamos el final ocupado en ese lane
+      lanesMovs[lane] = endX;
       break;
     }
     lane++;
   }
 
-  el.style.top = (MOV_BASE_Y + lane * GAP_MOV) + 'px';
+  // >>> separación vertical basada en la altura real de la burbuja <<<
+  const bubbleHeight = el.offsetHeight;          // alto real (incluye padding)
+  const laneHeight   = bubbleHeight + 16;        // 16px de aire entre filas
+
+  el.style.top = (MOV_BASE_Y + lane * laneHeight) + 'px';
+
   el.addEventListener('click', () => showDetail(m));
 });
-
     // EVENTOS
     EVENTS.forEach(ev => {
       const el = document.createElement('div');
