@@ -618,7 +618,7 @@
     el.addEventListener('click', () => showDetail(m));
   });
 
-  /* ---------- EVENTOS (como los tenías, con lanes) ---------- */
+  /* ---------- EVENTOS ---------- */
   const eventsSorted = [...EVENTS].sort((a, b) => a.year - b.year);
 
   eventsSorted.forEach(ev => {
@@ -636,9 +636,7 @@
 
     let lane = 0;
     while (true) {
-      if (lanesEvents[lane] == undefined || 
-        startX >= lanesEvents[lane] + 20) 
-      ) {
+      if (lanesEvents[lane] === undefined || startX >= lanesEvents[lane] + 20) {
         lanesEvents[lane] = endX;
         break;
       }
@@ -646,8 +644,10 @@
     }
 
     el.style.top = (EVT_BASE_Y + lane * GAP_EVT) + 'px';
+
     el.addEventListener('click', () => showDetail(ev));
   });
+
 }
 
   function init() {
