@@ -31,7 +31,7 @@
   background: var(--bg);
   color: var(--text);
   overflow-x: hidden;   /* ✅ solo bloquea el scroll lateral */
-  overflow-y: auto;     /* ✅ permite scroll hacia abajo */
+  overflow-y: hidden;     /* ✅ permite scroll hacia abajo */
 }
 
     header {
@@ -61,11 +61,11 @@
     }
 
     main {
-  position: relative;
-  margin-top: 80px; /* deja espacio para el header fijo */
+  position: absolute;
+  inset: 80px 0 0 0;                 /* pegado al header fijo */
   display: grid;
   grid-template-columns: minmax(0, 3fr) minmax(260px, 1fr);
-  min-height: calc(100vh - 80px); /* puede ser más alto y permitir scroll */
+  height: calc(100vh - 80px);        /* ocupa todo el alto visible */
 }
 
     /* TIMELINE */
@@ -73,7 +73,7 @@
     .timeline-viewport {
   position: relative;
   overflow-x: auto;
-  overflow-y: auto;     /* ✅ ahora puedes hacer scroll vertical dentro */
+  overflow-y: auto;    /* <- antes lo tenías en hidden */
   background: var(--bg-soft);
   scroll-behavior: smooth;
 }
