@@ -25,10 +25,8 @@
 
     * { box-sizing: border-box; }
 
-    body {
-  height: 100%    
+    body {   
   margin: 0;                  /* sin borde blanco raro */
-  padding: 0;
   font-family: 'Montserrat', sans-serif;
   background: var(--bg);
   color: var(--text);
@@ -37,16 +35,17 @@
 }
 
     header {
-  position: absolute;        /* ya NO es fixed */
-  height: 80px;
-  background: var(--olive);
-  color: var(--white);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 0 24px;
-  z-index: 20;
-}
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: 80px;
+      background: var(--olive);
+      color: var(--white);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 24px;
+      z-index: 20;
+    }
 
     header h1 {
       margin: 0;
@@ -62,23 +61,21 @@
     }
 
     main {
-  position: fixed;    /* ya no es absolute */
-  display: grid;
-  grid-template-columns: minmax(0, 3fr) minmax(260px, 1fr);
-  min-height: calc(100vh - 80px);  /* ocupa la pantalla pero puede crecer más */
-}
+      position: absolute;
+      inset: 80px 0 0 0;
+      display: grid;
+      grid-template-columns: 3fr 1fr;
+      height: calc(100vh - 80px);
+    }
 
     /* TIMELINE */
 
     .timeline-viewport {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow-x: auto;     /* horizontal dentro del timeline */
-  overflow-y: visible;  /* el scroll vertical lo hace la página, no este div */
-  background: var(--bg-soft);
-  scroll-behavior: smooth;
-}
+      position: relative;
+      overflow-x: auto;
+      overflow-y: hidden;
+      background: var(--bg-soft);
+    }
 
     .timeline-canvas {
       position: relative;
