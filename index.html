@@ -571,41 +571,43 @@
     const GAP_EVT = 32;      // separación vertical entre filas de eventos
 
     /* ---------- MOVIMIENTOS ---------- */
-    const movementsSorted = [...MOVEMENTS].sort((a, b) => a.start - b.start);
+const movementsSorted = [...MOVEMENTS].sort((a, b) => a.start - b.start);
+const lanesMovs = [];
 
-    movementsSorted.forEach(m => {
-      const el = document.createElement('div');
-      el.className = 'bubble bubble--movement';
-      el.textContent = `${m.start}–${m.end} · ${m.title}`;
-      canvas.appendChild(el);
+movementsSorted.forEach(m => {
+  const el = document.createElement('div');
+  el.className = 'bubble bubble--movement';
+  el.textContent = `${m.start}–${m.end} · ${m.title}`;
+  canvas.appendChild(el);
 
-      const xStart = yearToX(m.start);
-      const xEnd   = yearToX(m.end);
+  /* POSICIÓN X REAL SEGÚN DURACIÓN */
+  const xStart = yearToX(m.start);
+  const xEnd   = yearToX(m.end);
 
-      el.style.left  = xStart + 'px';
-      el.style.width = (xEnd - xStart) + 'px';
+  el.style.left  = xStart + 'px';
+  el.style.width = Math.max(24, xEnd - xStart) + 'px'; // nunca 0
 
-      const startX = xStart;
-      const endX   = xEnd;
+  /* EVITAR MONTAJE HORIZONTAL CON OTROS MOVIMIENTOS */
+  let lane = 0;
+  while (true) {
+    if (
+      lanesMovs[lane] === undefined ||
+      xStart >= lanesMovs[lane] + 16   // margen entre burbujas
+    ) {
+      lanesMovs[lane] = xEnd;
+      break;
+    }
+    lane++;
+  }
 
-      let lane = 0;
-      while (true) {
-        if (
-          lanesMovs[lane] === undefined ||
-          startX >= lanesMovs[lane] + 12
-        ) {
-          lanesMovs[lane] = endX;
-          break;
-        }
-        lane++;
-      }
+  /* POSICIÓN Y DINÁMICA (NO SE MONTAN) */
+  const bubbleHeight = el.offsetHeight || 26;
+  const laneHeight   = bubbleHeight + 18;
 
-      const bubbleHeight = el.offsetHeight || 24;
-      const laneHeight   = bubbleHeight + 16;
+  el.style.top = (MOV_BASE_Y + lane * laneHeight) + 'px';
 
-      el.style.top = (MOV_BASE_Y + lane * laneHeight) + 'px';
-      el.addEventListener('click', () => showDetail(m));
-    });
+  el.addEventListener('click', () => showDetail(m));
+});
 
     /* ---------- EVENTOS ---------- */
     EVENTS.forEach(ev => {
