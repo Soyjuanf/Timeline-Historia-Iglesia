@@ -571,52 +571,44 @@
 
   const GAP_EVT = 32;       // separación vertical fija entre eventos
 
-    /* ---------- MOVIMIENTOS ---------- */
-  const movementsSorted = [...MOVEMENTS].sort((a, b) => a.start - b.start);
+    /* ---------- MOVIMIENTOS (LARGO EXACTO GARANTIZADO) ---------- */
 
-  movementsSorted.forEach(m => {
-    const el = document.createElement('div');
-    el.className = 'bubble bubble--movement';
-    el.textContent = `${m.start}–${m.end} · ${m.title}`;
-    canvas.appendChild(el);
+const movementsSorted = [...MOVEMENTS].sort((a, b) => a.start - b.start);
 
-    // Coordenadas exactas según la misma escala de la regla (0–2025)
-    const xStart = yearToX(m.start);
-    const xEnd   = yearToX(m.end);
+movementsSorted.forEach(m => {
+  const el = document.createElement('div');
+  el.className = 'bubble bubble--movement';
+  el.textContent = `${m.start}–${m.end} · ${m.title}`;
+  canvas.appendChild(el);
 
-    // Ajuste fino para que el largo visible coincida con el intervalo:
-    // - Desplazamos 1 px a la derecha
-    // - Restamos 2 px al ancho para compensar borde/padding
-    const adjLeft  = xStart + 1;
-    const adjWidth = Math.max(8, (xEnd - xStart) - 2); // mínimo visual, pero basado en la duración real
+  // 🔒 Cálculo CORRECTO alineado a la regla
+  const xStart = yearToX(m.start);
+  const xEnd   = yearToX(m.end);
 
-    el.style.left  = adjLeft + 'px';
-    el.style.width = adjWidth + 'px';
+  el.style.left  = xStart + 'px';
+  el.style.width = (xEnd - xStart) + 'px';
 
-    const startX = adjLeft;
-    const endX   = adjLeft + adjWidth;
+  const startX = xStart;
+  const endX   = xEnd;
 
-    // Distribución en "lanes" para que NO se monten entre sí
-    let lane = 0;
-    while (true) {
-      if (
-        lanesMovs[lane] === undefined ||
-        startX >= lanesMovs[lane] + 20    // separación horizontal mínima
-      ) {
-        lanesMovs[lane] = endX;
-        break;
-      }
-      lane++;
+  // Evitar solapes horizontales
+  let lane = 0;
+  while (true) {
+    if (lanesMovs[lane] === undefined || startX >= lanesMovs[lane] + 12) {
+      lanesMovs[lane] = endX;
+      break;
     }
+    lane++;
+  }
 
-    // Altura de cada fila basada en la burbuja real + aire
-    const bubbleHeight = el.offsetHeight || 24;
-    const laneHeight   = bubbleHeight + 16;
+  // Altura dinámica real
+  const realHeight = el.getBoundingClientRect().height || 26;
+  const laneHeight = realHeight + 16;
 
-    el.style.top = (MOV_BASE_Y + lane * laneHeight) + 'px';
+  el.style.top = (MOV_BASE_Y + lane * laneHeight) + 'px';
 
-    el.addEventListener('click', () => showDetail(m));
-  });
+  el.addEventListener('click', () => showDetail(m));
+});
 
   /* ---------- EVENTOS ---------- */
   const eventsSorted = [...EVENTS].sort((a, b) => a.year - b.year);
