@@ -566,7 +566,7 @@
 
       let lane = 0;
       while (true) {
-        if (lanesMovs[lane] == null || xStart - lanesMovs[lane] > 12) {
+        if (!lanesMovs[lane] || xStart - lanesMovs[lane] > 12) {
           lanesMovs[lane] = xEnd;
           break;
         }
