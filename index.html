@@ -590,34 +590,44 @@ movementsSorted.forEach(m => {
   el.style.top = (MOV_BASE_Y + lane * laneHeight) + 'px';
 
   el.addEventListener('click', () => showDetail(m));
-});
-    // EVENTOS
-    EVENTS.forEach(ev => {
-      const el = document.createElement('div');
-      el.className = 'bubble';
-      el.textContent = `${ev.year} · ${ev.title}`;
-      canvas.appendChild(el);
+// EVENTOS
+const eventsSorted = [...EVENTS].sort((a, b) => a.year - b.year);
 
-      const x = yearToX(ev.year);
-      el.style.left = x + 'px';
+eventsSorted.forEach(ev => {
+  const el = document.createElement('div');
+  el.className = 'bubble';
+  el.textContent = `${ev.year} · ${ev.title}`;
+  canvas.appendChild(el);
 
-      const width = el.offsetWidth || 260;
-      const startX = x;
-      const endX = x + width;
+  // Posición horizontal
+  const x = yearToX(ev.year);
+  el.style.left = x + 'px';
 
-      let lane = 0;
-      while (true) {
-        if (lanesEvents[lane] == null || startX - lanesEvents[lane] > 12) {
-          lanesEvents[lane] = endX;
-          break;
-        }
-        lane++;
-      }
+  const width  = el.offsetWidth || 260;
+  const startX = x;
+  const endX   = x + width;
 
-      el.style.top = (EVT_BASE_Y + lane * GAP_EVT) + 'px';
-      el.addEventListener('click', () => showDetail(ev));
-    });
+  // Asignación de lane sin solapamiento horizontal
+  let lane = 0;
+  while (true) {
+    if (
+      lanesEvents[lane] === undefined ||
+      startX >= lanesEvents[lane] + 12   // margen horizontal
+    ) {
+      lanesEvents[lane] = endX;
+      break;
+    }
+    lane++;
   }
+
+  // >>> separación vertical basada en altura REAL de la burbuja <<<
+  const bubbleHeight = el.offsetHeight;
+  const laneHeight   = bubbleHeight + 16;   // aire entre filas
+
+  el.style.top = (EVT_BASE_Y + lane * laneHeight) + 'px';
+
+  el.addEventListener('click', () => showDetail(ev));
+});
 
   function init() {
     canvas.style.width = TIMELINE_WIDTH + 'px';
