@@ -277,16 +277,22 @@
       margin-bottom: 6px;
     }
 
-    @media screen and (orientation: portrait) {
+    @media (max-width: 900px) {
   main {
-    display: grid;
-    grid-template-columns: 1fr; 
+    grid-template-columns: 1fr;
     grid-template-rows: minmax(0, 2.4fr) minmax(0, 1fr);
   }
 
   aside {
     border-left: none;
     border-top: 1px solid rgba(0,0,0,0.08);
+    height: auto;
+  }
+
+  .timeline-canvas {
+    /* usa la altura grande por defecto */
+    height: 1500px;      /* o el valor que necesites para que quepan todos los eventos */
+    min-width: 2200px;
   }
 }
    @media screen and (orientation: landscape) and (max-width: 900px) {
