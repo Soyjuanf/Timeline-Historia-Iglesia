@@ -296,14 +296,14 @@
     min-width: 2200px;
   }
    
-@media (max-width: 900px) and (orientation: landscape) {
+@media (max-width: 2000px) and (orientation: landscape) {
 
   body {
-    overflow: hidden;              /* app de pantalla completa en landscape */
+    overflow: fixed;              /* app de pantalla completa en landscape */
   }
 
   header {
-    position: hidden;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -311,7 +311,7 @@
   }
 
   main {
-    position: sticky;
+    position: fixed;
     top: 80px;                     /* altura del header */
     left: 0;
     right: 0;
@@ -332,7 +332,7 @@
     height: 100%;
     border-left: 1px solid rgba(0,0,0,0.08);
     border-top: none;
-    overflow-y: sticky;              /* el texto del detalle sí puede scrollear */
+    overflow-y: auto;              /* el texto del detalle sí puede scrollear */
   }
 }  
 }   
