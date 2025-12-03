@@ -25,13 +25,14 @@
 
     * { box-sizing: border-box; }
 
-    body {   
-  margin: 0;                  /* sin borde blanco raro */
+    body {
+  margin: 0.1;
   font-family: 'Montserrat', sans-serif;
   background: var(--bg);
   color: var(--text);
-  overflow-x: auto;         /* no se desborda horizontal */
-  overflow-y: fixed;           /* la página ahora SÍ puede scrollear hacia abajo */
+  /* overflow: hidden;  ❌ quítalo o cámbialo */
+  overflow-x: hidden;   /* ✅ solo bloquea el scroll lateral */
+  overflow-y: auto;     /* ✅ permite scroll hacia abajo */
 }
 
     header {
@@ -71,11 +72,12 @@
     /* TIMELINE */
 
     .timeline-viewport {
-      position: relative;
-      overflow-x: auto;
-      overflow-y: hidden;
-      background: var(--bg-soft);
-    }
+  position: relative;
+  overflow-x: auto;
+  overflow-y: auto;     /* ✅ ahora puedes hacer scroll vertical dentro */
+  background: var(--bg-soft);
+  scroll-behavior: smooth;
+}
 
     .timeline-canvas {
       position: relative;
@@ -289,7 +291,7 @@
 
   .timeline-canvas {
     /* usa la altura grande por defecto */
-    height: 900px;      /* o el valor que necesites para que quepan todos los eventos */
+    height: 1500px;      /* o el valor que necesites para que quepan todos los eventos */
     min-width: 2200px;
   }
 }   
