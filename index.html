@@ -591,33 +591,32 @@ movementsSorted.forEach(m => {
 
   el.addEventListener('click', () => showDetail(m));
   
- // EVENTOS
-    EVENTS.forEach(ev => {
-      const el = document.createElement('div');
-      el.className = 'bubble';
-      el.textContent = ${ev.year} · ${ev.title};
-      canvas.appendChild(el);
+// EVENTOS
+EVENTS.forEach(ev => {
+  const el = document.createElement('div');
+  el.className = 'bubble';
+  el.textContent = `${ev.year} · ${ev.title}`;
+  canvas.appendChild(el);
 
-      const x = yearToX(ev.year);
-      el.style.left = x + 'px';
+  const x = yearToX(ev.year);
+  el.style.left = x + 'px';
 
-      const width = el.offsetWidth || 260;
-      const startX = x;
-      const endX = x + width;
+  const width  = el.offsetWidth || 260;
+  const startX = x;
+  const endX   = x + width;
 
-      let lane = 0;
-      while (true) {
-        if (lanesEvents[lane] == null || startX - lanesEvents[lane] > 12) {
-          lanesEvents[lane] = endX;
-          break;
-        }
-        lane++;
-      }
-
-      el.style.top = (EVT_BASE_Y + lane * GAP_EVT) + 'px';
-      el.addEventListener('click', () => showDetail(ev));
-    });
+  let lane = 0;
+  while (true) {
+    if (lanesEvents[lane] == null || startX - lanesEvents[lane] > 12) {
+      lanesEvents[lane] = endX;
+      break;
+    }
+    lane++;
   }
+
+  el.style.top = (EVT_BASE_Y + lane * GAP_EVT) + 'px';
+  el.addEventListener('click', () => showDetail(ev));
+});
 
   function init() {
     canvas.style.width = TIMELINE_WIDTH + 'px';
