@@ -83,7 +83,7 @@
       min-width: 3200px;
     }
 
-    /* Bandas de eras (solo fondo, sin líneas extra) */
+    /* Bandas de eras (solo fondo) */
 
     .era-band {
       position: absolute;
@@ -124,13 +124,14 @@
       z-index: 1;
     }
 
-    /* alturas fijas para todo el timeline */
+    /* Línea punteada de movimientos */
     .track-line--mov {
-      top: 180px;   /* separa cabecera de movimientos */
+      top: 170px;
     }
 
+    /* Línea punteada de eventos históricos */
     .track-line--evt {
-      top: 260px;   /* separa movimientos de eventos históricos */
+      top: 250px;
     }
 
     .track-label {
@@ -147,13 +148,13 @@
     }
 
     .track-label--mov {
-      top: 180px;
+      top: 170px;
       left: 24px;
       transform: translateY(-140%);
     }
 
     .track-label--evt {
-      top: 260px;
+      top: 250px;
       left: 24px;
       transform: translateY(-140%);
     }
@@ -317,7 +318,7 @@
     { id: 'laodicea',   start:1900, end: 2025, title: 'LAODICEA',   subtitle: 'Apocalipsis 3:14–22 · Iglesia contemporánea (1900–2025)' }
   ];
 
-  // SOLO movimientos que tú pediste
+  // MOVIMIENTOS (solo los que tú diste)
   const MOVEMENTS = [
     // Esmirna
     { era:'esmirna', start:156, end:300, title:'Montanistas', description:'Movimiento profético y rigorista surgido en Frigia.', tags:['Movimiento'] },
@@ -344,7 +345,7 @@
     { era:'filadelfia', start:1675, end:1800, title:'Pietistas', description:'Corriente que resalta la piedad personal.', tags:['Movimiento'] }
   ];
 
-  // SOLO eventos que tú dictaste
+  // EVENTOS (solo los que tú diste)
   const EVENTS = [
     // ÉFESO
     { era:'efeso', year:29,  title:'Ministerio público de Jesús', description:'Jesús inicia su ministerio público.', tags:['Evangelios'] },
@@ -404,7 +405,7 @@
     { era:'tiatira', year:732, title:'Batalla de Tours', description:'Carlos Martel frena el avance musulmán.', tags:['Guerras'] },
     { era:'tiatira', year:781, title:'Los cristianos Nestorianos refugiados en China', description:'Presencia cristiana en el Lejano Oriente.', tags:['Misión'] },
     { era:'tiatira', year:790, title:'Los Vikingos invaden Europa', description:'Comienzo de las incursiones vikingas.', tags:['Invasiones'] },
-    { era:'tiatira', year:796, title:'Alcuin revisa el texto de la Vulgata', description:'Trabajo textual carolingio.', tags:['Biblia'] },
+    { era:'tiatira', year:796, title:'Alcuino revisa el texto de la Vulgata', description:'Trabajo textual carolingio.', tags:['Biblia'] },
     { era:'tiatira', year:800, title:'Carlomagno coronado como emperador', description:'Renovación del título imperial.', tags:['Imperio'] },
     { era:'tiatira', year:962, title:'Emperador Otto el Grande', description:'Consolidación del Sacro Imperio.', tags:['Imperio'] },
     { era:'tiatira', year:979, title:'China unificada bajo la dinastía Sung', description:'Florecimiento cultural.', tags:['China'] },
@@ -456,7 +457,7 @@
   const canvas = document.getElementById('timelineCanvas');
   const detailPanel = document.getElementById('detailPanel');
 
-  const TIMELINE_WIDTH = 8000; // más ancho para dar aire
+  const TIMELINE_WIDTH = 8000;
 
   function yearToX(year) {
     const span = MAX_YEAR - MIN_YEAR;
@@ -487,7 +488,6 @@
   }
 
   function createLinesAndRuler() {
-    // Líneas punteadas fijas
     const movLine = document.createElement('div');
     movLine.className = 'track-line track-line--mov';
     canvas.appendChild(movLine);
@@ -506,7 +506,7 @@
     evtLabel.textContent = 'EVENTOS HISTÓRICOS';
     canvas.appendChild(evtLabel);
 
-    // Regla inferior global
+    // Regla inferior
     const ruler = document.createElement('div');
     ruler.className = 'ruler';
     canvas.appendChild(ruler);
@@ -541,18 +541,17 @@
   }
 
   function layoutBubbles() {
-    const lanesEvents = [];
+    // Lanes globales pero con offsets fijos para cada tipo
     const lanesMovs = [];
+    const lanesEvents = [];
 
-    const LANE_GAP = 42;
+    const MOV_BASE_Y = 180;   // justo debajo de la línea de mov (170)
+    const EVT_BASE_Y = 270;   // claramente debajo de la línea de eventos (250)
 
-    // Movimientos: SIEMPRE debajo de la palabra MOVIMIENTOS y de su línea punteada
-    const MOV_BASE_Y = 190; // justo por debajo de la línea de movimientos (180)
+    const GAP_MOV = 18;
+    const GAP_EVT = 32;
 
-    // Eventos: SIEMPRE por debajo de la línea punteada de eventos
-    const EVT_BASE_Y = 270; // justo por debajo de la línea de eventos (260)
-
-    // Movimientos (rangos)
+    // MOVIMIENTOS
     MOVEMENTS.forEach(m => {
       const el = document.createElement('div');
       el.className = 'bubble bubble--movement';
@@ -562,6 +561,7 @@
       const xStart = yearToX(m.start);
       const xEnd   = yearToX(m.end);
       const width  = Math.max(xEnd - xStart, 60);
+
       el.style.left = xStart + 'px';
       el.style.width = width + 'px';
 
@@ -573,12 +573,12 @@
         }
         lane++;
       }
-      el.style.top = (MOV_BASE_Y + lane * LANE_GAP) + 'px';
 
+      el.style.top = (MOV_BASE_Y + lane * GAP_MOV) + 'px';
       el.addEventListener('click', () => showDetail(m));
     });
 
-    // Eventos puntuales
+    // EVENTOS
     EVENTS.forEach(ev => {
       const el = document.createElement('div');
       el.className = 'bubble';
@@ -600,8 +600,8 @@
         }
         lane++;
       }
-      el.style.top = (EVT_BASE_Y + lane * LANE_GAP) + 'px';
 
+      el.style.top = (EVT_BASE_Y + lane * GAP_EVT) + 'px';
       el.addEventListener('click', () => showDetail(ev));
     });
   }
