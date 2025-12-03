@@ -124,12 +124,10 @@
       z-index: 1;
     }
 
-    /* Línea punteada de movimientos */
     .track-line--mov {
       top: 180px;
     }
 
-    /* Línea punteada de eventos históricos */
     .track-line--evt {
       top: 330px;
     }
@@ -318,7 +316,7 @@
     { id: 'laodicea',   start:1900, end: 2025, title: 'LAODICEA',   subtitle: 'Apocalipsis 3:14–22 · La Iglesia De La Puerta Cerrada (1900–2025)' }
   ];
 
-  // MOVIMIENTOS (solo los que tú diste)
+  // MOVIMIENTOS
   const MOVEMENTS = [
     // Esmirna
     { era:'esmirna', start:156, end:300, title:'Montanistas', description:'Movimiento profético y rigorista surgido en Frigia.', tags:['Movimiento'] },
@@ -345,7 +343,7 @@
     { era:'filadelfia', start:1675, end:1800, title:'Pietistas', description:'Corriente que resalta la piedad personal.', tags:['Movimiento'] }
   ];
 
-  // EVENTOS (solo los que tú diste)
+  // EVENTOS
   const EVENTS = [
     // ÉFESO
     { era:'efeso', year:29,  title:'Ministerio público de Jesús', description:'Jesús inicia su ministerio público.', tags:['Evangelios'] },
@@ -541,82 +539,79 @@
   }
 
   function layoutBubbles() {
-    // Lanes globales pero con offsets fijos para cada tipo
     const lanesMovs = [];
     const lanesEvents = [];
 
-    const MOV_BASE_Y = 190;   // justo debajo de la línea de mov (170)
-    const EVT_BASE_Y = 340;   // claramente debajo de la línea de eventos (250)
+    // Alturas base: debajo de las líneas punteadas
+    const MOV_BASE_Y = 190;  // movimientos
+    const EVT_BASE_Y = 340;  // eventos
 
-    const GAP_MOV = 18;
-    const GAP_EVT = 32;
+    const GAP_EVT = 32;      // separación vertical entre filas de eventos
 
-// MOVIMIENTOS
-const movementsSorted = [...MOVEMENTS].sort((a, b) => a.start - b.start);
+    /* ---------- MOVIMIENTOS ---------- */
+    const movementsSorted = [...MOVEMENTS].sort((a, b) => a.start - b.start);
 
-movementsSorted.forEach(m => {
-  const el = document.createElement('div');
-  el.className = 'bubble bubble--movement';
-  el.textContent = `${m.start}–${m.end} · ${m.title}`;
-  canvas.appendChild(el);
+    movementsSorted.forEach(m => {
+      const el = document.createElement('div');
+      el.className = 'bubble bubble--movement';
+      el.textContent = `${m.start}–${m.end} · ${m.title}`;
+      canvas.appendChild(el);
 
-  // Posición horizontal
-  const xStart = yearToX(m.start);
-  const xEnd   = yearToX(m.end);
+      const xStart = yearToX(m.start);
+      const xEnd   = yearToX(m.end);
 
-  el.style.left  = xStart + 'px';
-  el.style.width = (xEnd - xStart) + 'px';
+      el.style.left  = xStart + 'px';
+      el.style.width = (xEnd - xStart) + 'px';
 
-  const startX = xStart;
-  const endX   = xEnd;
+      const startX = xStart;
+      const endX   = xEnd;
 
-  // Asignación de lane evitando que se monten en X
-  let lane = 0;
-  while (true) {
-    if (
-      lanesMovs[lane] === undefined ||
-      startX >= lanesMovs[lane] + 12   // margen horizontal entre burbujas
-    ) {
-      lanesMovs[lane] = endX;
-      break;
-    }
-    lane++;
+      let lane = 0;
+      while (true) {
+        if (
+          lanesMovs[lane] === undefined ||
+          startX >= lanesMovs[lane] + 12
+        ) {
+          lanesMovs[lane] = endX;
+          break;
+        }
+        lane++;
+      }
+
+      const bubbleHeight = el.offsetHeight || 24;
+      const laneHeight   = bubbleHeight + 16;
+
+      el.style.top = (MOV_BASE_Y + lane * laneHeight) + 'px';
+      el.addEventListener('click', () => showDetail(m));
+    });
+
+    /* ---------- EVENTOS ---------- */
+    EVENTS.forEach(ev => {
+      const el = document.createElement('div');
+      el.className = 'bubble';
+      el.textContent = `${ev.year} · ${ev.title}`;
+      canvas.appendChild(el);
+
+      const x = yearToX(ev.year);
+      el.style.left = x + 'px';
+
+      const width  = el.offsetWidth || 260;
+      const startX = x;
+      const endX   = x + width;
+
+      let lane = 0;
+      while (true) {
+        if (lanesEvents[lane] == null || startX - lanesEvents[lane] > 12) {
+          lanesEvents[lane] = endX;
+          break;
+        }
+        lane++;
+      }
+
+      el.style.top = (EVT_BASE_Y + lane * GAP_EVT) + 'px';
+      el.addEventListener('click', () => showDetail(ev));
+    });
   }
-
-  // >>> separación vertical basada en la altura real de la burbuja <<<
-  const bubbleHeight = el.offsetHeight;          // alto real (incluye padding)
-  const laneHeight   = bubbleHeight + 16;        // 16px de aire entre filas
-
-  el.style.top = (MOV_BASE_Y + lane * laneHeight) + 'px';
-
-  el.addEventListener('click', () => showDetail(m));
-  
-// EVENTOS
-EVENTS.forEach(ev => {
-  const el = document.createElement('div');
-  el.className = 'bubble';
-  el.textContent = `${ev.year} · ${ev.title}`;
-  canvas.appendChild(el);
-
-  const x = yearToX(ev.year);
-  el.style.left = x + 'px';
-
-  const width  = el.offsetWidth || 260;
-  const startX = x;
-  const endX   = x + width;
-
-  let lane = 0;
-  while (true) {
-    if (lanesEvents[lane] == null || startX - lanesEvents[lane] > 12) {
-      lanesEvents[lane] = endX;
-      break;
-    }
-    lane++;
-  }
-
-  el.style.top = (EVT_BASE_Y + lane * GAP_EVT) + 'px';
-  el.addEventListener('click', () => showDetail(ev));
-});
 
   function init() {
     canvas.style.width = TIMELINE_WIDTH + 'px';
